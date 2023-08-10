@@ -1,7 +1,6 @@
 package com.army.armytiger.controller;
 
 import com.army.armytiger.admin.service.AdminService;
-import com.army.armytiger.command.MemberVO;
 import com.army.armytiger.command.TrainingVO;
 import com.army.armytiger.util.Criteria;
 import com.army.armytiger.util.PageVO;

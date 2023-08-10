@@ -90,6 +90,7 @@
                                             </table>
 
                                             <div class="btn_area">
+                                                <a href="#" class="save" id="modifyBtn">저장</a>
                                                 <a href="memberList" class="revise">목록</a>
                                             </div>
 
@@ -118,14 +119,5 @@
         document.actionForm.submit(); // 서브밋
     }
 
-    // 삭제 기능
-    let deleteBtn = document.getElementById("deleteBtn");
-    deleteBtn.onclick = () => {
-
-        event.preventDefault();
-
-        document.actionForm.action = "deleteForm";
-        document.actionForm.submit();
-    }
 </script>
 </html>
