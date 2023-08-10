@@ -1,0 +1,334 @@
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="~{./include/layout :: setContent( ~{:: #contents})}">
+
+    <div id="contents">
+        <div class="main-visual">
+            <div class="item"><img th:src="@{img/dmobis/main/new-main5b66.png?ver=20220607}" alt="스마트 국방! 강하고 자랑스러운 대한민국 예비군!" /></div>
+        </div>
+
+        <div class="main-service">
+            <div class="container">
+                <div class="pos-rel">
+                    <ul class="quick-link">
+                        <li>
+                            <button type = "button">
+                                <img th:src="@{img/dmobis/main/banner-mypage.png}" alt="나의 정보" />
+                            </button>
+                            <div class="quick-sub-menu">
+                                <span>나의 정보</span>
+                                <ul>
+                                    <li><a href="/training/trainInfo">훈련 정보</a></li>
+                                    <li><a href="#">소속부대 공지사항</a></li>
+                                    <li><a href="#">나의 질의 응답</a></li>
+                                    <li><a href="/training/myInfo">개인정보 수정</a></li>
+                                    <li><a href="#">예비군 상훈</a></li>
+                                </ul>
+                            </div>
+                            <div class="quick-mask"></div>
+                        </li>
+                        <li>
+                            <button type = "button">
+                                <img th:src="@{img/dmobis/main/banner-request.png}" alt="훈련 신청" />
+                            </button>
+                            <div class="quick-sub-menu">
+                                <span>훈련 신청</span>
+                                <ul>
+                                    <li><a href="#">훈련일정 자율선택</a></li>
+                                    <li><a href="/receipt/receiptView">전국단위 훈련신청</a></li>
+                                    <li><a href="#">휴일예비군 훈련신청</a></li>
+                                    <li><a href="#">훈련연기 신청</a></li>
+                                    <li><a href="#">훈련 보류·해소 신청</a></li>
+                                </ul>
+                            </div>
+                            <div class="quick-mask"></div>
+                        </li>
+                        <li>
+                            <button type = "button">
+                                <img th:src="@{img/dmobis/main/banner-service.png}" alt="조회 서비스" />
+                            </button>
+                            <div class="quick-sub-menu">
+                                <span>조회 서비스</span>
+                                <ul>
+                                    <li><a href="#">신청결과 확인</a></li>
+                                    <li><a href="#">소집통지서 인쇄</a></li>
+                                    <li><a href="#">교육필증 인쇄</a></li>
+                                    <li><a href="#">훈련장 찾기</a></li>
+                                    <li><a href="#">예비군 부대 찾기</a></li>
+                                </ul>
+                            </div>
+                            <div class="quick-mask"></div>
+                        </li>
+                    </ul>
+                    <ul class="quick-login">
+                        <li>
+                            <a href="uat/uia/LoginUsr.html">
+                                <table class="main-login-table">
+                                    <tr>
+                                        <td colspan="2" style="color: white;border-bottom: 1px solid white;">
+                                            간편인증<br>
+                                            <div style="width:100%; float:left; margin-top: 5px;">
+                                                <img width="35" height="35" style="border-radius: 8px;" th:src="@{img/dmobis/main/kakao.png}" alt="kakao">
+                                                <img width="35" height="35" style="border-radius: 8px;" th:src="@{img/dmobis/main/kb.png}" alt="kb">
+                                                <img width="35" height="35" style="border-radius: 8px;" th:src="@{img/dmobis/main/payco.png}" alt="payco">
+                                                <img width="35" height="35" style="border-radius: 8px;" th:src="@{img/dmobis/main/pass.png}" alt="pass">
+                                                <img width="35" height="35" style="border-radius: 8px;" th:src="@{img/dmobis/main/samsung.png}" alt="samsung">
+                                                <img width="35" height="35" style="border-radius: 8px;" th:src="@{img/dmobis/main/naver.png}" alt="naver">
+                                                <img width="35" height="35" style="border-radius: 8px;" th:src="@{img/dmobis/main/shinhan.png}" alt="shinhan">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color: white; border-bottom: 1px solid white;">휴대폰 본인인증</td>
+                                        <td style="color: white; border-left: 1px solid white; border-bottom: 1px solid white;">디지털원패스</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color: white;">공동인증서</td>
+                                        <td style="color: white; border-left: 1px solid white;">아이핀</td>
+                                    </tr>
+                                </table>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <ul class="quick-menu">
+                        <li><a href="rft/rgt/edutrasubjpsn/IvdTraScheInsertForm.html" class="quick-menu-1">훈련일정<br/>자율선택</a></li>
+                        <li><a href="rfh/rgt/edutrasubjpsn/NationalUnitResevForcesTraApplForm.html" class="quick-menu-2">전국단위<br/>훈련신청</a></li>
+                        <li><a href="rfh/rgt/edutrasubjpsn/HolidayResevForcesTraApplForm.html" class="quick-menu-3">휴일예비군<br/>훈련신청</a></li>
+                        <li>
+                            <a href="#" class="quick-menu-4">훈련연기<br/>보류신청</a>
+                            <ul class="quick-menu-sub">
+                                <li><a href="rft/rgt/ivdTraDelayApplInForm.html">훈련연기 신청</a></li>
+                                <li><a href="rfh/rrm/holdpsn/HoldPsnReqForm.html">훈련보류 신청</a></li>
+                            </ul>
+                            <div class="quick-menu-mask"></div>
+                        </li>
+                        <li><a href="rfh/rgt/edutrasubjpsn/NationalUnitResevForcesTraRltList.html" class="quick-menu-5">훈련신청<br/>결과확인</a></li>
+                        <li><a href="popup/RfTraCenterGuidListPopup.html" class="quick-menu-6">훈련장<br/>찾기</a></li>
+                        <li><a href="rfh/mpt/mytroopfind/listAdminAddr.html" class="quick-menu-7">예비군 부대<br/>찾기</a></li>
+                        <li><a href="rfh/rgt/edutrasubjpsn/IvdTraScheDetail.html" class="quick-menu-8">소집통지서 및<br/>교육필증 인쇄</a></li>
+                        <li><a href="rfh/rgt/info/04_05_legislation.html" class="quick-menu-9">훈련 위반<br/>처벌 규정</a></li>
+                        <li><a href="https://mnd.go.kr/mbshome/mbs/mnd/subview.jsp?id=mnd_030200000000" class="quick-menu-10">국방민원<br>신청하기</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 카드뉴스 & 국방영상 배너 -->
+        <div id="news_banner" class="container">
+            <section id="box_wrap_cardnews2">
+                <ul class="m_card_cate">
+                    <li><h4 class="on"><a href="#none">카드뉴스</a></h4></li>
+                    <li><h4><a href="#none">국방영상1</a></h4></li>
+                    <li><h4><a href="#none">국방영상2</a></h4></li>
+                </ul>
+                <ul class="card_list">
+                    <li class="first">
+                        <h4><a href="cop/bbs/selectBoardList5035.html?bbsId=BBSMSTR_000000000002" title="카드뉴스 게시판으로 이동">카드뉴스</a></h4>
+                        <div class="bg_under"></div>
+
+                        <a href="#NONE" onclick="doAction('BBSMSTR_000000000002', '2129');" title="해당글로 페이지이동"> <!-- TODO: 해당 게시글로 이동 -->
+                            <div class="box_card">
+                                <figure>
+                                    <img th:src="@{img/dmobis/main/banner/cardnewsc1f4.png?ver=20230601}" alt="&#039;23년 6월부터 달라지는 예비군훈련 소집통지서 모바일 송달 서비스">
+                                </figure>
+                                <p class="card_title">&#039;23년 6월부터 달라지는 예비군훈련 소집통지서 모바일 송달 서비스</p> <!-- TODO: 제목 -->
+                            </div>
+                        </a>
+
+
+                    </li>
+                    <li>
+                        <h4><a href="cop/bbs/selectBoardList1071.html?bbsId=BBSMSTR_000000000003" title="국방영상 게시판으로 이동">국방영상</a></h4>
+
+                        <a href="https://youtube.com/shorts/dEox_Jl1uBA?feature=share" target='_blank' title="최신동영상 새창 열기" >
+                            <div class="box_card">
+                                <figure>
+                                    <img th:src="@{img/dmobis/main/banner/video1.html}" alt="제54주년 예비군의 날">
+                                </figure>
+                                <p class="card_title">제54주년 예비군의 날</p>
+                            </div>
+                        </a>
+
+
+                    </li>
+                    <li>
+
+                        <a th:href="@{https://youtu.be/7d0FPCF2AV4}" target='_blank' title="최신동영상 새창 열기" >
+                            <div class="box_card">
+                                <figure>
+                                    <img th:src="@{img/dmobis/main/banner/video2.html}" alt="대한민국을 지키는 또 하나의 힘! &#034;비상근 예비군 제도&#034;">
+                                </figure>
+                                <p class="card_title">대한민국을 지키는 또 하나의 힘! &#034;비상근 예비군 제도&#034;</p>
+                            </div>
+                        </a>
+
+
+                    </li>
+                </ul>
+            </section>
+        </div>
+        <!-- 카드뉴스 & 국방영상 배너 -->
+
+        <div class="main-bottom">
+            <div class="container">
+                <div class="bmc-link">
+                    <a href="http://www.mma.go.kr/" target='_blank' class=""><strong>동원훈련 연기신청</strong>은 병무청 문의[병무청 바로가기]</a>
+                </div>
+                <ul class="main-board">
+                    <li class="notice">
+                        <span class="tit">공지사항</span>
+                        <ul>
+
+                            <li>
+                                <a href="#NONE" onclick="doAction('BBSMSTR_000000000001','2227'); return false;">
+
+
+
+
+                                    <b>[중요]해군해병대 예비역 간부 진...</b></a>
+                                <span class="m-date">2023-07-28</span>
+
+
+
+
+
+
+                            </li>
+
+                            <li>
+                                <a href="#NONE" onclick="doAction('BBSMSTR_000000000001','2208'); return false;">
+
+
+
+
+                                    <b>[중요]공군 예비역 간부 진급대상...</b></a>
+                                <span class="m-date">2023-07-26</span>
+
+
+
+
+
+
+                            </li>
+
+                            <li>
+                                <a href="#NONE" onclick="doAction('BBSMSTR_000000000001','2194'); return false;">
+
+
+
+
+                                    <b>[중요]'23년도 육군 예비역 간...</b></a>
+                                <span class="m-date">2023-07-21</span>
+
+
+
+
+
+
+                            </li>
+
+                            <li>
+                                <a href="#NONE" onclick="doAction('BBSMSTR_000000000001','2192'); return false;">
+
+
+
+
+                                    <b>[중요]'23년도 육군 예비역 간...</b></a>
+                                <span class="m-date">2023-07-20</span>
+
+
+
+
+
+
+                            </li>
+
+                            <li>
+                                <a href="#NONE" onclick="doAction('BBSMSTR_000000000001','2190'); return false;">
+
+
+
+
+                                    <b>[중요]'23년도 육군 예비역간부...</b></a>
+                                <span class="m-date">2023-07-14</span>
+
+
+
+
+
+
+                            </li>
+
+                        </ul>
+                        <a href="cop/bbs/selectBoardList2cad.html?bbsId=BBSMSTR_000000000001" class="btn-more" title="공지사항 더보기">
+                            <span style="font-size: 0;">공지사항 더보기</span>
+                        </a>
+                    </li>
+                    <li class="faq">
+                        <span class="tit">자주 묻는 질문</span>
+                        <ul>
+                            <li><a href="rfh/rgt/library/02_question6ceb.html?faq_seq=1">01  소속 예비군 중대 확인</a></li>
+                            <li><a href="rfh/rgt/library/02_question18a8.html?faq_seq=2">02  예비군 훈련대상/유형</a></li>
+                            <li><a href="rfh/rgt/library/02_questionbbec.html?faq_seq=3">03  훈련일정 자율선택 절차</a></li>
+                            <li><a href="rfh/rgt/library/02_question336d.html?faq_seq=4">04  전국단위 훈련제도</a></li>
+                            <li><a href="rfh/rgt/library/02_question8470.html?faq_seq=5">05  휴일예비군 훈련제도</a></li>
+                        </ul>
+                        <a href="rfh/rgt/library/02_question.html" class="btn-more" title="자주 묻는 질문 더보기">
+                            <span style="font-size: 0;">자주 묻는 질문 더보기</span>
+                        </a>
+                    </li>
+                    <li class="selection">
+                        <span class="tit">선발안내 및 신청</span>
+                        <ul>
+                            <li>
+                                <a href="#NONE" onclick="openPopupWindow('/dmobis/rfm/rrm/officerpromotion/OfficerMainHPopup.do','op','width=900,height=800,location=no');">예비역간부 진급신청</a>
+                            </li>
+                            <li>
+                                <a href="rfh/rgt/info/PtsApplGuide.html">비상근 예비군 지원접수</a>
+                            </li>
+                            <li>
+                                <a href="rfh/rgt/info/03_05_selection.html">예비전력관리 담당자 선발 안내</a>
+                            </li>
+                            <li>
+                                <a href="http://www.q-net.or.kr/crf006.do?id=crf00641&amp;gSite=Q&amp;gId=" target="_blank">군 병과 경력인증 범위 안내</a>
+                            </li>
+                        </ul>
+                        <a href="rfh/rgt/info/selectionGuide.html" class="btn-more" title="선발안내 및 신청 더보기">
+                            <span style="font-size: 0;">선발안내 및 신청 더보기</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- banner -->
+                <div class="main-banner">
+                    <ul>
+                        <li><a href="popup/RfTraCenterGuidListPopup.html"><img th:src="@{img/dmobis/main/banner-main1.png}" alt="훈련장 찾기" /></a></li>
+                        <li><a href="rfh/rgt/info/03_08_treatment.html"><img th:src="@{img/dmobis/main/banner-main2.png}" alt="치료 및 휴업 보상" /></a></li>
+                        <li style="margin-right:0"><a href="rfh/rgt/info/03_04_promotion.html"><img th:src="@{img/dmobis/main/banner-main3.png}" alt="규정 및 제도" /></a></li>
+                    </ul>
+                </div>
+                <!-- //banner -->
+
+            </div>
+        </div>
+    </div>
+
+</th:block>
+
+<script th:inline="javascript">
+	//수정완료 알림창
+	var msg = '[[${msg}]]';
+
+	if (msg != 'null') {
+		alert(msg);
+	}
+	
+</script>
+
+</html>
+

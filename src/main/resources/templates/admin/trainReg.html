@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="~{./include/adminLayout :: setContent( ~{:: #content})}">
+	<div id="content" class="wrap">
+		<div class="warp_inner">
+			<!-- left_menu end -->
+			<div class="right_content">
+				<div class="midiaq">
+					<div class="page_title">훈련 관리 > 훈련 등록</div>
+
+					<form name="trainForm" action="registForm" method="post">
+						<div class="full_collum collum">
+							<ul>
+								<li class="collum_tit">
+									<h2>훈련 등록</h2>
+									<a href="memberList">목록</a>
+									<span class="showtoggle minus"></span>
+									<ul>
+										<li>
+											<table class="board_basic_view">
+												<tbody>
+												<tr>
+													<th>훈련명</th>
+													<td><input type="text" name="t_name" required></td>
+												</tr>
+												<tr>
+													<th>시작 일자</th>
+													<td><input type="text" class="datepicker" name="t_startdate"
+															   readonly placeholder="날짜선택"
+															   pattern="\d{4}-\d{2}-\d{2}" required></td>
+												</tr>
+												<tr>
+													<th>종료 일자</th>
+													<td><input type="text" class="datepicker" name="t_enddate"
+															   readonly placeholder="날짜선택"
+															   pattern="\d{4}-\d{2}-\d{2}" required></td>
+												</tr>
+												<tr>
+													<th>계획 시간</th>
+													<td><input type="text" name="t_time" pattern="\d*" required></td>
+												</tr>
+												<tr>
+													<th>훈련장</th>
+													<td colspan="5">
+														<!-- form 태그가 submit 시 같이 전송될 prod_category -->
+														<input type="hidden" name="g_no" value="" required>
+
+														<div class="loading" style="display: none;">
+															<div class="loader"></div>
+															<div class="loading-overlay"></div>
+														</div>
+
+														<div style="color:red">훈련소를 선택하세요</div>
+														<div class="categoryListWrap" onclick="setImg()">
+
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<th>약도</th>
+													<td colspan="3">
+														<div class="blockContent">
+															<div class="productImg">
+																<div class="imgItem">
+																	<div class="imgWrap" style="width: 600px; height: 500px">
+																		<div class="imgArea" >
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<th>비고</th>
+													<td colspan="5">
+														<div><textarea class="inputw99p" name="t_other"
+																	   style="height: 200px;" ></textarea>
+														</div>
+													</td>
+												</tr>
+
+												</tbody>
+											</table>
+
+											<div class="btn_area">
+												<input type="submit" class="save" value="등록">
+												<input type="button" class="delete" value="목록">
+												<!--
+                                                <a href="#" class="save">등록</a>
+                                                <a href="#" class="delete">목록</a>
+                                                <a href="#" class="revise mglr13">삭제</a>
+                                                -->
+											</div>
+
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+<!-- 자바 스크립트 -->
+<script>
+	// var today = $.datepicker.formatDate('yy-mm-dd', new Date());
+	// datepicker
+	$(".datepicker").datepicker({
+		dateFormat:'yy-mm-dd',
+		showOtherMonths:true,
+		showMonthAfterYear:true,
+		changeYear:true,
+		changeMonth:true,
+		showOn:"both",
+		buttonImage:"http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+		buttonImageOnly:true,
+		buttonText:"선택",
+		yearSuffix:"년",
+		monthNameShort:['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+		monthNames:['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+		dayNamesMin:['일', '월', '화', '수', '목', '금', '토'],
+		dayNames:['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+		minDate: 0,
+		maxDate:"+5Y"
+	});
+	$(".datepicker").prop('readonly', false);
+
+	// enddate 의 선택일자를 제한
+	$(".datepicker").on("change", function() {
+		if (this.name === "t_startdate") {
+			var selectedStartDate = $(this).val();
+			$(".datepicker[name='t_enddate']").datepicker("option", "minDate", selectedStartDate);
+		}
+	});
+
+
+	// 카테고리 처리
+	$(document).ready(() => {
+
+		$.ajax({
+			url: "../getGround",
+			type:"get",
+			success: (data) => {
+				let categroy01 = "";
+
+				categroy01 += '<ul class="categoryList" style="position: relative;" onClick="getCategory_List(event);">';
+
+				data.forEach((item) => {
+					categroy01 += '<li><a href="#" data-set=' + JSON.stringify(item) + '>'+ item.attmpt +'</a></li>';
+				})
+
+				categroy01 += '</ul>';
+
+				$(".categoryListWrap").append(categroy01);
+			},
+			error: (status, err) => {
+				alert("조회에 문제발생~!!")
+			}
+		})
+	})
+
+
+
+</script>
+</html>

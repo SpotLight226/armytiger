@@ -1,0 +1,8 @@
+package com.army.armytiger.command;
+
+public class trainVO {
+	// 예비군부대	소속	계급	군번	성명	군별	연차	동원구분	비고
+	// 구분	훈련일자	계획시간	실시시간	잔여시간	훈련결과	훈련장	비고
+	private 
+
+}

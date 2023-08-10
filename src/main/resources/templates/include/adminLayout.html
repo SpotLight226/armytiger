@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="setContent(content)">
+    <head>
+
+        <title>예비군 관리자페이지</title>
+
+        <meta charset="UTF-8" />
+        <meta charset="EUC-KR" />
+
+        <!--공통 -->
+        <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/css/footer.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/css/loading.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/css/jquery-ui.min.css}" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+              integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+        <script th:src="@{/js/dmobis/jquery/js/jquery-3.7.0.min.js}"></script>
+        <script th:src="@{/js/dmobis/jquery/js/jquery-ui.min.js}"></script>
+        <script th:src="@{/js/style.js}"></script>
+
+        <!-- 모달 css -->
+        <link rel="stylesheet" type="text/css" th:href="@{/css/modal.css}"/>
+
+    </head>
+    <body>
+
+    <header class="wrap">
+        <div class="header">
+            <a th:href="@{/}" class="logo"><img th:src="@{/img/dmobis/common/logo.png}" alt="예비군" /></a>
+            <h3 style="color: #000000; position: absolute; left: 200px; top: 27px; font-size: 18px">예비군 관리자 매니저</h3>
+            <span class="admin_id"><b style="color:#7866c9;">관리자</b>홍길동 님</span>
+        </div>
+
+    </header>
+
+    <!-- 좌측 사이드바 -->
+    <aside>
+        <span class="menuBtn">메뉴</span>
+        <ul class="sidenav">
+            <li class="sub_menu_toggle">
+                <a href="#">예비군 등록</a>
+                <ul class="sub_menu ">
+                    <li><a href="/member/memberReg">예비군 등록</a></li>
+                    <li><a href="/member/memberList">예비군 조회 / 수정</a></li>
+                </ul>
+            </li>
+            <li class="sub_menu_toggle">
+                <a href="#">훈련 / 훈련소</a>
+                <ul class="sub_menu">
+                    <li><a href="/admin/trainReg">훈련 등록</a></li>
+                    <li><a href="/admin/trainList">훈련 목록</a></li>
+                </ul>
+            </li>
+        </ul>
+    </aside>
+
+    <div th:replace="${content}"></div>
+
+    <footer id="footer">
+        <div class="footer_wrap">
+            <div class="footer_top">
+                <!-- 상위 -->
+                <ul class="fl_right">
+                    <li><a href="#" >예비군 훈련 문의</a></li>
+                    <li><a href="#" > 홈페이지 장애 문의</a></li>
+                    <li><a href="http://www.mnd.go.kr/" target="_blank"><img th:src="@{/img/dmobis/common/ft-link-1bd01.png?ver=20220719}" alt="대한민국 국방부"/></a></li>
+                    <li><a href="http://www.mma.go.kr/" target="_blank"><img th:src="@{/img/dmobis/common/ft-link-2.png}" alt="병무청"/></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer_wrap2">
+            <div class="footer_bot">
+                <!-- 하위 -->
+
+                <ul class="fl_left">
+                    <li><a href="#">이용약관</a></li>
+                    <li><a href="#">위치기반서비스 이용약관</a></li>
+                    <li><a href="#">개인정보처리방침</a></li>
+                    <li><a href="#">청소년보호정책</a></li>
+                    <li><a href="#">제휴/프로모션문의</a></li>
+                    <li><a href="#">이메일주소무단수집거부</a></li>
+                    <li><a href="#">파트너센터</a></li>
+                </ul>
+                <p>부당한 방법으로 전산망에 접속하거나 정보를 삭제/변경/유출하는 자는 관계법령에 따라 처벌 받게 됩니다.  ㅣ  <a href="#NONE" onclick="MM_openBrWindow2('personal.html','','width=825,height=685,status=1, scrollbars=1');">개인정보처리방침</a></p>
+                <p>Copyright @ 국방부 동원기획관실 All rights Reserved</p>
+
+            </div>
+        </div>
+    </footer>
+
+    </body>
+</th:block>
+</html>

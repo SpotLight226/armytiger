@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.army.armytiger.member.service.MemberMapper">
+
+    <insert id="memberRegist" parameterType="memberVO">
+        INSERT INTO MEMBERS (military_sn,
+                             password,
+                             name,
+                             phone_num,
+                             grade,
+                             unit,
+                             affiliation,
+                             m_rank,
+                             m_kind,
+                             m_yesno,
+                             m_other)
+        VALUES(#{military_sn},
+               #{password},
+               #{name},
+               #{phone_num},
+               #{grade},
+               #{unit},
+               #{affiliation},
+               #{m_rank},
+               #{m_kind},
+               #{m_yesno},
+               #{m_other});
+    </insert>
+    
+    <select id="getList" resultType="memberVO">
+        SELECT  *
+        FROM MEMBERS
+        ORDER BY military_sn desc
+        LIMIT #{pageStart}, #{amount}
+    </select>
+    
+    <select id="getTotal" resultType="int">
+        select count(*) as total from members
+    </select>
+
+    <select id="getDetail" resultType="memberVO">
+        select * from members where military_sn = #{miliaty_sn}
+    </select>
+
+    <update id="memberUpdate" parameterType="memberVO">
+        UPDATE MEMBERS
+        SET unit = #{unit}
+          , affiliation = #{affiliation}
+          , m_rank = #{m_rank}
+          , m_yesno = #{m_yesno}
+          , m_other = #{m_other}
+        WHERE military_sn = #{military_sn}
+    </update>
+
+</mapper>

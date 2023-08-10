@@ -1,0 +1,254 @@
+/**
+ * 서버에서 Ajax 요청이 처리가 된 후 호출되는 메소드로 간단한 에러 처리를 한다. 성공적으로 수행된 경우에는
+ * 사용자가 지정한 callMethod를 호출한다.
+ */
+function jprivate_process() {
+    try {
+	    if (jprivate_request.readyState == 4) {
+            if (jprivate_body) {
+	            jprivate_body.removeChild(jprivate_message);
+            }
+	        if (jprivate_request.status == 200) {
+	            jprivate_callMethod(jprivate_request, jprivate_mode);
+	        } else {
+	            alert("예외가 발생하였습니다. (메시지=" + jprivate_request.statusText + ")");
+	        }
+	    }
+    } catch (e) {
+        alert("예외가 발생하였습니다. (메시지=" + e.message + ")");
+    }
+}
+
+function getParams(select, name) {
+    var size = select.options.length;
+    var result = "";
+    for (var i = 0; i < size; i++) {
+        if (select.options[i].selected) {
+            result += "&" + name + "=" + select.options[i].value
+        }
+    }
+    return result;
+}
+
+/**
+ * item 태그의 내용을 나타내는 클래스
+ *
+ * @param id 아이디
+ * @param properties 속성 리스트
+ */
+function JItem(id, properties) {
+    this.id = id;
+    this.properties = properties;
+
+    this.getProperty = function(name) {
+                           return properties[name];
+                       };
+}
+
+/**
+ * id에 해당하는 item 태그의 내용을 JItem 객체로 반환한다.
+ *
+ * @param element response 태그를 나타내는 DOM 객체
+ * @param id 아이디. 아이디가 없는 경우에는 첫번째 item 태그가 반환된다.
+ */
+function getItem(element, id) {
+    var items = element.getElementsByTagName("item");
+    for (var i = 0; i < items.length; i++) {
+        if (id == null || items[i].getAttribute("id") == id) {
+            var properties = items[i].getElementsByTagName("property");
+            var args = new Array;
+            for (var j = 0; j < properties.length; j++) {
+                args[properties[j].getAttribute("name")] = properties[j].getAttribute("value");
+            }
+            return new JItem(id, args);
+        }
+    }
+    return;
+}
+
+/**
+ * id에 해당하는 list 태그의 내용을 JItem 객체를 담고 있는 배열로 반환한다.
+ *
+ * @param element response 태그를 나타내는 DOM 객체
+ * @param id 아이디. 아이디가 없는 경우에는 첫번째 list 태그가 반환된다.
+ */
+function getList(element, id) {
+    var lists = element.getElementsByTagName("list");
+    for (var i = 0; i < lists.length; i++) {
+        if (id == null || lists[i].getAttribute("id") == id) {
+            var result = new Array;
+            var items = lists[i].getElementsByTagName("item");
+            for (var j = 0; j < items.length; j++) {
+                var properties = items[j].getElementsByTagName("property");
+	            var args = new Array;
+	            for (var k = 0; k < properties.length; k++) {
+	                args[properties[k].getAttribute("name")] = properties[k].getAttribute("value");
+	            }
+	            result[j] = new JItem(j, args);
+            }
+            return result;
+        }
+    }
+    return new Array;
+}
+
+
+
+/*
+
+    아래는 리스트를 새롭게 그리를 자바 스크립트 함수
+
+*/
+
+/**
+ * 테이블 리스트를 그린다.
+ *
+ * @param id tbody 태그의 아이디
+ * @param size 테이블의 칼럼 수
+ * @param countMessage 총 리스크 수를 표현하는 메시지
+ */
+function renderList(id, size, countMessage) {
+    var table = new JTable(id, size, new JTableFormat());
+    jprivate_clearTbody(id);
+    var response = jprivate_request.responseXML.documentElement;
+    var list = getList(response);
+
+    for (var i = 0; i < list.length; i++) {
+        table.createRow(list[i]);
+    }
+    jprivate_renderNavigation(response, countMessage);
+}
+
+/**
+ * 테이블을 포멧하는 클래스
+ */
+function JTableFormat() {
+    this.formatCell = formatCell;
+}
+
+/**
+ * tbody 태그의 모든 tr 태그를 지운다.<b>
+ *
+ * @param tbodyId tbody 태그의 아이디
+ */
+function jprivate_clearTbody(tbodyId) {
+    var body = document.getElementById(tbodyId);
+    if (!body) {
+        alert("tbody 태그의 아이디를 지정해야 합니다.");
+    }
+    var rows = body.getElementsByTagName("tr");
+    for (var i = rows.length; i > 0; i--) {
+        body.deleteRow(i - 1);
+    }
+}
+
+
+/**
+ * 입력 변수에 3 자리마다 콤마(,)를 붙여 반환한다.
+ * @param field 콤마를 붙일 값
+ */
+function formatCommasThis(numString) {
+    var re = /,|\s+/g;
+    numString = numString.replace(re, "");
+
+    re = /(-?\d+)(\d{3})/;
+    while (re.test(numString)) {
+        numString = numString.replace(re, "$1,$2");
+    }
+    return numString;
+}
+
+
+/**
+ * 리스트의 네비게이션 바를 동적으로 그리는 함수.
+ * @param response XML의 response 태그를 나타내는 element
+ * @param countMessage 총 리스크 수를 표현하는 메시지
+ */
+function jprivate_renderNavigation(response, countMessage) {
+    var navigation = document.getElementById("navigationArea");
+    if (!navigation) {
+        return;
+    }
+    jprivate_tabSize = 10;
+    jprivate_pageNo = document.Form.pageNo.value;
+    if (jprivate_pageNo < 1) {
+        jprivate_pageNo = 1;
+    }
+
+    jprivate_totalSize = response.getAttribute("totalSize");
+    jprivate_listSize = response.getAttribute("listSize");
+    var html = "";
+    navigation.getElementsByTagName("div");
+    if (countMessage) {
+        var divMessage = navigation.getElementsByTagName("div")[0];
+        html += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + countMessage.replace(/\{0\}/, formatCommasThis(jprivate_totalSize));
+        //divMessage.innerHTML = html; // FORBIDDEN.ASSIGNMENT.INNER_HTML 오류 검출. 21.12.02 yhh
+    }
+
+    html = "";
+    if (jprivate_lastPage() > 1) {
+        html += "<a href='javascript:document.Form.pageNo.value=1;movePage()'>[처음]</a>&nbsp;";
+    }
+    if (jprivate_hasPreviousTab()) {
+        html += "<a href='javascript:document.Form.pageNo.value=" + (jprivate_firstPageInTab() - 1) + ";movePage()'>[이전]</a>&nbsp;";
+    }
+
+    for (var i = jprivate_firstPageInTab(); i <= jprivate_lastPageInTab(); i++) {
+        if (jprivate_pageNo == i) {
+            html += "<strong>" + i + "</strong>&nbsp;";
+        } else {
+            html += "<a href='javascript:document.Form.pageNo.value=" + i + ";movePage()'>" + i + "</a>&nbsp;";
+        }
+    }
+    if (jprivate_hasNextTab()) {
+        html += "<a href='javascript:document.Form.pageNo.value=" + (jprivate_lastPageInTab() + 1) + ";movePage()'>[다음]</a>&nbsp;";
+    }
+    if (jprivate_lastPage() > 1) {
+        html += "<a href='javascript:document.Form.pageNo.value=" + jprivate_lastPage() + ";movePage()'>[마지막]</a>";
+    }
+    var divBar = navigation.getElementsByTagName("div")[1];
+    //divBar.innerHTML = html; // FORBIDDEN.ASSIGNMENT.INNER_HTML 오류 검출. 21.12.02 yhh
+//    navigation.innerHTML = html;
+}
+
+/**
+ * 마지막 페이지 번호를 반환한다. 항상 정수형을 반환한다.
+ */
+function jprivate_lastPage() {
+    return Math.floor(jprivate_totalSize / jprivate_listSize) + ((jprivate_totalSize % jprivate_listSize) != 0 ? 1 : 0);
+}
+
+/**
+ * 현재 탭의 번호를 반환한다. 최소 값은 1이며 항상 정수형을 반환한다.
+ */
+function jprivate_currentTab() {
+    return 1 + Math.floor(((jprivate_pageNo - 1) / jprivate_tabSize));
+}
+
+/**
+ * 현재 탭의 번호가 1보다 크면 true를, 그렇지 않으면 false를 반환한다.
+ */
+function jprivate_hasPreviousTab() {
+    return jprivate_currentTab() > 1;
+}
+
+/**
+ * 현재 탭에 마지막 페이지 번호가 포함되어 있으면 false를, 그렇지 않으면 true를 반환한다.
+ */
+function jprivate_hasNextTab() {
+    return (jprivate_currentTab() * jprivate_tabSize) - jprivate_lastPage() < 0;
+}
+
+/**
+ * 현재 탭의 첫번째 페이지 번호를 반환한다.
+ */
+function jprivate_firstPageInTab() {
+    return ((jprivate_currentTab() - 1) * jprivate_tabSize) + 1;
+}
+
+/**
+ * 현재 탭의 마지막 페이지 번호를 반환한다.
+ */
+function jprivate_lastPageInTab() {
+    return jprivate_hasNextTab() ? jprivate_currentTab() * jprivate_tabSize : jprivate_lastPage();
+}

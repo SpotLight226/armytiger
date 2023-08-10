@@ -1,0 +1,16 @@
+package com.army.armytiger.trainInfo.service;
+
+import java.util.ArrayList;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.army.armytiger.command.MemberVO;
+import com.army.armytiger.command.TrainVO;
+
+@Mapper
+public interface TrainInfoMapper {
+	
+	public ArrayList<MemberVO> getmyInfo(String military_sn); //나의 정보 조회
+	public ArrayList<TrainVO> gettrainInfo(String military_sn); //나의 훈련 정보 조회
+	public int myinfoModify(MemberVO vo); //나의 정보 수정
+}

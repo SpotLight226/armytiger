@@ -1,0 +1,137 @@
+$(document).ready(function() {
+	
+	$('.history-list li a').on('click', function(){
+		$('.history-list li').removeClass('active');
+		$(this).parent().addClass('active');
+		var index = $(this).parent().index();
+		$('.history').hide();
+		$('.history'+(index+1)).show();
+	});
+	
+	$('.dic-list li a').on('click', function(){
+		var index = $(this).parent().index();
+		if(index == 1 || index == 3 || index == 10) {
+			alert("등록된 동원 용어 사전이 없습니다.");
+			return false;
+		}
+		$('.dic-list li').removeClass('active');
+		$(this).parent().addClass('active');
+		
+		$('.dic-box').hide();
+		$('.dic'+(index+1)).show();
+	});
+	
+	$('.btn-prec').on('click',function(){
+		var offset = $('.txt-box').offset();
+
+		$('html, body').animate({scrollTop : offset.top}, 400);
+	});
+
+	$('.gnb-menu li a').on('mouseenter', function() {
+		$('.sub-gnb-mask').show();
+		$('.sub-gnb-menu').show();
+	});
+
+	$('#gnb').on('mouseleave', function() {
+		$('.sub-gnb-mask').hide();
+		$('.sub-gnb-menu').hide();
+	});
+
+	$('.quick-link li').on('mouseenter', function() {
+		$(this).find('.quick-mask').show();
+		$(this).find('.quick-sub-menu').show();
+	});
+
+	$('.quick-link li').on('mouseleave', function() {
+		$(this).find('.quick-mask').hide();
+		$(this).find('.quick-sub-menu').hide();
+	});
+
+	$(window).scroll(function(){
+		var topPos=$(window).scrollTop();
+		var viewH = $(window).height();
+
+		if(topPos >= viewH){
+			$('.btn-top').stop().animate({
+				"opacity" : 1
+			}, 500);
+		}else {
+			$('.btn-top').stop().animate({
+				"opacity" : 0
+			}, 500);
+		}
+	});
+	
+	$('.gnb-menu li a').on('focus', function() {
+		$('.sub-gnb-mask').show();
+		$('.sub-gnb-menu').show();
+	});
+	
+	$('.gnb-menu li .sub-gnb-menu li:last-child a').on('focusout', function() {
+		$('.sub-gnb-mask').hide();
+		$('.sub-gnb-menu').hide();
+	});
+	
+	$('.quick-link li button').on('focus', function() {
+		$(this).parent().find('.quick-mask').show();
+		$(this).parent().find('.quick-sub-menu').show();
+	});
+
+	$('.quick-sub-menu li:last-child').on('focusout', function() {
+		$('.quick-mask').hide();
+		$('.quick-sub-menu').hide();
+	});
+	
+});
+
+/* 숫자만 입력 */
+function fNumber(obj){
+	$(obj).keyup(function(){
+        $(this).val($(this).val().replace(/[^0-9]/g,""));
+   });
+}
+
+function faq(){
+	// FAQ
+	var article = $('.faq-wrap .article');
+
+	// $('.faq-wrap p.a').hide();
+
+	article.addClass('hide');
+
+	$('.faq-wrap .article .trigger').click(function(){
+		var myArticle = $(this).parents('.article:first');
+
+		if(myArticle.hasClass('hide')){
+			article.addClass('hide').removeClass('show');
+			article.find('.a').hide();
+			myArticle.removeClass('hide').addClass('show');
+			myArticle.find('.a').show();
+		} else {
+			myArticle.removeClass('show').addClass('hide');
+			myArticle.find('.a').hide();
+		}
+
+		return false;
+	});
+}
+
+function tab1(tab_id){
+	var $tab = $(tab_id);
+	var $tab_btn = $tab.find(" > .tab_btn a");
+	var ontab = $(tab_id).find("li.on a").attr("href");
+
+	$(ontab).show();
+
+	$tab_btn.on("click", function(e){
+		e.preventDefault();
+
+		var cts = $(this).attr("href");
+
+		$tab_btn.closest("li").removeClass("on");
+		$(this).closest("li").addClass("on");
+
+		$tab.find(".tab_cts").hide();
+		$(cts).show();
+	});
+}

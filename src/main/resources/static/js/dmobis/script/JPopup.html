@@ -1,0 +1,423 @@
+/* 어플리케이션 컨텍스트 이름 */
+var CONTEXT_NAME;
+
+CONTEXT_NAME = document.location.pathname;
+CONTEXT_NAME = "/" + CONTEXT_NAME.substring(1, CONTEXT_NAME.indexOf('/', 1));
+
+/**
+ * 날짜를 선택할 수 있는 모달 파업 화면 창을 연다.
+ *
+ * @param field 날짜가 입력될 필드
+ */
+function getDate(field, element) {
+    field = element.previousSibling;
+    var temp = field.value.replace(/[-.\/]/g,"");
+    var temp1;
+    var temp2;
+    var temp3;
+    if (new JForm()
+        .add(new JDate("날짜", field).nullable()).validate()) {
+        if(field.value != "") {
+                temp1 = parseFloat(temp.substring(0,4));
+                temp2 = parseFloat(temp.substring(4,6));
+                temp3 = parseFloat(temp.substring(6,8));
+                var url = CONTEXT_NAME + "/popup/DatePopup.jsp?fieldYear=" + temp1 + "&fieldMonth=" + temp2 + "&fieldDay=" + temp3;
+        } else {
+            var url = CONTEXT_NAME + "/popup/DatePopup.jsp?fieldYear=&fieldMonth=&fieldDay=";
+        }
+//        var ws = formatWindowProperty(200, 100, 250, 230);
+        var ws = formatWindowProperty(200, 100, 250, 250);
+
+        // IE
+        if (window.showModalDialog) {
+            var dt = showModalDialog(url, window, ws);
+            if (dt != null) {
+                if (dt.year == "") {
+                    field.value = "";
+                } else {
+                    field.value = dt.year + "." + dt.month + "." + dt.day;
+                }
+            }
+        } else {
+            url += "?formName=" + field.form.getAttribute("name") + "&fieldName=" + field.name;
+            window.open(url, null, ws);
+        }
+    }
+}
+
+/**
+ * 순서를 변경할 수 있는 파업 화면 창을 연다.
+ *
+ * @param getStatement 대상 리스트를 가져오는 쿼리 아이디
+ * @param updateStatement 순서를 변경하는 쿼리 아이디
+ * @param query 기타 파라미터로 JParam 객체를 담고 있는 배열
+ */
+function openOrderPopup(getStatement, updateStatement, query) {
+    var url = CONTEXT_NAME + "/popup/OrderPopup.jsp?getStatement=" + getStatement + "&updateStatement=" + updateStatement;
+    var ws = formatWindowProperty1(166, 129, 310, 270);
+
+    if (query) {
+        for (var i = 0; i < query.length; i++) {
+            url = url.html + "&" + query[i].name + "=" + query[i].value;
+        }
+    }
+    window.open(url, null, ws);
+}
+
+/**
+ * 마이메뉴 순서를 변경할 수 있는 파업 화면 창을 연다.
+ */
+function openOrderMyMenuPopup() {
+    var url = CONTEXT_NAME.html + "/popup/OrderMyMenuPopup.jsp";
+    var ws = formatWindowProperty1(500, 300, 345, 300);
+
+    window.open(url, null, ws);
+}
+
+/**
+ * 코드 리스트 파업 화면 창을 연다.
+ *
+ * @param id 코드 아이디가 입력될 필드
+ * @param name 코드 이름이 입력될 필드
+ * @param code 코드
+ * @param selector 선택자
+ */
+function openCodePopup(id, name, code, selector) {
+    var url = CONTEXT_NAME.html + "/popup/CodePopup.jsp?id=" + id.name + "&name=" + name.name + "&code=" + code;
+    if (selector) {
+        url += "&selector=" + selector;
+    }
+    var ws = formatWindowProperty1(166, 129, 600, 500);
+    window.open(url, null, ws);
+}
+
+/**
+ * 도움말 파업 화면 창을 연다.
+ *
+ * @param context 현재 보고 있는 업무 화면의 URL
+ */
+function openHelpPopup(context) {
+    var url = CONTEXT_NAME.html + "/popup/HelpPopup.jsp?context=" + context;
+    var ws = formatWindowProperty1(10, 10, 1000, 500);
+    window.open(url, null, ws);
+}
+
+/**
+ * 서버 인스턴스 파업 화면 창을 연다.
+ *
+ * @param interface 컴퓨넌트 인터페이스
+ * @param moduleId 컴포넌트 모듈 아이디
+ */
+function openInstancePopup(interfaceName, moduleId) {
+    var url = CONTEXT_NAME.html + "/RefreshComponent.do?c_interface=" + interfaceName + "&moduleId=" + moduleId;
+    var ws = formatWindowProperty1(166, 129, 500, 400);
+    window.open(url, null, ws);
+}
+
+function formatWindowProperty(left, top, width, height) {
+    if (window.showModalDialog) {
+        return "status:no; dialogLeft:" + left + "px; dialogTop:" + top + "px; dialogWidth:" + width + "px; dialogHeight:" + height + "px";
+    } else {
+        return "modal, left=" + left + "px, top=" + top + ", width=" + width + "px, height=" + height + "px";
+    }
+}
+
+function formatWindowProperty1(left, top, width, height) {
+    return "left=" + left + ", top=" + top + ", width=" + width + ", height=" + height;
+}
+
+function JParam(name, value) {
+    this.name = name;
+    this.value = value;
+}
+
+function openTroopFindPopup(callback) { /** 부대찾기  */
+    var selectTroopObj = document.getElementById("i_troopNm");
+
+    var url = CONTEXT_NAME.html + "/popup/TroopFindPopup.jsp?callback=" + callback + "&q_troopname=" +  ((selectTroopObj)?selectTroopObj.value:"");
+    var popup = window.open(url, "Fpopup", 'top=10,left=10,width=450,height=470,resizable=no,status=no');
+    popup.focus();
+}
+
+function openTroopFindPopupForInspect(callback) { /** 부대찾기(감사관용)  */
+    var selectTroopObj = document.getElementById("i_troopNm");
+
+    var url = CONTEXT_NAME.html + "/popup/TroopFindPopupForInspect.jsp?callback=" + callback + "&q_troopname=" +  ((selectTroopObj)?selectTroopObj.value:"");
+    var popup = window.open(url, "Fpopup", 'top=10,left=10,width=450,height=470,resizable=no,status=no');
+    popup.focus();
+}
+
+function openHighTroopPopup(selectTroop,callback) {  /** 상위부대트리(전체)  */
+    var url = CONTEXT_NAME.html + "/popup/TroopHighPopup.jsp?selectTroop="+selectTroop+"&type=1&callback=" + callback;
+    var popup = window.open(url, "Hpopup", 'top=10,left=10,width=450,height=470,resizable=no,status=no');
+    popup.focus();
+}
+
+function openHighNonRfTroopPopup(selectTroop,callback) {  /** 상위부대트리(예비군중대제외) */
+    var url = CONTEXT_NAME.html + "/popup/TroopHighPopup.jsp?selectTroop="+selectTroop+"&type=3&callback=" + callback;
+    var popup = window.open(url, "HnRfpopup", 'top=10,left=10,width=450,height=470,resizable=no,status=no');
+    popup.focus();
+}
+
+function openHighRfTroopPopup(selectTroop, callback) {   /** 예비군상위부대트리  */
+    var url = CONTEXT_NAME.html + "/popup/TroopHighRfPopup.jsp?selectTroop="+selectTroop+"&type=2&callback=" + callback;
+    var popup = window.open(url, "Hrfpopup", 'top=10,left=10,width=450,height=510,resizable=no,status=no');
+    popup.focus();
+}
+
+function openHighRfTroopPopu2(selectTroop, callback, checkView) {   /** 예비군상위부대트리-조회전용  */
+    var url = CONTEXT_NAME.html + "/popup/TroopHighRfPopup.jsp?selectTroop="+selectTroop+"&type=2&callback=" + callback + "&checkView=" + checkView;
+    var popup = window.open(url, "Hrfpopup", 'top=10,left=10,width=450,height=510,resizable=no,status=no');
+    popup.focus();
+}
+
+function openMobilWorkTroopPopup(selectTroop, callback) {   /** 편제부대, 동원업무대행부대 트리 */
+    var url = CONTEXT_NAME.html + "/popup/MobilWorkTroopPopup.jsp?selectTroop="+selectTroop+"&type=3&callback=" + callback;
+    var popup = window.open(url, "mobilWorkpopup", 'top=10,left=10,width=450,height=530,resizable=no,status=no');
+    popup.focus();
+}
+
+function openMobilWorkTroopFindPopup(callback) { /** 동원업무대행부대찾기  */
+    var url = CONTEXT_NAME.html + "/popup/MobilWorkTroopFindPopup.jsp?callback=" + callback;
+    var popup = window.open(url, "Mpopup", 'top=10,left=10,width=450,height=480,resizable=no,status=no');
+    popup.focus();
+}
+
+function openReserveTroopFindPopup(callback) { /** 예비군부대찾기  */
+
+    var url = CONTEXT_NAME.html + "/popup/TroopFindReservePopup.jsp";
+    var popup = window.open(url, "RFpopup", 'top=10,left=10,width=602,height=500,resizable=no,status=no');
+    popup.focus();
+}
+
+
+function openEclnTroopFindPopup(callback, selectCategory, selectEclnType) { /** 건재부대찾기  */
+
+var selectTroopObj = document.getElementById("i_troopNm");
+
+if(!selectEclnType){selectEclnType = 1;}
+if(selectCategory == 2 || selectCategory == 3){
+    url = CONTEXT_NAME.html + "/popup/EclnTroopPopup.jsp?categoryNo=2&eclnType="+ selectEclnType +"&callback=" + callback + "&q_troopName=" +  ((selectTroopObj)?selectTroopObj.value:"");
+}else{
+    url = CONTEXT_NAME.html + "/popup/EclnTroopPopup.jsp?eclnType="+ selectEclnType +"&callback=" + callback + "&q_troopName=" +  ((selectTroopObj)?selectTroopObj.value:"") + "&q_objName=" + selectTroopObj;
+}
+
+    var popup = window.open(url, "Mpopup", 'top=390,left=500,width=450,height=530,resizable=no,status=no');
+    popup.focus();
+}
+
+function openPrimarySpecialtyPopup() { /** 병과특기 찾기 팝업 */
+    var url = CONTEXT_NAME.html + "/popup/PrimarySpecialtyPopup.jsp";
+    window.open(url, 'ps', 'top=10,left=10,width=450,height=500,resizable=no,status=no');
+}
+
+function openPrimarySpecialtyPopup2nd(callback) { /** 병과특기 찾기 팝업(배열형식 리턴 허용) */
+    var url = CONTEXT_NAME.html + "/popup/PrimarySpecialty2ndPopup.jsp?callback=" + callback;
+    window.open(url, 'ps', 'top=10,left=10,width=450,height=500,resizable=no,status=no');
+}
+
+function openOfficerFileDownLoadPopup(id, id2) { /** 진급신청자 첨부파일 다운로드 */
+    var url = CONTEXT_NAME.html + "/rfm/rrm/officerpromotion/OfficerFileDownLoadPopup.jsp?id="+id+"&id2="+id2;
+    window.open(url, '', 'top=10,left=10,width=450,height=300,resizable=no,status=no');
+}
+
+function openLawAddressFindPopup(callback) {  /** 법정동주소 찾기 */
+    var url = CONTEXT_NAME.html + "/popup/LawAddressPopup.jsp?callback=" + callback;
+    window.open(url, "LawPopup", 'top=10,left=10,width=450,height=500,resizable=no,status=no');
+}
+
+function openAdminAddressFindPopup(callback) {	/** 행정동주소 찾기 */
+    var url = CONTEXT_NAME.html + "/popup/AdminAddressPopup.jsp?callback=" + callback;
+    window.open(url, "AdminPopup", 'top=10,left=10,width=450,height=500,resizable=no,status=no');
+}
+
+function openAdminSiGunGuFindPopup(callback) {  /** 행정동 시군구명으로 주소 찾기 */
+    var url = CONTEXT_NAME.html + "/popup/AdminSiGunGuPopup.jsp?callback=" + callback;
+    window.open(url, "AdminSiGunGuPopup", 'top=10,left=10,width=450,height=500,resizable=no,status=no');
+}
+
+function openRoadAddressFindPopup(callback) {	/** 도로명주소 찾기 */
+    var url = CONTEXT_NAME.html + "/popup/RoadAddressPopup.jsp?callback=" + callback;
+    window.open(url, "RoadPopup", 'top=10,left=10,width=450,height=500,resizable=no,status=no');
+}
+
+function openAdminSiGunGuFindPopup(callback, comboOption) {  /** 행정동 시군구명으로 주소 찾기 */
+    var url = CONTEXT_NAME.html + "/popup/AdminSiGunGuPopup.jsp?callback=" + callback;
+    if (comboOption != undefined && comboOption != "") {
+    	url += "&comboOption=" + comboOption; // 1:읍면동만, 2:시군구만
+    }
+    window.open(url, "AdminSiGunGuPopup", 'top=10,left=10,width=450,height=500,resizable=no,status=no');
+}
+
+function openLawSiGunGuFindPopup(callback) {  /** 법정동 시군구명으로 주소 찾기 */
+    var url = CONTEXT_NAME.html + "/popup/LawSiGunGuPopup.jsp?callback=" + callback;
+    window.open(url, "LawSiGunGuPopup", 'top=10,left=10,width=450,height=500,resizable=no,status=no');
+}
+
+function openPostAddressFindPopup(callback) {	/** 우편번호로 주소 찾기 */
+    var url = CONTEXT_NAME.html + "/popup/PostAddressPopup.jsp?callback=" + callback;
+    window.open(url, "PostPopup", 'top=10,left=10,width=450,height=530,resizable=no,status=no');
+}
+
+function openPostAddressFindPopupMobile(callback) {	/** 우편번호로 주소 찾기 */
+    var url = CONTEXT_NAME.html + "/mobile/jsp/training/PostAddressPopup.jsp?callback=" + callback;
+    window.open(url, "PostPopup", 'top=10,left=10,,,resizable=yes,status=no');
+}
+
+/*
+ 변경사유 : 주소에 우편번호 추가 (2단계 '10검증 4차-5)
+ 변경함수 : openPostFindPopup()
+ 변경담당 : 화인에스아이 과장 김민경 (2010.11.23)
+*/
+function openPostFindPopup(callback) {	/** 주소로 우편번호 찾기 */
+    var url = CONTEXT_NAME.html + "/popup/PostPopup.jsp?callback=" + callback;
+    window.open(url, "PostPopup", 'top=10,left=10,width=450,height=530,resizable=no,status=no');
+}
+
+function openMenuSelectPopup() {
+    var url;
+    if (parent.Form.appMode.value == "1")
+        url = CONTEXT_NAME.html + "/admin/menu/MenuSelectList.jsp?p_id=M_INT";
+    else
+        url = CONTEXT_NAME.html + "/admin/menu/MenuSelectList.jsp?p_id=M_MND";
+    window.open(url, "MenuSearch", 'top=200,left=120,width=792,height=400,resizable=no,status=no,scrollbars=1');
+}
+
+function openMakeStatusList(statusTypeCd, makeYear, makeTypeCd, callback ) {	/** 현황 작성 정보 찾기 */
+    var url = CONTEXT_NAME.html + "/popup/StatusListPopup.jsp?statusTypeCd="+statusTypeCd+"&makeYear="+makeYear+"&makeTypeCd="+makeTypeCd+"&callback=" + callback;
+    window.open(url, "StatusPopup", 'top=10,left=10,width=450,height=440,resizable=no,status=no');
+}
+
+function openPassPwdPopup(url,callbackYN) {  /** PASSWORD CHECK */
+    var url = CONTEXT_NAME.html + "/popup/PassPwdPopup.jsp?callbackYN=" + callbackYN+"&url="+url;
+    window.open(url, "PassPwdpopup", 'top=10,left=10,width=500,height=320,resizable=no,status=no');
+}
+
+function JTextCompare(_code, _name) {
+ this.code = _code;
+ this.name = _name;
+ this.flag = false;
+ this.change = jcheckfield_change;
+ this.noChange = jcheckfield_noChange;
+ this.focus = jcheckfield_focus;
+ this.check = jcheckfield_check;
+
+ jcheckfield_onchange = _name.onchange;
+ this.onchange = jcheckfield_onchange;
+ }
+
+ function jcheckfield_change(){
+     this.flag = true;
+ }
+
+ function jcheckfield_noChange(){
+     this.flag = false;
+ }
+
+ function jcheckfield_focus(){
+    this.name.focus();
+    this.name.select();
+    return false;
+}
+
+ function jcheckfield_onchange(){
+    this.change();
+}
+
+ function jcheckfield_check(){
+     if(this.flag){
+         alert("부대명이 변경되었습니다. 부대찾기를 다시 하여 주십시오.");
+         return this.focus();
+     }
+     return !(this.flag);
+ }
+
+function doAjaxAction(request){
+        var item = getItem(request.responseXML.documentElement);
+		inputText(item.getProperty("TROOP_CD"),item.getProperty("callback"));
+}
+
+function inputText(item,callback){
+    if(item){
+        document.getElementById("i_troopCd").value = item;
+        //eval(callback);
+    }else{
+        alert("부대명이 정확하지 않습니다.\n부대찾기를 이용하여 부대를 선택하여주십시오.");
+    }
+	return false;
+}
+
+document.onreadystatechange = function(){
+if(document.readyState == "complete") go_reg();
+}
+
+function go_reg(){
+
+    if(document.getElementsByName("i_troopNm") && document.getElementsByName("i_troopNm").length > 0){
+        priorValue = new Array();
+
+        for(var i = 0; i < document.getElementsByName("i_troopNm").length; i++){
+            priorValue[i] = document.getElementsByName("i_troopNm")[i].value;
+            document.getElementsByName("i_troopNm")[i].readOnly = false;
+            document.getElementsByName("i_troopNm")[i].style.cssText += "ime-mode:active;"
+        }
+    }
+}
+
+ /** 비문로그(화면용) 기록 */
+function jsSecureDocuLogIn(q_secureDocuUuid, workType){
+    var mode = "";
+    var action = "#";
+    mode = Form.mode.value;
+    action = 'https://www.yebigun1.mil.kr/js/dmobis/script/Form.action';
+    Form.mode.value = "";
+    Form.target = "secureDocuLog";
+    Form.action = CONTEXT_NAME + "/cmn/ssf/securedoculog/SecureDocuLogIn.jsp"+"?mode=insertSecureDocuLogForJsp"+"&q_secureDocuUuid="+q_secureDocuUuid+"&workType="+workType;
+    Form.submit();
+    Form.mode.value = mode;
+    Form.action = action;
+    Form.target = "";
+}
+
+// 기술인력동원 자격,면허 입력
+function openLicenseInsertPopup(callback) {
+    var url = CONTEXT_NAME.html + "/popup/openLicenseInsertPopup.jsp?callback=" + callback;
+    window.open(url, "LicenseInsertPopup", 'top=10,left=10,width=450,height=500,resizable=no,status=no');
+}
+
+
+// 기술인력동원 자격,면허 수정
+function openLicenseUpdatePopup(callback) {
+    var url = CONTEXT_NAME.html + "/popup/openLicenseUpdatePopup.jsp?callback=" + callback;
+    window.open(url, "LicenseUpdatePopup", 'top=10,left=10,width=450,height=500,resizable=no,status=no');
+}
+
+// 비문출력화면 팝업
+function openSecureDocuRdPrint(url, sizeType) {
+	if (confirm("비문 출력화면을 여시겠습니까?\n\n비문(대외비 포함)을 출력하시면\n비문관리기록부에 등재하셔야 됩니다.")) {
+	    var url = CONTEXT_NAME.html + "/SecureDocuRdPrint.jsp?" + url;
+	    var wSize = "940";
+	    var hSize = "700";
+	    if (sizeType == '2') {
+	    	wSize = "1000";
+	    	hSize = "600";
+	    }
+	    var opt = "width="+wSize+",height="+hSize+",left=6,top=50,scrollbars=1,resizable=1";
+	    var win = window.open(url, "SecureDocuRdPrint", opt);
+	    win.focus();
+	}
+}
+
+//일반 RD 팝업
+function openCommonRdPrint(url, sizeType) {
+    var url = CONTEXT_NAME.html + "/CommonRdPrint.jsp?" + url;
+    var wSize = "940";
+    var hSize = "700";
+    if (sizeType == '2') {
+    	wSize = "1000";
+    	hSize = "600";
+    }
+    var opt = "width="+wSize+",height="+hSize+",left=6,top=50,scrollbars=1,resizable=1";
+    var win = window.open(url, "CommonRdPrint", opt);
+    win.focus();
+}

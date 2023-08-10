@@ -1,0 +1,323 @@
+// SELECT 박스(Drop-Down)에 있는 모든 옵션을 삭제하는 함수
+// @param select HTML Form의 SELECT 객체(Drop-Down)
+function clearOptions(select) {
+    if (!select) {
+        return;
+    }
+    for (var i = select.options.length; i > 0; i--) {
+        select.remove(i - 1);
+    }
+}
+
+// SELECT 박스에 있는 모든 옵션을 선택하는 함수
+// @param select HTML Form의 SELECT 객체
+function selectAllOptions(select) {
+    var size = select.options.length;
+    for (var i = 0; i < size; i++) {
+        select.options[i].selected = true;
+    }
+    return false;
+}
+
+
+// SELECT 박스에 있는 모든 옵션을 해제하는 함수
+// @param select HTML Form의 SELECT 객체
+function deselectAllOptions(select) {
+    var size = select.options.length;
+    for (var i = 0; i < size; i++) {
+        select.options[i].selected = false;
+    }
+    return false;
+}
+
+
+// SELECT 박스에 있는 모든 옵션을 선택 여부를 반대로 변경하는 함수
+// @param select HTML Form의 SELECT 객체
+function changeAllOptions(select) {
+    var size = select.options.length;
+    for (var i = 0; i < size; i++) {
+        if (select.options[i].selected) {
+           select.options[i].selected = false;
+        } else {
+           select.options[i].selected = true;
+        }
+    }
+    return false;
+}
+
+
+// SELECT 박스에 있는 선택된 데이터(Option)를 삭제하는 함수
+// @param select HTML Form의 SELECT 객체
+function dropOptions(select) {
+    var size = select.options.length;
+    for (var i = 0; i < size; i++)
+    {
+        if (select.options[i].selected)
+        {
+            select.options[i] = null;
+            i--;
+            size--;
+        }
+    }
+    return false;
+}
+
+
+// SELECT 박스에 있는 모든 데이터(Option)를 삭제하는 함수
+// @param select HTML Form의 SELECT 객체
+function dropAllOptions(select) {
+    selectAllOptions(select);
+    dropOptions(select);
+    return false;
+}
+
+
+// 하나의 HTML Form SELECT의 선택된 데이터(option)를 다른 HTML Form SELECT로 옮기는 함수
+// @param from 옮겨야 하는 데이터를 가지고 있는 HTML Form Select
+// @param to   데이터가 옮겨지는 HTML Form Select
+function moveOptions(from, to) {
+    var size = from.options.length;
+    for (var i = 0; i < size; i++) {
+        if (from.options[i].selected) {
+            to.options[to.options.length]
+                = new Option(from.options[i].text, from.options[i].value);
+            from.options[i] = null;
+            i--;
+            size--;
+        }
+    }
+    return false;
+}
+
+
+// 하나의 HTML Form SELECT의 모든 데이터(option)를 다른 HTML Form SELECT로 옮기는 함수
+// @param from 옮겨야 하는 데이터를 가지고 있는 HTML Form Select
+// @param to   데이터가 옮겨지는 HTML Form Select
+// @see        moveData()
+function moveAllOptions(from, to) {
+    selectAllOptions(from);
+    moveOptions(from, to);
+    return false;
+}
+
+
+// HTML Form TextField의 값을 HTML Form Select로 추가하는 함수
+// @param data  데이터 객체
+// @param select HTML Form Select 객체
+function addTextToOptions(data, select) {
+    select.options[select.options.length] = new Option(data, data);
+    return false;
+}
+
+// HTML 선택된 옵션을 위로 올린다.
+// @param select HTML Form Select 객체
+function upSelectedOptions(select) {
+
+    // select에 포함된 전체 option의 수
+    var size = select.options.length;
+
+    for (var i = 0; i < size; i++) {
+        if (select.options[i].selected) {
+
+            // 맨 위의 option을 선택했는지를 확인한다.
+            if (i == 0) return false;
+
+            var tempText = select.options[i - 1].text;
+            var tempValue = select.options[i - 1].value;
+            select.options[i - 1].text = select.options[i].text;
+            select.options[i - 1].value = select.options[i].value;
+            select.options[i - 1].selected = true;
+            select.options[i].text = tempText;
+            select.options[i].value = tempValue;
+            select.options[i].selected = false;
+        }
+    }
+    return false;
+}
+
+
+// HTML 선택된 옵션을 아래로 내린다.
+// @param select HTML Form Select 객체
+function downSelectedOptions(select) {
+    // select에 포함된 전체 option의 수
+    var size = select.options.length;
+
+    for (var i = size - 1; i >= 0; i--) {
+        if (select.options[i].selected) {
+
+            // 맨 아래의 option을 선택했는지를 확인한다.
+            if (i == (size - 1)) return false;
+
+            var tempText = select.options[i + 1].text;
+            var tempValue = select.options[i + 1].value;
+            select.options[i + 1].text = select.options[i].text;
+            select.options[i + 1].value = select.options[i].value;
+            select.options[i + 1].selected = true;
+            select.options[i].text = tempText;
+            select.options[i].value = tempValue;
+            select.options[i].selected = false;
+        }
+    }
+    return false;
+}
+
+// HTML 체크 박스를 모두 선택한다.
+// @param select HTML Form Checkbox 객체
+function selectAllCheckboxs(checkbox) {
+    if (checkbox == null) return;
+
+    // 체크 박스가 하나인 경우에 대한 처리
+    checkbox.checked = true;
+
+    for (var i = 0; i < checkbox.length; i++) {
+        checkbox[i].checked = true;
+    }
+    return true;
+}
+
+// HTML 채크 박스의 선택을 해제한다.
+// @param select HTML Form Checkbox 객체
+function deselectAllCheckboxs(checkbox) {
+    if (checkbox == null) return;
+
+    // 체크 박스가 하나인 경우에 대한 처리
+    checkbox.checked = false;
+
+    for (var i = 0; i < checkbox.length; i++) {
+        checkbox[i].checked = false;
+    }
+    return true;
+}
+
+// HTML 체크 박스의 선택 여부를 변경한다.
+// @param select HTML Form Checkbox 객체
+function changeAllCheckboxs(checkbox) {
+    if (checkbox == null) return;
+
+    // 체크 박스가 하나인 경우에 대한 처리
+    if (checkbox.checked) {
+        checkbox.checked = false;
+    } else {
+        checkbox.checked = true;
+    }
+
+    for (var i = 0; i < checkbox.length; i++) {
+        if (checkbox[i].checked) {
+            checkbox[i].checked = false;
+        } else {
+            checkbox[i].checked = true;
+        }
+    }
+    return true;
+}
+
+// HTML 체크 박스의 선택 여부를 전체선택/전체해제시킨다.
+// @param select HTML Form Checkbox 객체
+function checkAllCheckboxs(checkbox) {
+    if (checkbox == null) return;
+
+    // 체크 박스가 하나인 경우에 대한 처리
+    if (checkbox.checked) {
+        checkbox.checked = false;
+    } else {
+        checkbox.checked = true;
+    }
+    for (var i = 0; i < checkbox.length; i++) {
+        if (checkbox.checked) {
+            checkbox[i].checked = true;
+        } else {
+            checkbox[i].checked = false;
+        }
+    }
+    return true;
+}
+
+/**
+ * 특정 부분을 숨기거나 보여준다.
+ * @param field : 숨기거나 보일 객체
+ * @return false
+ * @browser IE6
+ */
+function showOrHide(obj) {
+    if (document.getElementById) {
+        var el = document.getElementById(obj);
+        if (el.style.display != "none") {
+            el.style.display = "none";
+        } else {
+            el.style.display = "block";
+        }
+    }
+    return false;
+}
+
+/**
+ * 텍스트 필드에 입력한 값에 6자리 이후에 대시(-)를 붙인다.
+ * 텍스트 필드에 아래를 기입한다. onkeyup="toSsn(this)"
+ * @param field 텍스트 필드
+ */
+function toSsn(field) {
+    var number = String(field.value);
+    number = number.replace(/-|\s+/g, "");
+
+    var length = number.length;
+
+    if (length < 6) {
+        field.value = number;
+    } else {
+        var result = number.substring(0, 6) + "-";
+        result += number.substring(6, length);
+        field.value = result;
+    }
+}
+
+/*
+특정 키보드의 입력을 제한하는 기능
+(F2 ~ F12, Ctrl+N, Ctrl+R, Ctrl+C, Ctrl+V)
+*/
+function processKey()
+{
+        if(
+           event.keyCode == 44 // 스넵샷 키 (Ctrl+PtrSc, Alt+PtrSc 키)
+           || (event.ctrlKey == true && event.keyCode == 67) //  Ctrl+C 키
+/*
+변 경 자 : 신동요
+변경일자 : 2008년 08월 28일
+변경내용 : 붙여넣기 기능을 활성화 하도록 설정.
+          Ctrl + V 기능은 임시로 활성화 함.
+*/
+//           || (event.ctrlKey == true && event.keyCode == 86)
+           )
+        {
+                window.clipboardData.clearData();
+		            event.keyCode = 0;
+		            event.cancelBubble = true;
+		            event.returnValue = false;
+        }
+        if(  (event.ctrlKey == true && (event.keyCode == 78 || event.keyCode == 82))   //  Ctrl+N, Ctrl+R 키
+             || ( event.keyCode >= 112 && event.keyCode <= 123))                       //  F2 ~ F12 키
+        {
+            event.keyCode = 0;
+            event.cancelBubble = true;
+            event.returnValue = false;
+        }
+}
+
+/*
+클립보드에 저장된 이미지를 삭제하는 기능 호츨(800 밀리초)
+*/
+function callIntervalClbCheck()
+{
+    setInterval("ckClipBoardData()",800);
+}
+
+/*
+클립보드에 저장된 이미지(텍스트 제외)를 삭제하는 기능
+*/
+function ckClipBoardData()
+{
+    var cbData = window.clipboardData.getData("Text")
+    if (cbData == null)
+    {
+         window.clipboardData.setData("Text","")
+    }
+}

@@ -1,0 +1,135 @@
+/**
+ * Javascript Common Util
+ */
+
+/**
+ * 모바일 OS 종류를 반환한다.
+ * 
+ * @method getOSName
+ * @param item 삭제할 TR 태그
+ */
+function getOSName() {
+	var userAgent = navigator.userAgent.toLocaleLowerCase();
+	var OSName = "unknown";
+	if (userAgent.indexOf("android") != -1) {
+		OSName = "android";
+	} else if (userAgent.indexOf("iphone")!=-1 || userAgent.indexOf("ipad")!=-1) {
+		OSName = "ios";
+	}
+	return OSName;
+}
+
+/**
+ * 문자열 내 모든 공백을 제거한다.
+ * 
+ * @method getOSName
+ * @param str 공백을 삭제할 문자열
+ * @return 공백이 삭제된 문자열
+ */
+function removeAllEmptySpaces(str) {
+	if (str) {
+		return  str.replace(/(\s*)/g,"");
+	}
+	return str;
+}
+
+/**
+ * 설정한 날짜만큼 쿠키가 유지되게. expiredays가 1 이면 하루동안 유지
+ * 
+ * @method setCookie
+ * @param name 쿠키 설정을 식별할 이름
+ * @param value 쿠키 설정 값
+ * @param expiredays 쿠키 설정 유지 기간(in days)
+ */
+function setCookie(name, value, expiredays) {
+	var expire_date = new Date();
+	expire_date.setDate(expire_date.getDate() + expiredays);
+	document.cookie = name + "=" + escape(value) + "; expires="
+			+ expire_date.toGMTString() + "; path=/";
+}
+
+/**
+ * 설정한 시간(분) 쿠키가 유지되게. expireMins가 1 이면 1분 동안 유지
+ * 
+ * @method setCookie
+ * @param name 쿠키 설정을 식별할 이름
+ * @param value 쿠키 설정 값
+ * @param expiredays 쿠키 설정 유지 기간(in days)
+ */
+function setCookieMinTime(name, value, expireMins) {
+	var expdate = new Date();
+	expdate.setMinutes(expdate.getMinutes() + expireMins); // 5분 후 쿠키 삭제
+	document.cookie = escape(name) + "=" + escape(value) + "; expires="
+		+ expdate.toGMTString() + "; path=/";
+}
+
+/**
+ * 쿠키 소멸 함수 (어제 날짜를 쿠키 소멸 날짜로 설정한다.)
+ * 
+ * @method clearCookie
+ * @param name 소멸시킬 쿠키 설정 이름
+ */
+function clearCookie(name) {
+	var expire_date = new Date();
+	expire_date.setDate(expire_date.getDate() - 1);
+	document.cookie = name + "= " + "; expires="
+			+ expire_date.toGMTString() + "; path=/";
+}
+
+/**
+ * 쿠키 설정 가져오기
+ * 
+ * @method getCookie
+ * @param name 쿠키 설정 이름
+ */
+function getCookie(name) {
+	var Found = false;
+	var start;
+	var end;
+	var i = 0;
+	// cookie 문자열 전체를 검색 
+	while (i <= document.cookie.length) {
+		start = i;
+		end = start + name.length;
+		// name과 동일한 문자가 있다면 
+		if (document.cookie.substring(start, end) == name) {
+			Found = true;
+			break;
+		}
+		i++;
+	}
+	// name 문자열을 cookie에서 찾았다면 
+	if (Found == true) {
+		start = end + 1;
+		end = document.cookie.indexOf(";", start);
+		// 마지막 부분이라 는 것을 의미(마지막에는 ";"가 없다) 
+		if (end < start)
+			end = document.cookie.length;
+		// name에 해당하는 value값을 추출하여 리턴한다. 
+		return document.cookie.substring(start, end);
+	} else {
+		// 찾지 못했다면 
+		return false;
+	}
+}
+
+/* 크로스브라우징 팝업창 사이즈 맞추기*/
+function resizePopupWindow(width, height) {
+	if (window.innerWidth && window.innerHeight && window.outerWidth && window.outerHeight) {
+		var wWidth = width + (window.outerWidth - window.innerWidth);
+		var wHeight = height + (window.outerHeight - window.innerHeight);
+		window.resizeTo(wWidth, wHeight);
+	}
+}
+
+/* 팝업창 열기 */
+function openPopupWindow(theURL,winName,features) {
+    var popupWindow = window.open("",winName,features);
+    popupWindow.location.href = theURL;
+}
+
+/* 오늘날짜 YYYY-MM-DD 형식으로 가져오기 */
+function getTodayFormat1() {
+	var today = new Date();
+	return today.getFullYear() + "-" + ("0"+(today.getMonth()+1)).slice(-2) + "-" + ("0"+today.getDate()).slice(-2);
+}

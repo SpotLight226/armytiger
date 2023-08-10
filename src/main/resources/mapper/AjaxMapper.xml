@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.army.armytiger.ajax.service.AjaxMapper">
+    <select id="getGround" resultType="groundVO">
+        SELECT attmpt FROM GROUND group by attmpt;
+    </select>
+
+    <select id="getGroundChild1" resultType="groundVO">
+        SELECT ATTMPT, GUNGU FROM ground WHERE attmpt = #{attmpt}
+    </select>
+
+    <select id="getGroundChild2" resultType="groundVO">
+        SELECT ATTMPT, GUNGU, G_NO, G_NAME FROM ground WHERE ATTMPT = #{attmpt} AND gungu = #{gungu}
+    </select>
+
+    <select id="setImg" resultType="String">
+        SELECT G_IMG FROM GROUND WHERE G_NO = #{g_no}
+    </select>
+</mapper>

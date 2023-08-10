@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="~{./include/adminLayout :: setContent( ~{:: #content})}">
+    <div id="content" class="wrap">
+        <div class="warp_inner">
+            <!-- left_menu end -->
+            <div class="right_content">
+                <div class="midiaq">
+                    <div class="page_title">관리자검색</div>
+
+                    <form name="searchForm" action="memberList" method="get">
+                        <!--  검색을 한다는 것은 page 가 다시 1로 돌아간다 -->
+                        <input type="hidden" name="page" value="1">
+                        <!-- amount 를 유지하고자 한다면 pageVO의 amount -->
+                        <input type="hidden" name="amount">
+                        <div class="search_block flfull">
+
+                            <div class="fl">
+                                <div>
+                                    <span class="search_th">이름 검색</span>
+                                    <input type="text" class="" placeholder="이름 검색" name="searchName"
+                                           value="">
+                                </div>
+
+                                <div>
+                                    <span class="search_th">부대 검색</span>
+                                    <input type="text" class="" placeholder="부대 검색" name="searchContent"
+                                           value="">
+                                </div>
+
+                                <div>
+                                    <span class="search_th">계급 정렬</span>
+                                    <select class="" name="searchPrice">
+                                        <option value="none" selected="">정렬방식
+                                        </option>
+                                        <option value="asc" selected="">낮은순
+                                        </option>
+                                        <option value="desc" selected="">높은순
+                                        </option>
+                                    </select>
+                                </div>
+
+
+                            </div>
+
+                            <div class="fr">
+                                <div class="search_btn_area">
+                                    <!-- a 태그 이므로 이벤트를 걸어서 제어-->
+                                    <a href="#" class="normal_btn purplebtn" id="searchBtn">검색</a>
+                                    <a href="memberReg" class="normal_btn purplebtn02">등록</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="full_collum collum">
+                            <ul>
+                                <li class="collum_tit">
+                                    <h2>예비군 관리</h2>
+
+                                    <!-- 선택에 따라 pageVO를 변경 => 이벤트 -->
+                                    <!--
+                                    <select class="" onchange="handleChange()">
+                                        <option value="10" th:selected="${pageVO.amount ==  10}">10개 보기</option>
+                                        <option value="20" th:selected="${pageVO.amount ==  20}">20개 보기</option>
+                                        <option value="50" th:selected="${pageVO.amount ==  50}">50개 보기</option>
+                                        <option value="100" th:selected="${pageVO.amount ==  100}">100개 보기</option>
+                                    </select>
+                                    -->
+                                    <span class="showtoggle minus"></span>
+                                    <ul>
+                                        <li>
+                                            <table cellpadding="0" cellspacing="0" class="col_14" width="100%;">
+                                                <tr>
+                                                    <th>순서</th>
+                                                    <th>이름</th>
+                                                    <th>군번</th>
+                                                    <th>부대</th>
+                                                    <th>소속</th>
+                                                    <th>연차</th>
+                                                    <th>계급</th>
+                                                    <th>군별</th>
+                                                    <th>동원 여부</th>
+                                                    <th>비고</th>
+                                                    <th>등급</th>
+                                                    <th>정보수정</th>
+                                                </tr>
+
+                                                <tr th:each="vo, status : ${list}">
+                                                    <td>[[${status.count}]]</td>
+                                                    <td><a th:href="@{memberDetail(serial=${vo.military_sn})}" th:style="'color: black'">[[${vo.name}]]</a></td>
+                                                    <td>[[${vo.military_sn}]]</td>
+                                                    <td>[[${vo.unit}]]</td>
+                                                    <td>[[${vo.affiliation}]]</td>
+                                                    <td>[[${vo.m_history}]]</td>
+                                                    <td>[[${vo.m_rank}]]</td>
+                                                    <td>[[${vo.m_kind}]]</td>
+                                                    <td>[[${vo.m_yesno == 'Y' ? '지정' : '미지정'}]]</td>
+                                                    <td>[[${vo.m_other}]]</td>
+                                                    <td>[[${vo.grade == 'ADMIN' ? '관리자' : '일반'}]]</td>
+                                                    <td>
+                                                        <a th:href="@{memberDetail(serial=${vo.military_sn})}" class="normal_btn">정보수정</a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                            <th:block th:replace="~{./include/page :: pageNation( ${pageVO})}">
+
+                                            </th:block>
+
+                                        </li>
+
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</th:block>
+
+<script src="../js/modal.js"></script>
+
+<script th:inline="javascript">
+
+    let msg = `[[${msg}]]`;
+
+    if (msg != 'null') {
+        alert(msg);
+    }
+
+    // 데이터 핸들링
+    const handleChange = () => {
+        // console.log(event.target)
+        // 1st
+        // location.href = 'productList?page=1&amount=' + event.target.value;
+
+        // 2nd
+        // hidden 으로 설정된 amount 의 값을 변경하고 submit
+        // document.searchForm.amount.value = event.target.value;
+        // document.searchForm.submit();
+    }
+
+    // 검색 버튼
+    let searchBtn = document.getElementById("searchBtn");
+    searchBtn.addEventListener("click", () => {
+        // 기본 이벤트 중지 ( a태그 )
+        event.preventDefault();
+        // form 태그 섭밋
+        document.searchForm.submit();
+
+    })
+
+</script>
+
+</html>

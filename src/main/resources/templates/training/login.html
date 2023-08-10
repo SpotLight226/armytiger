@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="~{./include/layout :: setContent( ~{:: #contents})}">
+
+	<div id="contents">
+
+
+
+		<main style="padding: 42px 24px 24px; background: white; text-align: center; margin:0 auto; margin-top: 15px;">
+			<div class="Toastify"></div>
+			<div class="modal"></div>
+			<div class="login" style="margin: 10px;">
+
+				<form action="loginForm" method="post">
+
+					<div class="title" style="margin: 15px; ">대원 정보를 입력 해 주세요.</div>
+					<div class="title-sub second" style="margin: 10px;">생년월일은 8자리로 입력해주세요 <br><br>(예: 19930827)</div>
+					<div class="title-sub second" style="margin: 10px;">비밀번호는 생년월일 + 군번입니다 <br>
+					</br>
+
+
+					<div class="input-wrapper-top">
+						<div style="margin: 5px; margin-right: 15px;">
+							<input type="radio" name="grade" value="ADMIN" onclick="toggleUserType()"
+								style="margin: 0 5px;">관리자
+							<input type="radio" name="grade" value="USER" onclick="toggleUserType()"
+								style="margin: 0 5px;">예비군
+						</div>
+						<input type="text" name="name" placeholder="이름" class="InputText_root__13IWy" value=""
+							style="margin: 10px; padding: 10px; border: 1px solid grey;"></br>
+						<input type="text" name="password" pattern="\d*" inputmode="numeric" maxlength=""
+							placeholder="비밀번호를 입력하세요" class="InputText_root__13IWy" value=""
+							style="margin: 10px;  padding: 10px; border: 1px solid grey;">
+					</div>
+					<div class="input-wrapper-bottom" style="margin-top: 10px; ">
+						<input maxlength="17" name="military_sn" placeholder="군번 (- 없이 입력하세요)"
+							class="InputText_root__13IWy" value="" style=" padding: 10px; border: 1px solid grey;">
+					</div>
+
+
+
+					<div><button type="submit"
+							style="background-color: rgb(28, 126, 89); text-align: center; border: 1px rgb(28, 126, 89); padding: 10px; width: 192px; margin: 10px; color: aliceblue;">로그인</button>
+					</div>
+
+				</form>
+
+				<div class="BoxContainer_root__1ClvP"
+					style="background-color: rgb(247, 247, 247); border-radius: 8px; flex-basis: 100%;">
+					<div class="CallCenter_biggerWrapper__cdq0c">
+						<div class="CallCenter_topWrapper__2LdUZ">
+							<div class="pointer">
+								<div class="CallCenter_title__2vpST" style="margin: 10px;">고객센터 </div>
+								<div class="CallCenter_subTitle__WjtsQ">1670-3607</div>
+							</div>
+							<div class="CallCenter_description__2hTk4">
+								<div>평일 09:00 - 18:00</div>
+								<div>토/일, 공휴일 휴무</div>
+							</div>
+						</div>
+						</a>
+					</div>
+				</div>
+			</div>
+	</div>
+	</main>
+
+</th:block>
+
+<script th:inline="javascript">
+
+	//관리자 vs 대원 선택
+	function toggleUserType() {
+		var adminRadio = document.querySelector('input[value="admin"]');
+		var memberRadio = document.querySelector('input[value="member"]');
+
+		if (adminRadio.checked) {
+			memberRadio.checked = false;
+		} else if (memberRadio.checked) {
+			adminRadio.checked = false;
+		}
+	}
+	
+	//수정완료 알림창
+	var msg = '[[${msg}]]';
+
+	if (msg != 'null') {
+		alert(msg);
+	}
+	
+
+
+
+</script>

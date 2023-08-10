@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="~{./include/adminLayout :: setContent( ~{:: #content})}">
+	<div id="content" class="wrap">
+		<div class="warp_inner">
+			<div class="right_content">
+				<div class="midiaq">
+					<div class="page_title">예비군 관리 > 예비군 등록</div>
+
+					<form name="productForm" action="registForm" method="post" >
+						<div class="full_collum collum">
+							<ul>
+								<li class="collum_tit">
+									<h2>예비군 관리</h2>
+
+									<span class="showtoggle minus"></span>
+									<ul>
+										<li>
+											<table cellpadding="0" cellspacing="0" class="board_basic_view"
+												   width="100%;">
+												<tr>
+													<th>군번</th>
+													<td colspan="3"><input type="text" class="inputw150"
+																		   name="military_sn" value=""
+																		   placeholder="군번을 입력하세요"
+																		   required pattern="\d*">
+													</td>
+												</tr>
+												<tr>
+													<th>이름</th>
+													<td colspan="3"><input type="text" class="inputw150"
+																		   name="name" value=""
+																		   placeholder="이름을 입력하세요"
+																		   required >
+													</td>
+												</tr>
+												<tr>
+													<th>등급</th>
+													<td colspan="3">
+														<select name="grade" class="grade_sel">
+															<option value="USER">예비군</option>
+															<option value="ADMIN">관리자</option>
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<th>전화번호</th>
+													<td colspan="3"><input type="text" class="inputw150"
+																		   name="phone_num" value=""
+																		   placeholder="전화번호를 입력하세요"
+																		   required pattern="\d*">
+													</td>
+												</tr>
+
+												<tr>
+													<th>부대</th>
+													<td colspan="5">
+													<!--
+														 form 태그가 submit 시 같이 전송될 prod_category
+														<input type="hidden" name="unit" value="">
+
+														<div class="loading" style="display: none;">
+															<div class="loader"></div>
+															<div class="loading-overlay"></div>
+														</div>
+
+														<div style="color:red">예비군 부대를 선택해주세요</div>
+														<div class="categoryListWrap">
+
+														</div>
+													-->
+													<input type="text" class="inputw150" name="unit" placeholder="부대를 입력하세요" required>
+													</td>
+												</tr>
+
+												<tr>
+													<th>상세 소속</th>
+													<td colspan="5"><input type="text" class="inputw99p"
+																		   name="affiliation"  placeholder="상세 소속을 입력하세요" required></td>
+												</tr>
+
+												<tr>
+													<th>계급</th>
+													<td colspan="3">
+														<select name="m_rank" class="">
+															<option th:each="rank : ${T(com.army.armytiger.enums.Rank).values()}"
+																	th:value="${rank.getLabel()}"
+																	th:text="${rank.getLabel()}">
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<th>군별</th>
+													<td colspan="3">
+														<select name="m_kind" required>
+                                                            <option value="none">선택</option>
+															<option value="육군">육군</option>
+															<option value="해군">해군</option>
+															<option value="공군">공군</option>
+															<option value="공익">공익</option>
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<th>동원구분</th>
+													<td colspan="3">
+														<select name="m_yesno">
+															<option value="y">지정</option>
+															<option value="n">비지정</option>
+														</select>
+													</td>
+												</tr>
+
+												<tr>
+													<th>비고</th>
+													<td colspan="5">
+
+														<div><textarea class="inputw99p" name="m_other"
+																	   style="height: 200px;"></textarea>
+														</div>
+													</td>
+												</tr>
+
+
+											</table>
+											<div class="btn_area">
+												<input type="submit" class="save" value="등록">
+												<input type="button" class="delete" value="목록">
+												<!--
+                                                <a href="#" class="save">등록</a>
+                                                <a href="#" class="delete">목록</a>
+                                                <a href="#" class="revise mglr13">삭제</a>
+                                                -->
+											</div>
+										</li>
+
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</form>
+
+
+				</div>
+				<!-- right_content end -->
+			</div>
+
+
+			<!-- warp_inner end -->
+			<div class="dim_layer">
+
+			</div>
+			<!-- wrap end -->
+		</div>
+	</div>
+</th:block>
+<script>
+
+</script>
+</html>

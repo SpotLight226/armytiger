@@ -1,0 +1,27 @@
+package com.army.armytiger.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/train")
+public class TrainInfoController {
+	
+	//훈련정보 화면
+	@GetMapping("/trainInfo")
+	public String trainInfo() {
+		
+		return "train/trainInfo";
+	}
+	
+	//나의정보수정 화면
+	@GetMapping("/myInfo")
+	public String myInfo() {
+		
+		
+		return "train/myInfo";
+	}
+	
+
+}

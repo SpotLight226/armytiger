@@ -1,0 +1,218 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<style>
+	.hidden {
+		display: none;
+	}
+</style>
+
+
+<th:block th:replace="~{./include/layout :: setContent( ~{:: #contents})}">
+	<div id="contents" tabindex="0">
+
+
+		<div class="container">
+			<!-- lnb -->
+			<div id="lnb">
+				<div class="lnb-tit lnb-bg2">
+					<h2>나의 훈련정보</h2>
+				</div>
+				<ul class="lnb-menu">
+					<li>
+						<a href="/dmobis/rfh/rgt/edutrasubjpsn/IvdTraScheDetail.do" title="훈련정보">훈련정보</a>
+						<ul>
+							<li><a href="trainInfo" title="훈련정보">훈련정보</a></li>
+							<li><a href="/dmobis/rfh/rgt/edutrasubjpsn/IvdPrtmsvcDetail.do" title="비상근 예비군">비상근 예비군</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="/dmobis/rfh/mpt/mypubannoun/MyPubAnnounList.do" title="소속부대 알림">소속부대 알림</a>
+						<ul>
+							<li><a href="/dmobis/rfh/mpt/mypubannoun/MyPubAnnounList.do" title="소속부대 공지사항">소속부대 공지사항</a>
+							</li>
+							<li><a href="/dmobis/rfh/mpt/tranotice/TraNoticeList.do" title="훈련안내">훈련안내</a></li>
+							<li><a href="/qna/qnaList" title="나의 질의응답">나의 질의응답</a></li>
+							<li><a href="/dmobis/rfh/mpt/myfreeboard/MyFreeBoardList.do" title="자유게시판">자유게시판</a></li>
+						</ul>
+					</li>
+					<li class="active"><a href="/dmobis/rfh/rrm/reserveforce/ReserveForceForm.do"
+							title="개인정보수정">개인정보수정</a></li>
+					<li><a href="/dmobis/rfh/rrm/reserveforce/ReserveForcePrzdcr.do" title="예비군 상훈">예비군 상훈</a></li>
+				</ul>
+			</div>
+
+
+			<!-- content -->
+
+			<!-- 사이드바 -->
+			<div id="content-wrap">
+				<div class="location">Home &gt; 나의 훈련정보 &gt; <span>개인정보수정</span></div>
+
+				<section>
+					<div class="content-tit">
+						<h3>개인정보수정</h3>
+						<p class="sub-txt"></p>
+					</div>
+				</section>
+
+				<section>
+
+
+					<table class="tbl">
+						<caption>개인정보 수정내용</caption>
+						<colgroup>
+							<col style="width:20%">
+							<col style="width:30%">
+							<col style="width:15%">
+							<col style="width:35%">
+						</colgroup>
+
+						<form action="myinfoModi" method="post">
+
+							<tbody th:each="vo, status : ${list}">
+								<tr>
+									<th scope="row">성명</th>
+									<td>
+										[[${vo.name}]]
+									</td>
+
+									<th scope="row">군번</th>
+									<td>
+										<input class="inp-box wd140" type="text" name="military_sn" id="military_sn"
+											maxlength="20" th:value="${vo.military_sn}" readonly style="border: 0px;">
+									</td>
+
+								</tr>
+
+								<tr>
+									<th scope="row"><label for="bank">은행</label></th>
+									<td>
+										<input class="inp-box wd140" type="text" name="bank" id="bank" maxlength="20"
+											th:value="${vo.bank}">
+									</td>
+									<th class="bl" scope="row"><label for="account">계좌번호</label></th>
+									<td>
+										<input class="inp-box wd140" type="text" id="account" name="account_no"
+											maxlength="20" th:value="${vo.account_no}"
+											onkeypress="filterInputData('[0-9-]')" style="ime-mode:disabled">
+									</td>
+								</tr>
+								<tr>
+								</tr>
+								<tr>
+									<th scope="row"><label for="cellPhone">휴대폰</label></th>
+									<td>
+										<input class="inp-box wd140" type="text" name="phone_num" id="cellPhone"
+											maxlength="20" th:value="${vo.phone_num}"
+											onkeypress="filterInputData('[0-9-]')" style="ime-mode:disabled">
+									</td>
+									<th class="bl" scope="row">E-mail <br>
+										<font color="red" style="font-size: 11px;">※해외이메일 지양</font>
+									</th>
+									<td>
+										<label for="emailId" style="display: none;">이메일 아이디</label>
+										<input class="inp-box wd100" type="text" id="emailId" name="email" size="10"
+											maxlength="50"
+											th:value="${vo.email != null ? vo.email.substring(0, vo.email.indexOf(',')) : '' }">
+										@
+										<label for="emailAddr" style="display: none;">이메일 주소 선택</label>
+										<select id="emailChoose" name="email" onchange="emailChoose()"
+											class="sel-box wd100">
+											<option value="">선택하세요</option>
+											<option value="naver.com">naver.com</option>
+											<option value="daum.net">daum.net</option>
+											<option value="gmail.com">gmail.com</option>
+											<option value="empal.com">empal.com</option>
+											<option value="paran.com">paran.com</option>
+											<option value="hanmir.com">hanmir.com</option>
+											<option value="nate.com">nate.com</option>
+											<option value="freechal.com">freechal.com</option>
+											<option value="hanmail.net">hanmail.net</option>
+										</select>
+										<label for="emailAddrD" style="display: block;">이메일 주소</label>
+										<input class="inp-box wd100" name="email" type="text" id="emailDirect" size="25"
+											th:value="${vo.email != null ? vo.email.substring( vo.email.indexOf(',')+1, vo.email.lastIndexOf(',')) != '' ? vo.email.substring( vo.email.indexOf(',')+1, vo.email.lastIndexOf(',')) : vo.email.substring( vo.email.lastIndexOf(',')+1, vo.email.length())   : ''}">
+									</td>
+								</tr>
+								<tr>
+									<th scope="row"><label for="notice_way">소집통지서 수신 방법</label></th>
+									<td colspan="3">
+										<p class="mb5">
+
+											<select name="receipt_yn" id="notice_way" class="sel-box"
+												style="width:120px;">
+												<option value="Y" th:selected="${vo.receipt_yn == 'Y'}">이메일</option>
+												<option value="N" th:selected="${vo.receipt_yn != 'Y'}">이메일 + 우편
+												</option>
+											</select>
+										</p>
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">이메일 수신 거부</th>
+									<td colspan="3">
+
+										<p class="mb5">
+											<span class="wd200 dis-in"><input type="checkbox" name="contact_yn"
+													value="Y" th:checked="${vo.contact_yn == 'Y'}">
+												<label for="command_mail">필수서신 이외 수신동의</label></span>
+										</p>
+
+										<p>필수 서신이란?</p>
+										<p style="color: grey;">*지휘서신, 동원명령서, 예비군 훈련소집통지서,보류지정 및 해소, 전출입, 보류자(외 서신:일반
+											홍보, 훈련
+											홍보)</p>
+
+									</td>
+								</tr>
+
+
+							</tbody>
+					</table>
+				</section>
+
+				<div class="btn-box">
+					<button type="submit" class="btn-gradient big blue" onclick="saveBtn()">저장</button>
+					<button type="button" id="exitBtn" class="btn-gradient big gray" onclick="exitBtn()">나가기</button>
+				</div>
+			</div>
+
+			</form>
+			<!-- //content -->
+		</div>
+	</div>
+</th:block>
+
+<script th:inline="javascript">
+
+	//수정완료 알림창
+	var msg = '[[${msg}]]';
+
+	if (msg != 'null') {
+		alert(msg);
+	}
+
+	//이메일 직접 입력하기
+	 function emailChoose() {
+        var emailChoose = document.getElementById("emailChoose");
+        var emailDirectInput = document.getElementById("emailDirect");
+
+        if (emailChoose.value === "직접입력하기") {
+            emailDirectInput.value = ""; // Clear the value
+            emailDirectInput.style.display = "inline";
+        } else {
+            emailDirectInput.style.display = "none";
+        }
+    }
+
+
+	//나가기
+	document.getElementById("exitBtn").addEventListener("click", function () {
+		window.location.href = "trainInfo";
+	});
+
+
+
+</script>

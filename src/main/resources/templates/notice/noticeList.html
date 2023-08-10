@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{./include/layout :: setContent( ~{:: #contents})}">
+
+	<head>
+		<script>
+
+			/**
+			 * 화면에서 사용되는 이벤트 정리 
+			 */
+			function bindEvent() {
+
+				class_chg();
+
+				
+
+				//글쓰기버튼 클릭
+				$("#btnInsert").click(function () {
+					event.preventDefault();
+					var Form = document.frm;
+					Form.action = "noticeReg";
+					Form.submit();
+
+				});
+
+			}
+
+			/**
+			 *  공지사항 OR 관리자파일업로드 DataTable 화면에 출력 
+			 */
+			function loadDataTable01() {
+				var dataTables = $("#BBSMSTR_01").dataTable({
+					"stateSave": true,
+					"ajax": {
+						"url": "/dmobis/cop/bbs/selectBoardListAjax.do",
+						"type": "POST",
+						"data": {
+							searchCnd: $("select[name=searchCnd]").val()
+							, searchWrd: $("#searchWrd").val()
+							, bbsId: $("#bbsId").val()
+							, nttId: $("#nttId").val()
+							, bbsTyCode: $("#bbsTyCode").val()
+							, bbsAttrbCode: $("#bbsAttrbCode").val()
+							, authFlag: $("#authFlag").val()
+						}
+					},
+					"columns": [
+						{
+							"data": "rnum"
+							, "width": "30px"
+							, "class": "tac" // 가운데 정렬
+							, "sortable": false
+							//,"visible" : false 컬럼 숨김 기능 
+						},
+						{
+							"data": "nttSj"
+							, "width": "150px"
+							, "class": "tal"
+							, "render": function (data, type, full) {
+								var bbsTyCode = 'BBST01';
+								var bbsAttrbCode = 'BBSA03';
+								var authFlag = 'Y';
+								if (full.top_notice_yn == 'Y') {
+									return '<a href="#NONE" onclick=\"javascript:doAction(\'' + full.bbsId + '\',\'' + full.nttId + '\',\'' + bbsTyCode + '\',\'' + bbsAttrbCode + '\',\'' + authFlag + '\')\" ><b>' + data + '</b></a>';
+								} else {
+									return '<a href="#NONE" onclick=\"javascript:doAction(\'' + full.bbsId + '\',\'' + full.nttId + '\',\'' + bbsTyCode + '\',\'' + bbsAttrbCode + '\',\'' + authFlag + '\')\" >' + data + '</a>';
+								}
+							}
+
+						},
+						{
+							"data": "frstRegisterNm"
+							, "width": "40px"
+							, "class": "tac"
+							, "render": function (data, type, full) {
+								return "관리자";
+							}
+						},
+						{
+							"data": "frstRegisterPnttm"
+							, "width": "40px"
+							, "class": "tac"
+						},
+						{
+							"data": "inqireCo"
+							, "width": "40px"
+							, "class": "tac"
+						}
+					],
+					"initComplete": function () {
+						$("#BBSMSTR_01 tbody").on('click', 'tr', function () {
+							var table = $("#BBSMSTR_01").DataTable();
+							var data = table.row(this).data();
+							if (data == undefined) {
+								return false;
+							}
+							doAction(data.bbsId, data.nttId, 'BBST01', 'BBSA03', 'Y');
+						});
+
+					},
+					"order": []
+				});
+			}
+
+
+
+		</script>
+		<title>공지사항</title>
+	</head>
+
+	<body>
+		<!--<form name="frm" id="frm" action ="#" method="post">
+<input type="hidden" name="bbsId" id="bbsId" value="BBSMSTR_000000000001" />
+<input type="hidden" name="nttId"  id="nttId" value="0" />
+<input type="hidden" name="bbsTyCode" id="bbsTyCode" value="BBST01" />
+<input type="hidden" name="bbsAttrbCode" id="bbsAttrbCode" value="BBSA03" />
+<input type="hidden" name="authFlag" id="authFlag" value="Y" />
+<input type="hidden" name="message" value="">-->
+
+		<div id="wrap">
+			<!-- header -->
+
+			<link href="/js/dmobis/jquery/development-bundle/themes/base/jquery.ui.all.css" rel="stylesheet"
+				type="text/css">
+			<script src="/js/dmobis/script/JCommonUtil.js?ver=220510"></script>
+			<script>
+
+				function popupSessionTimeOut(aTitle, aMessage, confirmFunc) {
+					if (document.getElementById("stm_message")) {
+						document.getElementById("stm_message").innerHTML = aMessage;
+					}
+
+					if ($("#sessionTimeoutModal")) {
+						$("#sessionTimeoutModal").dialog({
+							title: aTitle,
+							maxWidth: 1800,
+							maxHeight: 1000,
+							height: 200,
+							width: 350,
+							modal: false,
+							resizable: true,
+							autoOpen: true,
+							show: "blind",
+							hide: "blind",
+							closeOnEscape: false,
+							buttons: {
+								"확인": function () {
+									if (confirmFunc && (typeof (confirmFunc) == "function")) {
+										confirmFunc();
+									}
+									$(this).dialog("close");
+								}
+							},
+							open: function () {
+								$(this).parent().find('button:nth-child(1)').focus();
+							},
+							close: function () {
+							}
+						});
+					}
+				}
+
+				var MAX_TIME = 15 * 60 * 1000; // 15분을 millisecond 단위로 계산
+				var REMAIN_DATE; // 세션 만료까지 남은 시간 (Date)
+				var ALERT_MINUTES = 3; // 세션 만료 전 알림 시간 (분)
+				var TIMER_ID;
+				function countLogoutTimer() {
+					if (REMAIN_DATE) {
+						REMAIN_DATE.setSeconds(REMAIN_DATE.getSeconds() - 1);
+						var seconds = REMAIN_DATE.getSeconds();
+						var minutes = REMAIN_DATE.getMinutes();
+						if (minutes < 10) {
+							minutes = "0" + minutes;
+						}
+						if (seconds < 10) {
+							seconds = "0" + seconds;
+						}
+						document.getElementById("timer").innerHTML = minutes + ":" + seconds;
+
+						if (minutes == 0 && seconds == 0) { // 세션 만료
+							if (TIMER_ID) {
+								clearInterval(TIMER_ID);
+							}
+							popupSessionTimeOut("로그인 세션 만료 알림",
+								"다시 로그인 해주시기 바랍니다.<br> 확인 버튼을 클릭하시면 로그인 페이지로 이동됩니다.",
+								function () {
+									window.location.replace("/dmobis/uat/uia/LoginUsr.do");
+								}
+							);
+						} else if (minutes == ALERT_MINUTES && seconds == 0) { // 세션 만료 전 알림
+							popupSessionTimeOut("로그인 세션 만료 " + ALERT_MINUTES + "분 전 알림",
+								"확인 버튼을 클릭하시면 로그인 시간이 연장됩니다.",
+								relaySessionTimeout
+							);
+						}
+					}
+				}
+
+				// 로그인 세션 연장
+				function relaySessionTimeout() {
+					var url = "/dmobis/uat/uia/relaySessionTimeout.do";
+
+					$.ajax({
+						type: "POST"
+						, url: url
+						, data: ""
+						, success: function (data) {
+							initSessionTimer();
+						}, error: function (e) {
+							window.location.replace("/dmobis/uat/uia/LoginUsr.do");
+							alert("로그인 세션 연장을 실패하였습니다. 다시 로그인 해주시기 바랍니다.");
+						}
+					});
+				}
+
+				// 로그인 세션타임아웃 타이머 초기화
+				function initSessionTimer() {
+
+					if (document.getElementById("timer")) {
+						REMAIN_DATE = new Date(MAX_TIME);
+						var minutes = REMAIN_DATE.getMinutes();
+						var seconds = REMAIN_DATE.getSeconds();
+						if (minutes < 10) {
+							minutes = "0" + minutes;
+						}
+						if (seconds < 10) {
+							seconds = "0" + seconds;
+						}
+						document.getElementById("timer").innerHTML = minutes + ":" + seconds;
+
+						if (TIMER_ID) { // 이미 설정된 타이머가 있으면 타이머 해제
+							clearInterval(TIMER_ID);
+						}
+
+						TIMER_ID = setInterval(countLogoutTimer, 1000); // 타이머 설정
+					}
+
+				}
+
+				function getSessionId() {
+					// TODO
+				}
+
+				$(document).ready(function () {
+					// 세션 타이머 초기화
+					initSessionTimer();
+				});
+
+				document.oncontextmenu = function () {
+					return false;
+				}
+
+				function logout_action() {
+					if (confirm("로그아웃하시겠습니까?")) {
+
+						var url = "/dmobis/uat/uia/actionLogout.do";
+
+						$.ajax({
+							type: "POST"
+							, url: url
+							, data: ""
+							, success: function (data) {
+								window.location.replace("/index.do");
+							},
+							error: function (e) {
+								alert("로그 아웃 중 오류가 발생했습니다.");
+							}
+						});
+					}
+					return;
+				}
+
+			</script>
+
+			<div class="skip">
+				<dl>
+					<dt class="top-hide">바로가기 메뉴</dt>
+					<dd>
+						<a href="#contents">본문 바로가기</a>
+					</dd>
+				</dl>
+			</div>
+
+
+			<!-- contents -->
+			<div id="contents" tabIndex="0">
+				<div class="container">
+					<!-- lnb -->
+					<div id="lnb">
+
+						<div class="lnb-tit lnb-bg">
+							<h2>알림마당</h2>
+						</div>
+
+						<ul class="lnb-menu">
+
+							<li class="active"><a th:href="@{noticeList}">공지사항</a></li>
+							<li><a href="/dmobis/cop/bbs/selectBoardList.do?bbsId=BBSMSTR_000000000002"
+									title="카드뉴스">카드뉴스</a></li>
+							<li><a href="/dmobis/cop/bbs/selectBoardList.do?bbsId=BBSMSTR_000000000003"
+									title="국방영상">국방영상</a></li>
+							<li><a href="/dmobis/rfh/rgt/library/02_question.jsp">자주 묻는 질문</a></li>
+							<li><a href="/dmobis/uss/olp/qnn/EgovQustnrRespondInfoManageListUser.do">사이버 설문 조사</a></li>
+							<li>
+								<a href="/dmobis/rfh/rgt/info/selectionGuide.jsp">선발 안내 및 신청</a>
+								<ul>
+									<li><a href="#NONE"
+											onclick="openPopupWindow('/dmobis/rfm/rrm/officerpromotion/OfficerMainHPopup.do','op','width=900,height=950');">예비역간부
+											진급신청</a></li>
+									<li><a href="/dmobis/rfh/rgt/info/PtsApplGuide.jsp">비상근 예비군 지원접수</a></li>
+									<li><a href="/dmobis/rfh/rgt/info/03_05_selection.jsp">예비전력관리 담당자 선발 안내</a></li>
+									<li><a href="http://www.q-net.or.kr/crf006.do?id=crf00641&gSite=Q&gId="
+											target="_blank">군병과 경력인증 범위안내</a></li>
+								</ul>
+							</li>
+
+						</ul>
+					</div>
+					<!-- //lnb -->
+
+					<!-- content -->
+					<div id="content-wrap">
+
+						<div class="location">Home &gt; 알림마당 &gt;
+
+							<span>공지사항</span>
+						</div>
+						<section>
+							<div class="content-tit">
+								<h3>공지사항</h3>
+								<p class="sub-txt"></p>
+							</div>
+
+							<div class="pos-rel mt45">
+
+								<h4 class="cont-tit-h4">공지사항</h4>
+								<form name="searchForm" action="noticeList" method="get">
+								<div class="cont-tit-right">
+									
+									<input type="hidden" name="page" value="1">
+									<input type="hidden" name="amount" th:value="${pageVO.amount}">
+									<label for="searchCnd" style="display: none;">검색조건선택</label>
+									<select id="searchOpt" name="searchOpt" class="sel-box wd100" title="검색조건선택">
+										<option value="title" th:selected="${pageVO.cri.searchOpt == 'title'}">제목</option>
+										<option value="content" th:selected="${pageVO.cri.searchOpt == 'content'}">내용</option>
+									</select>
+									<label for="searchWrd" style="display: none;">검색어입력</label>
+									<input name="searchContent" id="searchContent" class="inp-box wd220" type="text" size="35"
+										th:value="${pageVO.cri.searchContent}" maxlength="35" title="검색어 입력">
+									<button type="button" id="btnSearch" class="btn-gradient normal blue">검색</button>
+									<button type="button" id="btnSearchClear"
+										class="btn-gradient normal white">초기화</button>
+									<th:block th:if="${writer} == '관리자'">
+										<button type="button" id="btnInsert" class="btn-gradient normal blue"
+											onclick="location.href='noticeReg'">글쓰기</button>
+									</th:block>
+
+								</div>
+								</form>
+							</div>
+
+							<!-- 공지사항 -->
+							<div id="BBSMSTR_01_wrapper" class="dataTables_wrapper no-footer">
+								<div class="top">
+									<div class="dataTables_info" id="BBSMSTR_01_info" role="status" aria-live="polite">
+									</div>
+									<div class="dataTables_length" id="BBSMSTR_01_length"><label></label></div>
+								</div>
+								<div class="dataTables_scroll">
+									<div class="dataTables_scrollHead"
+										style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+										<div class="dataTables_scrollHeadInner"
+											style="box-sizing: content-box; width: 723px; padding-right: 0px;">
+											<table class="dtable type1 dataTable no-footer"
+												style="width: 723px; margin-left: 0px;"
+												aria-describedby="BBSMSTR_01_info" role="grid">
+												<caption>공지사항</caption>
+												<thead>
+													<tr role="row">
+														<th scope="col" class="tac sorting_disabled" rowspan="1"
+															colspan="1" style="width: 63px;" aria-label="번호">번호</th>
+														<th scope="col" class="sorting" tabindex="0"
+															aria-controls="BBSMSTR_01" rowspan="1" colspan="1"
+															style="width: 244px;"
+															aria-label="제목: activate to sort column ascending">제목</th>
+														<th scope="col" class="tac sorting" tabindex="0"
+															aria-controls="BBSMSTR_01" rowspan="1" colspan="1"
+															style="width: 78px;"
+															aria-label="작성자: activate to sort column ascending">작성자</th>
+														<th scope="col" class="tac sorting" tabindex="0"
+															aria-controls="BBSMSTR_01" rowspan="1" colspan="1"
+															style="width: 78px;"
+															aria-label="작성일: activate to sort column ascending">작성일</th>
+														<th scope="col" class="tac sorting" tabindex="0"
+															aria-controls="BBSMSTR_01" rowspan="1" colspan="1"
+															style="width: 79px;"
+															aria-label="조회수: activate to sort column ascending">조회수</th>
+													</tr>
+												</thead>
+											</table>
+										</div>
+									</div>
+									<div class="dataTables_scrollBody"
+										style="position: relative; overflow: auto; width: 100%;">
+										<table id="BBSMSTR_01" class="dtable type1 dataTable no-footer"
+											style="width:100%;" aria-describedby="BBSMSTR_01_info" role="grid">
+											<thead>
+												<tr role="row" style="height: 0px;">
+													<th scope="col" class="tac sorting_disabled" rowspan="1" colspan="1"
+														style="width: 63px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"
+														aria-label="번호">
+														<div class="dataTables_sizing"
+															style="height:0;overflow:hidden;">번호</div>
+													</th>
+													<th scope="col" class="sorting" aria-controls="BBSMSTR_01"
+														rowspan="1" colspan="1"
+														style="width: 244px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"
+														aria-label="제목: activate to sort column ascending">
+														<div class="dataTables_sizing"
+															style="height:0;overflow:hidden;">제목</div>
+													</th>
+													<th scope="col" class="tac sorting" aria-controls="BBSMSTR_01"
+														rowspan="1" colspan="1"
+														style="width: 78px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"
+														aria-label="작성자: activate to sort column ascending">
+														<div class="dataTables_sizing"
+															style="height:0;overflow:hidden;">작성자</div>
+													</th>
+													<th scope="col" class="tac sorting" aria-controls="BBSMSTR_01"
+														rowspan="1" colspan="1"
+														style="width: 78px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"
+														aria-label="작성일: activate to sort column ascending">
+														<div class="dataTables_sizing"
+															style="height:0;overflow:hidden;">작성일</div>
+													</th>
+													<th scope="col" class="tac sorting" aria-controls="BBSMSTR_01"
+														rowspan="1" colspan="1"
+														style="width: 79px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"
+														aria-label="조회수: activate to sort column ascending">
+														<div class="dataTables_sizing"
+															style="height:0;overflow:hidden;">조회수</div>
+													</th>
+												</tr>
+											</thead>
+
+											<tbody>
+
+												<tr role="row" th:each="vo : ${list}" style="cursor: pointer;">
+													<td class=" tac">[[${vo.notice_no}]]</td>
+													<td class=" tal"><a th:href="@{noticeDetail(notice_no=${vo.notice_no})}"><b>[[${vo.notice_title}]]</b></a></td>
+													<td class=" tac">[[${vo.notice_writer}]]</td>
+													<td class=" tac">[[${#temporals.format(vo.notice_regdate,'yyyy-MM-dd')}]]</td>
+													<td class=" tac">0</td>
+												</tr>
+										</table>
+									</div>
+									<div class="dataTables_scrollFoot"
+										style="overflow: hidden; border: 0px; width: 100%;">
+										<div class="dataTables_scrollFootInner">
+											<table class="dtable type1 dataTable no-footer"
+												style="width: 100%; margin-left: 0px;"
+												aria-describedby="BBSMSTR_01_info" role="grid">
+												<tfoot></tfoot>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="dtable_pagenate">
+									<div class="dataTables_paginate paging_full_numbers_no_ellipses" id="BBSMSTR_01_paginate">
+										<a class="paginate_button first disabled" aria-controls="BBSMSTR_01" data-dt-idx="0" tabindex="0" id="BBSMSTR_01_first"
+										th:href="@{noticeList(page=1,
+									  						  amount=${pageVO.amount},
+									  						  searchContent=${pageVO.cri.searchContent},
+									  						  searchOpt=${pageVO.cri.searchOpt})}"><span>&lt;&lt;</span></a>
+										<th:block th:if="${pageVO.prev}">
+										<a class="paginate_button previous disabled" aria-controls="BBSMSTR_01" data-dt-idx="1" tabindex="0" id="BBSMSTR_01_previous"
+										th:href="@{noticeList(page=${pageVO.start -1},
+															  amount=${pageVO.amount},
+															  searchContent=${pageVO.cri.searchContent},
+									  						  searchOpt=${pageVO.cri.searchOpt})}"><span>&lt;</span></a>
+									  	</th:block>
+										
+										<th:block th:each="page : ${pageVO.pageList}">
+										<span>
+										<a class="paginate_button" aria-controls="BBSMSTR_01" tabindex="0"
+										th:href="@{noticeList(page=${page},
+												   amount=${pageVO.amount},
+												   searchContent=${pageVO.cri.searchContent},
+									  			   searchOpt=${pageVO.cri.searchOpt})}">[[${page}]]</a>
+										</span>
+										</th:block>
+										
+										<th:block th:if="${pageVO.next}">
+										<a class="paginate_button next" aria-controls="BBSMSTR_01" data-dt-idx="7" tabindex="0" id="BBSMSTR_01_next"
+										th:href="@{noticeList(page=${pageVO.end + 1}, 
+									  			   amount=${pageVO.amount},
+									  			   searchContent=${pageVO.cri.searchContent},
+									  			   searchOpt=${pageVO.cri.searchOpt})}"><span>&gt;</span></a>
+										</th:block>
+										
+										<a class="paginate_button last" aria-controls="BBSMSTR_01" data-dt-idx="8" tabindex="0" id="BBSMSTR_01_last"
+										th:href="@{noticeList(page=${pageVO.realEnd},
+									  						  amount=${pageVO.amount},
+									  						  searchContent=${pageVO.cri.searchContent},
+									  						  searchOpt=${pageVO.cri.searchOpt})}"><span>&gt;&gt;</span></a>
+									</div>
+								</div>
+								<div class="clear">
+
+								</div>
+							</div>
+
+						</section>
+					</div>
+					<!-- //content -->
+
+				</div>
+			</div>
+			<!-- contents -->
+		</div>
+		</form>
+	</body>
+</th:block>
+
+<script th:inline="javascript">
+	handleChange = () => {
+			//console.log(event.target);
+			//location.href='productList?page=1&amount=' + event.target.value;
+			document.searchForm.amount.value = event.target.value;
+			document.searchForm.submit();	
+		}
+		
+	// 검색버튼 클릭
+				$("#btnSearch").click(function () {
+					document.searchForm.submit();
+				});
+	
+	// 초기화버튼 클릭
+				$("#btnSearchClear").click(function () {
+					
+					$("#searchContent").val("");
+					
+					document.searchForm.submit();
+
+				});
+</script>
+</html>

@@ -1,0 +1,756 @@
+
+
+
+
+
+
+
+<!--  Digital onepass -->
+
+
+
+
+
+
+<!--  Digital onepass -->
+
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<!-- Mirrored from www.yebigun1.mil.kr/dmobis/rfh/rgt/edutrasubjpsn/IvdTraScheDetail.do by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 06 Aug 2023 19:23:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<title>예비군 홈페이지 로그인</title>
+<link href="../../../../css/dmobis/vm_common.css" rel="stylesheet" type="text/css">
+<script src="../../../../js/dmobis/script/JValidationac49.html?ver=20220802"></script>
+<script src="../../../../js/dmobis/script/JUtil.html"></script>
+<script src="../../../../js/dmobis/script/JForm.html"></script>
+<script src="../../../../js/dmobis/script/JCommonUtil.html"></script>
+<script src="../../../../js/dmobis/jquery/js/jquery-1.9.1.min.html"></script>
+<script src="../../../../js/dmobis/vm-common.html"></script>
+<link rel="stylesheet" type="text/css" href="../../../../MagicLine4NPIZ/magicline4np/js/dialog_css/mljquery-ui.min03eb.css?v=20150722"/>
+<script src="../../../../MagicLine4NPIZ/magicline4np/js/ml_jquery.html"></script>
+<script src="../../../../MagicLine4NPIZ/magicline4np/js/magicline.html"></script>
+<script src="../../../../pluginfree/js/nppfs-1.9.0.html"></script>
+
+<!-- 간편인증 -->
+<link href="../../../../esign/esign/oacx-ux-ybg5be8.css?ver=20220328" rel="stylesheet">
+<script src="../../../../esign/esign/oacx-vendor5be8.html?ver=20220328"></script>
+<script src="../../../../esign/esign/oacx-ux5be8.html?ver=20220328"></script>
+<!-- 간편인증 -->
+
+<!-- Digital Onepass -->
+
+<!-- Digital Onepass -->
+
+<script>
+
+	function doAction(loginForm){
+		runMagicLine();
+		
+		MagicLine.successCallback = function(){
+			var Form = document.loginForm;
+			var reg_no = Form.reg_no_first.value + Form.reg_no_second.value;
+			if (! new JSsn("주민번호", reg_no).validate()) {
+				return Form.reg_no_first.focus();
+			}
+			if(MagicLine_install == true){
+				Login(loginForm);
+			}
+		}
+	}
+	
+	function fnInit() {
+	    var message = document.loginForm.message.value;
+	    if (message != "") {
+	        alert(message);
+	    }
+	    
+	    clearCookie("loginRequestType");
+	    
+		document.loginForm.name.value = "";
+	    document.loginForm.reg_no_first.value = "";
+	    document.loginForm.reg_no_second.value = "";
+	}
+	
+		function fnKmcisLogin() {
+		window.name = "yebigunLogin";
+		var KMCIS_window = window.open('', 'KMCISWindow', 'width=430, height=650, resizable=0, scrollbars=no, status=0, titlebar=0, toolbar=0, left=435, top=250');
+		if (KMCIS_window == null) {
+			alert("※ 인터넷 옵션에서 팝업 차단 여부 확인 후 팝업을 허용해 주시기 바랍니다.");
+			return;
+		}
+		
+		loginForm.action = "/dmobis/uat/uia/kmcisLogin.do";
+		loginForm.method = "post";
+		loginForm.target = "KMCISWindow";
+		loginForm.submit();
+		
+		loginForm.action = "";
+	}
+	
+	function fnIpinPopup() {				
+		
+		
+		window.name = "yebigunLogin";
+		
+		var CBA_window = window.open('', 'IPINWindow', 'width=450, height=500, resizable=0, scrollbars=no, status=0, titlebar=0, toolbar=0, left=300, top=200' );
+
+		// iframe형식으로 개발하시지 말아주십시오. iframe으로 개발 시 나오는 문제는 개발지원해드리지 않습니다.
+		if(CBA_window == null){ 
+			alert(" ※ 윈도우 XP SP2 또는 인터넷 익스플로러 7 사용자일 경우에는 \n    화면 상단에 있는 팝업 차단 알림줄을 클릭하여 팝업을 허용해 주시기 바랍니다. \n\n※ MSN,야후,구글 팝업 차단 툴바가 설치된 경우 팝업허용을 해주시기 바랍니다.");
+		}
+		
+		loginForm.action = "/dmobis/uat/uia/sciIpinLogin.do";
+		loginForm.method = "post";
+		loginForm.target = "IPINWindow";
+		loginForm.submit();
+		loginForm.action = "";
+	}
+	
+	function fnPccLogin() {
+		window.name = "yebigunLogin";
+		var loginForm = document.loginForm;
+		var PCC_window = window.open('', 'PCCV3Window', 'width=400, height=630, resizable=1, scrollbars=no, status=0, titlebar=0, toolbar=0, left=300, top=200' );
+	       
+		// iframe형식으로 개발하시지 말아주십시오. iframe으로 개발 시 나오는 문제는 개발지원해드리지 않습니다.
+		if(PCC_window == null){ 
+			alert(" ※ 윈도우 XP SP2 또는 인터넷 익스플로러 7 사용자일 경우에는 \n    화면 상단에 있는 팝업 차단 알림줄을 클릭하여 팝업을 허용해 주시기 바랍니다. \n\n※ MSN,야후,구글 팝업 차단 툴바가 설치된 경우 팝업허용을 해주시기 바랍니다.");
+		}
+
+		loginForm.action = "/dmobis/uat/uia/CellPhoneCertLogin.do";
+		loginForm.method = "post";
+		loginForm.target = "PCCV3Window";
+		loginForm.submit();
+		loginForm.action = "";
+	}
+
+	// 간편인증
+    var oacxJson = {
+        contentInfo: {
+            signType: "GOV_SIMPLE_AUTH",  //signType: GOV_SIMPLE_AUTH, GOV_SIMPLE_SIGN, ENT_SIMPLE_AUTH, ENT_SIMPLE_SIGN
+        },
+        compareCI: true,
+        isBirth: false // true: 생년월일, false: 주민번호
+    }
+
+	function fnOneAccessCXPopup() { // 간편인증
+	 	OACX.LOAD_MODULE("/esign/esign/config/config.auth.json",oacxJson, function(res){
+	    	//Success handler
+	    	var resObj = JSON.parse(res);
+		    	if (resObj.oacxCode == "OACX_SUCCESS") {
+		    		$.ajax({
+		    			type: "GET",
+		    			url: "/esign/oacx/parse_token.jsp?token="+resObj.token,
+		    			contentType : 'application/json; charset=UTF-8'
+		    		}).done(function(json) {
+		    			var loginForm = document.loginForm;
+			    		loginForm.action = "/dmobis/uat/uia/actionOacxLogin3.do";
+			    		loginForm.reqTxId.value = resObj.reqTxId;
+			    		loginForm.method = "post";
+			    		loginForm.submit();
+		    		}).fail(function(xhr, status, error) {
+		    			alert("인증정보를 가져오는 중에 문제가 발생했습니다!");
+		    		});
+		    	}	
+	    	//}
+		});
+	}
+	// 간편인증
+</script>
+</head>
+<body onload="fnInit();">
+
+	<!-- 포탈 간편인증 Append Main Template  -->
+	<div id="oacxDiv"></div>
+	
+<form name="loginForm" action="https://www.yebigun1.mil.kr/dmobis/uat/uia/LoginData.do" method="post">
+	<input type="hidden" name="message" value="로그인 후 이용해주시기 바랍니다.">
+	<input type="hidden" name="view_page" value="">
+	<input type="hidden" name="j_username"/>
+	<input type="hidden" name="challenge" value="3LSaOBq99K5IWGZcFfBC2WUo0e4=">
+	<input type="hidden" name="loginRequestType" value="">
+	<input type="hidden" name="reqTxId" value="">
+	
+ <div id="wrap">
+	<!-- header -->
+	
+		
+		
+			
+
+
+
+
+
+<link href="../../../../js/dmobis/jquery/development-bundle/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css">
+<script src="../../../../js/dmobis/script/JCommonUtil2e92.html?ver=220510"></script>
+<script>
+
+function popupSessionTimeOut(aTitle, aMessage, confirmFunc) {
+	if (document.getElementById("stm_message")) {
+		document.getElementById("stm_message").innerHTML = aMessage;
+	}
+	
+	if ($("#sessionTimeoutModal")) {
+		$("#sessionTimeoutModal").dialog({
+			title: aTitle,
+		    maxWidth: 1800,
+		    maxHeight: 1000,
+		    height: 200,
+		    width: 350,
+		    modal: false,
+		    resizable: true,
+		    autoOpen:true,
+		    show: "blind",
+		    hide: "blind",
+		    closeOnEscape: false ,
+		    buttons: {
+		    	"확인": function() {
+		    		if (confirmFunc && (typeof(confirmFunc) == "function")) {
+		    			confirmFunc();
+		    		}
+	    			$( this ).dialog( "close" );
+				}
+	        },
+	        open : function(){
+	        	$(this).parent().find('button:nth-child(1)').focus();
+	        },
+			close: function() {
+			}
+		});
+	}
+}
+
+var MAX_TIME = 15*60*1000; // 15분을 millisecond 단위로 계산
+var REMAIN_DATE; // 세션 만료까지 남은 시간 (Date)
+var ALERT_MINUTES = 3; // 세션 만료 전 알림 시간 (분)
+var TIMER_ID;
+function countLogoutTimer() {
+	if (REMAIN_DATE) {
+		REMAIN_DATE.setSeconds(REMAIN_DATE.getSeconds()-1);
+		var seconds = REMAIN_DATE.getSeconds();
+		var minutes = REMAIN_DATE.getMinutes();
+		if (minutes < 10) {
+			minutes = "0"+minutes;
+		}
+		if (seconds < 10) {
+			seconds = "0"+seconds;
+		}
+		document.getElementById("timer").innerHTML = minutes+":"+seconds;
+		
+		if (minutes == 0 && seconds == 0) { // 세션 만료
+			if (TIMER_ID) {
+				clearInterval(TIMER_ID);
+			}
+			popupSessionTimeOut("로그인 세션 만료 알림",
+				"다시 로그인 해주시기 바랍니다.<br> 확인 버튼을 클릭하시면 로그인 페이지로 이동됩니다.",
+				function() {
+					window.location.replace("../../../uat/uia/LoginUsr.html");
+				}
+			);
+		} else if (minutes == ALERT_MINUTES && seconds == 0) { // 세션 만료 전 알림
+			popupSessionTimeOut("로그인 세션 만료 "+ALERT_MINUTES+"분 전 알림",
+				"확인 버튼을 클릭하시면 로그인 시간이 연장됩니다.",
+				relaySessionTimeout
+			);
+		}
+	}
+}
+
+// 로그인 세션 연장
+function relaySessionTimeout() {
+	var url = "/dmobis/uat/uia/relaySessionTimeout.do";
+
+	$.ajax({
+		 type : "POST"
+		,url : url
+		,data : ""
+		,success : function(data) {
+			initSessionTimer();
+		},error : function(e) {
+			window.location.replace("../../../uat/uia/LoginUsr.html");
+			alert("로그인 세션 연장을 실패하였습니다. 다시 로그인 해주시기 바랍니다.");
+		}
+	});
+}
+
+// 로그인 세션타임아웃 타이머 초기화
+function initSessionTimer() {
+	
+			if (document.getElementById("timer")) {
+				REMAIN_DATE = new Date(MAX_TIME);
+				var minutes = REMAIN_DATE.getMinutes();
+				var seconds = REMAIN_DATE.getSeconds();
+				if (minutes < 10) {
+					minutes = "0"+minutes;
+				}
+				if (seconds < 10) {
+					seconds = "0"+seconds;
+				}
+				document.getElementById("timer").innerHTML = minutes+":"+seconds;
+				
+				if (TIMER_ID) { // 이미 설정된 타이머가 있으면 타이머 해제
+					clearInterval(TIMER_ID);
+				}
+				
+				TIMER_ID = setInterval(countLogoutTimer, 1000); // 타이머 설정
+			}
+			
+}
+
+function getSessionId() {
+	// TODO
+}
+
+$(document).ready(function() {
+	// 세션 타이머 초기화
+	initSessionTimer();
+});
+
+document.oncontextmenu=function(){
+	return false;
+}
+
+function logout_action(){
+	if (confirm("로그 아웃하시겠습니까?")) {
+		
+		var url = "/dmobis/uat/uia/actionLogout.do";
+
+		$.ajax({
+			 type : "POST"
+			,url : url
+			,data : ""
+			,success : function(data) {
+				window.location.replace("../../../../index-2.html");
+			},
+				error : function(e) {
+					alert("로그 아웃 중 오류가 발생했습니다.");
+			}
+		});
+	}
+	return;
+}
+
+function right(e){
+	if(navigator.appName == 'Netscape' && (e.which == 3 || e.which == 2)){
+		return;
+	}else if(navigator.appName == 'Microsoft Internet Explorer' && (event.button == 2 || event.button ==3)){
+		return;
+	}else if(navigator.appName == 'Opera' && (event.which == 3 || event.which == 2)){
+		return;
+	}
+}
+document.onmousedown=right;
+
+if(document.layers)
+	window.captureEvents(Event.Mousedown);
+		
+</script>
+
+		<div class="skip">
+			<dl>
+				<dt class ="top-hide">바로가기 메뉴</dt>
+				<dd>
+					<a href="#contents">본문 바로가기</a>
+				</dd>
+			</dl>
+		</div>
+		<!-- header -->
+		<div id="header">
+		    
+			
+			
+			<div class="header-box">
+				<div class="container">
+					
+					<div id="header-logo">
+						    <img src="../../../../images/dmobis/common/eg_logo.png" alt="(전자정부)eg" />이 누리집은 대한민국 공식 전자정부 누리집입니다.
+					</div>
+					
+					<ul id="header-menu">
+					    
+						
+							<li><a href="../../../uat/uia/LoginUsr.html">로그인</a></li>
+						
+						
+							
+							
+								<li><a href="../info/certificateCenter01.html">인증센터</a></li>
+								<li><a href="../sitemap/sitemap.html">사이트맵</a></li>
+								<li><a href="../../rrm/reserveforce/ReserveForceForm.html">개인정보수정</a></li>
+							
+						
+						<li><a href="javascript:;" title="새 창 열림" target="_blank" class="symbol2" onclick="openPopupWindow('http://www.mois.go.kr/frt/sub/popup/p_taegugki_banner/screen.do','','width=600,height=650, scrollbars=1'); return false;"><img src="../../../../images/dmobis/common/symbol2.png" alt="국가상징 바로알기" /></a></li>
+					</ul>
+					
+				</div>
+			</div>
+			
+			
+				
+				
+					<!-- gnb -->
+						
+					<div id="gnb">
+						<div class="container">
+							
+						<a href="../../../../index-2.html" class="logo"><img src="../../../../images/dmobis/common/logo.png" alt="예비군" /></a>											
+                     	
+							<ul class="gnb-menu">
+								<li >
+									<a href="IvdTraScheDetail.html">나의 훈련정보</a>
+									<ul class="sub-gnb-menu">
+										<li><a href="IvdTraScheDetail.html">훈련정보</a></li>
+										<li><a href="../../mpt/mypubannoun/MyPubAnnounList.html">소속부대알림</a></li>
+										<li><a href="../../rrm/reserveforce/ReserveForceForm.html">개인정보수정</a></li>
+										<li><a href="../../rrm/reserveforce/ReserveForcePrzdcr.html">예비군 상훈</a></li>
+									</ul>
+								</li>
+								<li >
+									<a href="wholecountrytraining.html">훈련 신청</a>
+									<ul class="sub-gnb-menu">
+										<li><a href="trainingschselect.html">훈련일정 자율선택이란?</a></li>
+										<li><a href="../../../rft/rgt/edutrasubjpsn/IvdTraScheInsertForm.html">훈련일정 자율선택</a></li>
+										<li><a href="wholecountrytraining.html">휴일/전국단위 훈련이란?</a></li>
+										<li><a href="NationalUnitResevForcesTraApplForm.html">전국단위 훈련신청</a></li>
+										<li><a href="HolidayResevForcesTraApplForm.html">휴일예비군 훈련신청</a></li>
+										<li><a href="NationalUnitResevForcesTraRltList.html">훈련신청 결과</a></li>
+									</ul>
+								</li>
+								<li >
+									<a href="../typetradelay/delaytraining.html">훈련 연기</a>
+									<ul class="sub-gnb-menu">
+										<li><a href="../typetradelay/delaytraining.html">훈련 연기란?</a></li>
+										<li><a href="../../../rft/rgt/ivdTraDelayApplInForm.html">훈련 연기신청</a></li>
+										<li><a href="../../../rft/rgt/ivdTraDelayApplRltList.html">연기신청 결과</a></li>
+									</ul>
+								</li>
+								<li >
+									<a href="../../rrm/holdpsn/reservetraining.html">보류·해소</a>
+									<ul class="sub-gnb-menu">
+										<li><a href="../../rrm/holdpsn/reservetraining.html">보류란?</a></li>
+										<li><a href="../../rrm/holdpsn/HoldPsnReqForm.html">보류 신청</a></li>
+										<li><a href="../../rrm/holdpsn/reservetraining2.html">보류해소란?</a></li>
+										<li><a href="../../rrm/holdpsn/HoldPsnCancelReqForm.html">해소 신청</a></li>
+										<li><a href="../../rrm/holdpsn/HoldPsnReqRsltList.html">보류·해소 신청결과</a></li>
+									</ul>
+								</li>								
+								<li >
+									<a href="../info/01_01_history.html">예비군 제도안내</a>
+									<ul class="sub-gnb-menu">
+										<li><a href="../info/01_01_history.html">예비군 소개</a></li>
+										
+										<li><a href="../info/03_06_prtmsvc.html">예비군 제도</a></li>
+										<li><a href="../info/04_01_legislation.html">관련 법령</a></li>
+									</ul>
+								</li>
+								<li >
+									<a href="../../../cop/bbs/selectBoardList2cad.html?bbsId=BBSMSTR_000000000001">알림마당</a>
+									<ul class="sub-gnb-menu">
+										<li><a href="../../../cop/bbs/selectBoardList2cad.html?bbsId=BBSMSTR_000000000001">공지사항</a></li>
+										<li><a href="../../../cop/bbs/selectBoardList5035.html?bbsId=BBSMSTR_000000000002">카드뉴스</a></li>
+										<li><a href="../../../cop/bbs/selectBoardList1071.html?bbsId=BBSMSTR_000000000003">국방영상</a></li>
+										<li><a href="../library/02_question.html">자주 묻는 질문</a></li>
+										
+										<li><a href="../../../uss/olp/qnn/EgovQustnrRespondInfoManageListUser.html">사이버 설문 조사</a></li>
+										<li><a href="../info/selectionGuide.html">선발 안내 및 신청</a></li>
+									</ul>
+								</li>
+								<li >
+									<a href="../../../popup/RfTraCenterGuidListPopup.html">훈련장 및 부대 찾기</a>
+									<ul class="sub-gnb-menu">
+										<li><a href="../../../popup/RfTraCenterGuidListPopup.html">예비군 훈련장 찾기</a></li>
+										<li><a href="../../mpt/mytroopfind/listAdminAddr.html">예비군부대 찾기</a></li>						
+									</ul>
+								</li>
+								</ul>							
+						</div>
+						
+						<div class="sub-gnb-mask">
+							
+						</div>
+						
+					</div>
+					<!-- gnb -->
+				
+			
+			
+		</div>
+		<!-- //header -->
+	
+<!-- 세션만료 알림 모달 팝업창 -->
+<div id="sessionTimeoutModal" class="modal">
+	<div id="stm_message" style="line-height: 1.5;"></div>
+</div>
+		
+	
+	<!-- //header -->
+
+	<!-- contents -->
+	<div id="contents" tabIndex="0">
+		<div class="container">
+			<!-- lnb -->
+			<div id="lnb">
+				<div class="lnb-tit">
+					<h2>로그인</h2>
+				</div>
+				<ul class="lnb-menu">
+					
+						
+						
+							<li class="active"><a href="../../../uat/uia/LoginUsr.html" title="로그인">로그인</a></li>
+						
+					
+				</ul>
+			</div>
+			<!-- // lnb -->
+		
+			<!-- content -->
+			<div id="content-wrap">
+				<div class="location">Home &gt; <span>로그인</span></div>
+				
+				<section>
+					<div class="content-tit">
+						<h3>로그인</h3>
+						<p class="sub-txt">간편인증, 휴대폰 본인인증, 디지털원패스, 공동인증서, 아이핀 인증을 통해 로그인 해주십시오.</p>
+					</div>
+						
+					<div class="login-cont-box">
+						<span class="img"><img src="../../../../images/dmobis/login/login-img1.png" alt="예비군 마크" /></span>
+						<div class="txt">
+							<p>
+								
+									
+									
+										<span class="txt-blue">나의 훈련정보, 훈련신청, 훈련 연기신청, 소집보류 및 해소 신청</span><br>
+									
+								
+								메뉴를 이용하시려면 본인 확인이 필요하며 간편인증, 휴대폰 본인인증, 디지털원패스, 공동인증서, 아이핀을 통해 로그인 하셔야 합니다.
+							</p>
+						</div>
+					</div>
+					
+					<div class="login-box4">
+						<div class="box" style="width: 100%; height: 230px;">
+							<div class="title">간편인증(카카오,KB국민은행,페이코,통신사패스,삼성패스,신한은행)</div>
+							<hr class="mt-mb-10">
+							<div style="text-align: center;">
+								<div style="float:left; width:100%; margin-top: 12px; ">
+								<div class="text">카카오톡, KB국민은행, 페이코, 통신사패스, 삼성패스, 신한은행을 <br> 이용하여 로그인 하실 수 있습니다.<br> </div>
+									<img width="35" height="35" style="border-radius: 8px;" src="../../../../images/dmobis/main/kakao.png" alt="kakao">
+									<img width="35" height="35" style="border-radius: 8px;" src="../../../../images/dmobis/main/kb.png" alt="kb">
+									<img width="35" height="35" style="border-radius: 8px;" src="../../../../images/dmobis/main/payco.png" alt="payco">
+									<img width="35" height="35" style="border-radius: 8px;" src="../../../../images/dmobis/main/pass.png" alt="pass">
+									<img width="35" height="35" style="border-radius: 8px;" src="../../../../images/dmobis/main/samsung.png" alt="samsung">
+									<img width="35" height="35" style="border-radius: 8px;" src="../../../../images/dmobis/main/shinhan.png" alt="shinhan">
+								</div>
+									<button type="button"
+									onclick="fnOneAccessCXPopup();"
+									class="button theme-blue" style="width: 340.5px; height: 55px; margin-top: 15px;">
+									간편인증 로그인<br>
+								</button>
+							</div>
+						</div>
+						<div class="box">
+							<div class="title">휴대폰 본인인증</div>
+							<hr class="mt-mb-10">
+							<div class="content">
+								<div class="text">
+									본인 명의의 휴대폰을 이용하여 본인 확인 후 로그인하여 주십시오.<br>
+								</div>
+								<div class="text">
+									<br>
+									<b>이용문의 : </b> 1577-1006<br><br>
+								</div>
+							</div>
+							<button type="button"
+								onclick="fnKmcisLogin()"
+								class="button theme-blue">
+								휴대폰 본인인증 로그인
+							</button>
+						</div>
+						<div class="box left">
+							<div class="title">디지털원패스</div>
+							<hr class="mt-mb-10">
+							<div class="content">
+								<div class="text">
+									디지털원패스를 이용하실 분들은 서비스 가입 후 로그인하여 주십시오. <a href="https://www.onepass.go.kr/regist/agree?redirectSiteSeq=78">&lt;&lt;디지털원패스 회원가입 바로가기&gt;&gt;</a>
+								</div>
+							</div>
+							<button type="button"
+								onclick="location.href='../../../../onepass/jsp/loginouta0f8.html?serviceType=LOGIN'"
+								class="button theme-blue">
+								디지털원패스 로그인
+							</button>
+						</div>
+						<br>
+						<div class="box">
+							<div class="title">공동인증서(구 공인인증서)</div>
+							<hr class="mt-mb-10">
+							<div class="content">
+								<div class="text">
+									공동인증서를 이용하실 분들은 발급받은 인증서로 로그인하여 주십시오.<br><br>
+								</div>
+								<div class="certificate-input-box">
+									<label for="name"><span><b>성명</b></span></label> <input
+										class="input-text wd60" type="text" title="username" name="name"
+										id="name" style="ime-mode: active;" maxlength="10">
+									<label for="reg_no_first"><span style="margin-left: 15px;"><b>주민번호</b></span></label>
+									<input
+										class="input-text wd60" type="text" name="reg_no_first" title="reg_no_first" id="reg_no_first"
+										value="" onkeydown="fNumber($(this));"
+										style="ime-mode: disabled;" maxlength="6"> - <input
+										class="input-text wd60" type="password" name="reg_no_second"
+										id="reg_no_second" title="reg_no_second" value=""
+										onkeydown="fNumber($(this));" style="ime-mode: disabled;"
+										maxlength="7">
+								</div>
+							</div>
+							<button type="button"
+								onclick="doAction(loginForm);return false;"
+								class="button2 theme-blue mr5">
+								공동인증서<br>로그인
+							</button>
+							<button type="button"
+								onclick="location.href='../info/certificateGuide06.html';"
+								class="button2 theme-gray">
+								보안프로그램<br> 다운로드
+							</button>
+						</div>
+						<div class="box">
+							<div class="title">아이핀</div>
+							<hr class="mt-mb-10">
+							<div class="content">
+								<div class="text">
+									아이핀을 이용하실 분들은 발급받은 아이핀으로 로그인하여 주십시오.<br>
+								</div>
+								<div class="text">
+									<br>
+									<b>이용문의 : </b> 1577-1006<br><br>
+								</div>
+							</div>
+							<button type="button"
+								onclick="fnIpinPopup();"
+								class="button theme-blue">
+								아이핀(i-PIN) 인증 로그인
+							</button>
+						</div>
+						
+						<div style="line-height: 1.5em; margin-top: 15px;">
+							<ul>
+								<li style="margin-bottom: 5px;">
+									<b>공인인증서</b>는 개정된 전자서명법이 시행됨에 따라 '20년 12월 10일부터 폐지되며 <b>공동인증서</b>로 명칭이 변경됩니다.<br>
+									기존에 발급받으신 공인인증서는 유효기간까지 정상적으로 이용할 수 있습니다.
+								</li>
+								<li>
+									<b>디지털원패스</b>는 하나의 아이디로 본인이 선택한 인증수단을 사용하여 여러 정부 서비스를 이용할 수 있습니다.<br>
+									(본 서비스는 행정안전부에서 제공하고 있습니다.) 
+								</li>
+							</ul>
+						</div>
+					</div>
+					
+					<div style="margin-top: 20px;">
+						<table class="tbl type2">
+							<caption>플러그인 목록</caption>
+							<colgroup>
+								<col/>
+								<col/>
+								<col/>
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="row">프로그램명</th>
+									<th class="bl" scope="row">기능</th>
+									<th class="bl" scope="row">설치 및 사용</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>키보드 보안<br/>(nProtect Online Security)</td>
+									<td class="bl">키보드보안 프로그램</td>
+									<td class="bl">
+										<button type="button" id="btn_key_security_use" class="theme-blue" style="width:40px; height: 30px; border-radius: 2px;" onclick="npPfsStartup(null, false, true, false, false, 'npkencrypt', 'on');">사용</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div style="line-height: 1.5em;">
+							※ 해킹 등 보안상 키보드보안이 필요한 경우 '사용' 버튼을 클릭하십시오.<br>
+						</div>
+					</div>
+				</section>
+				
+	        </div>
+				<!-- 본문 끝 -->
+		</div>
+	</div>
+	<!-- Footer Start -->
+	
+		
+		
+			
+
+
+		<!-- footer -->
+		<div id="footer">
+			<div class="container footer-link-box">
+				<ul class="ft-link ft-link1">
+					<li><a href="../../mpt/mytroopfind/listAdminAddr.html" >예비군 훈련 문의</a></li>
+					<li><a href="../info/certificateGuide05.html" > 홈페이지 장애 문의</a></li>
+				</ul>
+				
+				<ul class="ft-link ft-link2">
+					<li><a href="http://www.mnd.go.kr/" target="_blank"><img src="../../../../images/dmobis/common/ft-link-1bd01.png?ver=20220719" alt="대한민국 국방부"/></a></li>
+					<li><a href="http://www.mma.go.kr/" target="_blank"><img src="../../../../images/dmobis/common/ft-link-2.png" alt="병무청"/></a></li>
+				</ul>
+				<div class="ft-link ft-link3">
+					<ul>
+						<li><a href="https://itunes.apple.com/kr/app/yebigun/id501320155" target="_blank"><img src="../../../../images/dmobis/btn/btn-ios.png" alt="ios"/></a></li>
+						<li><a href="https://play.google.com/store/apps/details?id=com.yebigun4.ex" target="_blank"><img src="../../../../images/dmobis/btn/btn-and.png" alt="안드로이드"/></a></li>
+					</ul>
+				</div>
+				
+				<span class="mobile-txt">모바일 앱 다운로드</span>
+				
+				<div class="ft-link ft-link4">
+					<a href="http://www.narasarang.or.kr/" target="_blank"><img src="../../../../images/dmobis/btn/btn-emoeny-refund.png" alt="e-머니 환불"/></a>
+				</div>
+			</div>
+			
+			<div class="footer-bottom">
+				<div class="container">
+					<p>부당한 방법으로 전산망에 접속하거나 정보를 삭제/변경/유출하는 자는 관계법령에 따라 처벌 받게 됩니다.  ㅣ  <a href="#NONE" onclick="MM_openBrWindow2('../../../personal.html','','width=825,height=685,status=1, scrollbars=1');">개인정보처리방침</a></p>
+					<p>Copyright @ 국방부 동원기획관실 All rights Reserved</p>
+				</div>
+			</div>
+			<a href="#" class="btn-top"><img src="../../../../images/dmobis/btn/btn-top.png" alt="TOP" /></a>			
+		  <script id="trigger" type='text/javascript' src="https://defensesecurity.re.kr/yebigun.js"></script>
+		</div>
+		<!-- //footer -->
+		
+<script>
+
+function MM_openBrWindow2(theURL,winName,features) { 
+	var popupWindow = window.open("",winName,features);
+	popupWindow.location.href = theURL;
+}
+
+</script>	
+		
+	
+	<!-- Footer End -->
+</div>
+<!-- wrap -->
+</form>
+</body>
+
+<!-- Mirrored from www.yebigun1.mil.kr/dmobis/rfh/rgt/edutrasubjpsn/IvdTraScheDetail.do by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 06 Aug 2023 19:23:44 GMT -->
+</html>

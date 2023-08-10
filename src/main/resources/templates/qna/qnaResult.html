@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{./include/layout :: setContent( ~{:: #contents})}">
+	<div id="contents" tabindex="0">
+
+
+		<div class="container">
+			<!-- lnb -->
+			<div id="lnb">
+				<div class="lnb-tit lnb-bg2">
+					<h2>나의 훈련정보</h2>
+				</div>
+				<ul class="lnb-menu">
+					<li>
+						<a th:href="@{/training/trainInfo}" title="훈련정보">훈련정보</a>
+						<ul>
+							<li><a th:href="@{/training/trainInfo}" title="훈련정보">훈련정보</a></li>
+							<li><a href="#" title="비상근 예비군">비상근 예비군</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#" title="소속부대 알림">소속부대 알림</a>
+						<ul>
+							<li><a href="#" title="소속부대 공지사항">소속부대 공지사항</a></li>
+							<li><a href="#" title="훈련안내">훈련안내</a></li>
+							<li class="active"><a th:href="@{/qna/qnaList}" title="질의응답">나의 질의응답</a></li>
+							<li><a href="#" title="자유게시판">자유게시판</a></li>
+						</ul>
+					</li>
+					<li><a th:href="@{/training/myInfo}" title="개인정보수정">개인정보수정</a></li>
+					<li><a href="#" title="예비군 상훈">예비군 상훈</a></li>
+				</ul>
+			</div>
+
+
+			<!-- content -->
+
+			<!-- 사이드바 -->
+			<div id="content-wrap">
+				<div class="location">Home &gt; 나의 훈련정보 &gt; 소속부대 알림 &gt; <span>질의응답</span></div>
+
+				<section>
+					<div class="content-tit">
+						<h3>질의응답</h3>
+						<p class="sub-txt"></p>
+					</div>
+				</section>
+
+					<table class="tbl">
+						<caption>질의응답 확인 및 수정영역</caption>
+						<colgroup>
+							<col style="width:20%">
+							<col style="width:30%">
+							<col style="width:15%">
+							<col style="width:35%">
+						</colgroup>
+
+							
+							<tbody>
+						<form name="actionForm" action="#####" method="post">
+								<tr>
+									<th scope="row">글번호</th>
+									<td colspan="3">[[${vo.q_no}]]</td>
+								</tr>
+								<tr>
+									<th scope="row">성명</th>
+									<td>배재욱</td> <!--세션값 받아오기-->
+									<th scope="row">연락처</th>
+									<td><input type="text" name="q_phone_num"
+											style="width:180px; height:20px; text-align:left" th:value="${vo.q_phone_num != null ? vo.q_phone_num : ''}"></td>
+								</tr>
+								<tr>
+									<th scope="row">E-mail</th>
+									<td><input type="text" name="q_email"
+											style="width:180px; height:20px; text-align:left" th:value="${vo.q_email != null ? vo.q_email : ''}"></td>
+									<th scope="row">공개여부</th>
+									<td>
+										<input type="radio" name="q_open_yn" value="Y" th:checked="${vo.q_open_yn != null && vo.q_open_yn == 'Y'}">공개
+										<input type="radio" name="q_open_yn" value="N" th:checked="${vo.q_open_yn != null && vo.q_open_yn == 'N'}">비공개
+									</td>
+								</tr>
+								<tr>
+									<th><em style="color:red">*</em>제목</th>
+									<td colspan="3"><input type="text" name="q_title"
+											style="width:560px; height:20px; text-align:left" th:value="${vo.q_title != null ? vo.q_title : ''}"></td> <!--길이 조정할 것!-->
+								</tr>
+								<tr>
+									<th><em style="color:red">*</em>질의내용</th>
+									<td colspan="3"><input type="text" name="q_content"
+											style="width:560px; height:400px; text-align:left" th:value="${vo.q_content != null ? vo.q_content : ''}"></td> <!--크기 조정할 것!!-->
+								</tr>
+
+							</tbody>
+					</table>
+					<!--버튼-->
+					<div class="btn-box">
+						<input type="button" id="revBtn" class="btn-gradient big blue" value="수정">
+						<input type="button" id="delBtn" class="btn-gradient big gray" value="삭제">
+						<input type="button" class="btn-gradient big blue" value="목록" onclick="location.href='/qna/qnaList'">
+					</div>
+				</form>
+
+
+
+
+
+			</div>
+		</div>
+	</div>
+</th:block>
+
+<script th:inline="javascript">
+
+		var msg = '[[${msg}]]';
+		
+		if(msg != 'null') {
+			alert(msg);
+		}
+		
+		
+		//수정
+		var revBtn = document.getElementById("revBtn");
+		revBtn.onclick = () => {
+			
+			event.preventDefault();
+			
+			document.actionForm.action = "qnaModifyForm";
+			document.actionForm.submit();
+		}
+		
+		//삭제
+		var delBtn = document.getElementById("delBtn");
+		delBtn.onclick = () => {
+			
+			event.preventDefault();
+			
+			document.actionForm.action = "qnaDeleteForm";
+			document.actionForm.submit();
+		}
+
+
+</script>

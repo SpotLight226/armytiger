@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.army.armytiger.training.service.TrainingMapper">
+	
+	<select id="getmyInfo" resultType="MemberVO">
+		select * from MEMBERS where military_sn = #{military_sn};
+	</select>
+
+	<!-- 2023이전 -->
+	<select id="gettrainingInfo" resultType="TrainingInfoVO">
+		select *
+		from TRAININGINFO
+		where military_sn = #{military_sn}
+		and p_regdate not like '%2023%'
+		order by p_regdate desc;
+	</select>
+
+	<!-- 2023년 -->
+	<select id="gettrainingInfo2" resultType="TrainingInfoVO">
+		select *
+		from TRAININGINFO
+		where military_sn = #{military_sn}
+		and p_regdate like '%2023%'
+		order by p_regdate DESC;
+	</select>
+
+	<update id="myinfoUpdate" parameterType="MemberVO">
+		
+		update members
+		set bank = #{bank},
+			account_no = #{account_no},
+			phone_num = #{phone_num},
+			email = #{email},
+			receipt_yn = #{receipt_yn},
+			contact_yn = #{contact_yn}
+		 where military_sn = #{military_sn}
+		
+		
+	</update>
+
+
+</mapper>

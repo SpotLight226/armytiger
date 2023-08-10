@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.army.armytiger.notice.service.NoticeMapper2">
+  
+  <insert id="regNotice" parameterType="NoticeVO">
+  	insert into notice(notice_title,
+  					   notice_writer,
+  					   notice_content)
+  				values(#{notice_title},
+  					   #{notice_writer},
+  					   #{notice_content})
+  </insert>
+  <select id="getList" resultType="NoticeVO">
+  	select notice_no, 
+  		   notice_writer, 
+  		   notice_title, 
+  		   date_format(notice_regdate, '%Y-%m-%d') as notice_regdate, 
+  		   notice_content,
+  		   notice_views
+  	from notice 
+  	<if test="cri.searchOpt == 'title' and cri.searchContent != '' and cri.searchContent != null">
+	where notice_title like concat('%', #{cri.searchContent},'%')
+	</if>
+	<if test="cri.searchOpt == 'content' and cri.searchContent != '' and cri.searchContent != null">
+	and notice_content like concat('%', #{cri.searchContent}, '%')
+	</if>
+  	limit #{cri.pageStart}, #{cri.amount}
+  </select>
+  
+  <select id="getContent" resultType="NoticeVO">
+  	select n.*, filename, filesize, notice_views
+	from notice n
+	left join upload u on n.notice_no = u.notice_no
+	where n.notice_no = #{notice_no};
+  </select>
+  
+  <update id="updateNotice">
+  	update notice set notice_title = #{notice_title},
+  			   notice_content = #{notice_content}
+  	where notice_no = #{notice_no} 
+  </update>
+  
+  <delete id="deleteNotice">
+  	delete from notice where notice_no = #{notice_no}
+  </delete>
+  
+  <select id="getTotal" resultType="int">
+  		select count(*) as total
+  		from notice 
+  		where notice_writer = #{writer}
+  		<if test="cri.searchOpt == 'title' and cri.searchContent != '' and cri.searchContent != null">
+		and notice_title like concat('%', #{cri.searchContent},'%')
+		</if>
+		<if test="cri.searchOpt == 'content' and cri.searchContent != '' and cri.searchContent != null">
+		and notice_content like concat('%', #{cri.searchContent}, '%')
+		</if>
+  </select>
+  
+  <insert id="noticeFileRegist">
+  	<selectKey order="BEFORE" keyProperty="notice_no" resultType="int">
+  		select max(notice_no) as notice_no from notice
+  	</selectKey>
+  	
+  	insert into upload(filename,
+  					   filepath,
+  					   uuid,
+  					   filesize,
+  					   notice_no
+  					   )
+  		   values(#{filename},
+  		 		  #{filepath},
+  		 		  #{uuid},
+  		 		  #{filesize},
+  		 		  #{notice_no}  
+  		   		  )
+  </insert>
+  
+  <update id="getCount">
+  	update notice set notice_views = (notice_views + 1) where notice_no = #{notice_no}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  </mapper>

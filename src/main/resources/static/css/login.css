@@ -1,0 +1,135 @@
+.titlebox  {
+  width: 250px;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  margin: 70px auto;
+  border-top: 1px solid #e1e1e1;
+  border-bottom: 1px solid #e1e1e1;
+}
+.loginWrap {
+  margin: 0 auto;
+  width: 340px;
+}
+.inputText {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 6px 9px 7px;
+  margin-top: 10px;
+  color: #000;
+  font-size: 14px;
+  line-height: 21px;
+  background: none;
+  border: 1px solid #ccc;
+  outline: 0;
+}
+.loginBtn {
+  width: 100%;
+  margin-top: 17px;
+  height: 45px;
+  background-color: #303242;
+  color: #fff;
+  border-color: #303242;
+  border: none;
+  cursor: pointer;
+}
+.apiBtn {
+  width: 100%;
+  height: 45px;
+  background-color: #303242;
+  color: #fff;
+  border-color: #303242;
+  border: none;
+  cursor: pointer;
+}
+.kakaoBtn {
+  background: url(/img/kakao_login_medium_wide.png) no-repeat #FEE500;
+  background-position: center;
+}
+.findInfo {
+  margin-top: 17px;
+  padding: 17px 0;
+  border-top: 1px solid #dfe5ed;
+}
+
+.findInfo ul {
+  list-style: none;
+  overflow: hidden;
+}
+.findInfo ul .left {
+  float: left;
+
+}
+.findInfo ul .right {
+  float: right;
+}
+
+/* 회원가입 */
+.w100p {width:100% }
+
+.box_inner {width:850px; margin:0 auto;}
+.bodytext_area {box-sizing:border-box; padding:55px 50px 0;}
+
+.appForm input[type=checkbox].css-checkbox {
+	overflow: hidden;
+	position:
+	absolute; left:-1000px;
+	width:1px;
+	height:1px;
+}
+.appForm input[type=radio].css-checkbox {
+	overflow: hidden;
+	position:
+	absolute; left:-1000px;
+	width:1px;
+	height:1px;
+}
+
+.appForm input[type=checkbox].css-checkbox + label {
+	display:inline-block; height:20px; padding-left:30px !important; line-height:20px !important; background:url(../img/bg_checkbox.png) no-repeat 0 0; background-size:20px; cursor:pointer; vertical-align:middle; font-size:15px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+.appForm input[type=radio].css-checkbox + label {
+	display:inline-block; height:20px; padding-left:30px !important; line-height:20px !important; background:url(../img/bg_checkbox.png) no-repeat 0 0; background-size:20px; cursor:pointer; vertical-align:middle; font-size:15px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+
+.appForm input[type=checkbox].css-checkbox:checked + label {
+	background-position:0 -20px;
+}
+.appForm input[type=radio].css-checkbox:checked + label {
+	background-position:0 -20px;
+}
+.appForm input {-webkit-appearance:none; box-sizing:border-box; display:inline-block; height:45px; padding:0 10px; border:1px solid #ccc; background-color:#fff;  line-height:normal; font-size:15px;}
+
+.appForm .select_common {display:inline-block; box-sizing:border-box; position:relative; width:158px; height:35px; overflow:hidden; border:1px solid #ccc; background:url(../img/ico_selectArr.png) no-repeat 100% 50%;}
+.appForm .select_common select {display:inline-block; width:185px; height:29px; padding:0 10px; border:none; background:none; font-size:15px;}
+
+.appForm {margin:40px auto 0;}
+.appForm .info_pilsoo {position:relative; padding-left:20px; padding-bottom:10px; border-bottom:2px solid #000; font-size:15px; color:#f00;}
+.appForm .pilsoo_item:before {content:"*"; display:inline-block; position:absolute; left:5px; top:3px; width:15px; font-weight:bold; font-size:17px; color:#f00;}
+.appForm .app_list {padding:10px 0;}
+.appForm .app_list li {padding:8px 0; overflow: hidden;}
+.appForm .app_list li .tit_lbl {position:relative; float:left; width:150px; box-sizing:border-box; padding-left:20px; line-height:42px; font-weight:bold; font-size:17px; letter-spacing: -2px;}
+.appForm .app_list li .app_content {float:right; width:570px;}
+.appForm .app_list li .app_content * {vertical-align:top;}
+.appForm .app_list li .app_content.email_area .ico_space {display: inline-block; padding-top:10px;}
+.appForm .app_list li .app_content.radio_area {height:45px; box-sizing:border-box; padding-top:12px;}
+.appForm .app_list li .app_content.checkbox_area {height:45px; box-sizing:border-box; padding-top:12px;}
+.appForm .app_list li .app_content label {vertical-align:middle;}
+.appForm .app_list li .select_common {width:160px; height:45px; background-position:100% 50%; border:1px solid #ccc;}
+.appForm .app_list li .select_common select {width:200px; height:43px;}
+.appForm .app_list li textarea {height:245px;}
+
+.appForm .app_list li .app_content .left {float: left; width: 50%; box-sizing: border-box; margin: 0;}
+

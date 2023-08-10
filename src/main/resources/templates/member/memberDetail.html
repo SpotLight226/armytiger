@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="~{./include/adminLayout :: setContent( ~{:: #content})}">
+    <div id="content" class="wrap">
+        <div class="warp_inner">
+            <!-- left_menu end -->
+            <div class="right_content">
+                <div class="midiaq">
+                    <div class="page_title">예비군 관리 > <span class="page_subtitle">예비군 상세 / 수정</span></div>
+
+                    <form name="actionForm" action="####" method="post">
+                        <div class="full_collum collum">
+                            <ul>
+                                <li class="collum_tit">
+                                    <h2>예비군 상세 / 수정</h2>
+                                    <a href="memberList">목록</a>
+                                    <span class="showtoggle minus"></span>
+                                    <ul>
+                                        <li>
+                                            <table class="board_basic_view">
+                                                <tbody>
+                                                <tr>
+                                                    <th>군번</th>
+                                                    <td><input type="text" name="military_sn" th:value="${vo.military_sn}" readonly></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>이름</th>
+                                                    <td><input type="text" name="name" th:value="${vo.name}" readonly></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>부대</th>
+                                                    <td><input type="text" name="unit" th:value="${vo.unit}" required /></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">상세 소속</th>
+                                                    <td><input class="inputw99p margin_center" type="text"
+                                                               name="affiliation" th:value="${vo.affiliation}" required>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>연차</th>
+                                                    <td><input type="text" name="m_history" th:value="${vo.m_history}" readonly></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>계급</th>
+                                                    <td colspan="3"><select name="m_rank" class="">
+                                                        <option th:each="rank : ${T(com.army.armytiger.enums.Rank).values()}"
+                                                                th:value="${rank.getLabel()}"
+                                                                th:text="${rank.getLabel()}"
+                                                                th:selected="${vo.m_rank == rank.getLabel()}">
+                                                    </select>
+
+                                                </tr>
+                                                <tr>
+                                                    <th>군별</th>
+                                                    <td colspan="3"><input type="text" class="inputw150" name="m_kind"
+                                                                           th:value="${vo.m_kind}" required readonly></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>동원 여부</th>
+                                                    <td colspan="3">
+                                                        <select name="m_yesno" >
+                                                            <option value="y" th:selected="${vo.m_yesno == 'y'}">지정</option>
+                                                            <option value="n">미지정</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>등급</th>
+                                                    <td colspan="3">
+                                                        <select name="grade">
+                                                            <option value="user" th:selected="${vo.grade == 'USER'}">예비군</option>
+                                                            <option value="user" th:selected="${vo.grade == 'ADMIN'}">관리자</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <th>비고</th>
+                                                    <td colspan="5">
+                                                        <div><textarea class="inputw99p" name="m_other"
+                                                                       style="height: 200px;" th:value="${vo.m_other}" ></textarea>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                            <div class="btn_area">
+                                                <a href="memberList" class="revise">목록</a>
+                                            </div>
+
+                                        </li>
+                                    </ul>
+                                </li>
+
+
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<!-- 자바 스크립트 -->
+<script>
+    // 수정 기능
+    let modifyBtn = document.getElementById("modifyBtn");
+    modifyBtn.onclick = () => {
+        // 이벤트가 a에 걸려있음
+        event.preventDefault(); // 기본 이벤트 막음
+
+        document.actionForm.action = "modifyForm"; // actionForm 의 action 을 modifyForm 으로 변경
+        document.actionForm.submit(); // 서브밋
+    }
+
+    // 삭제 기능
+    let deleteBtn = document.getElementById("deleteBtn");
+    deleteBtn.onclick = () => {
+
+        event.preventDefault();
+
+        document.actionForm.action = "deleteForm";
+        document.actionForm.submit();
+    }
+</script>
+</html>

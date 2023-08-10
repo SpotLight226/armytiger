@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{./include/layout :: setContent( ~{:: #contents})}">
+	<div id="contents" tabindex="0">
+
+
+		<div class="container">
+			<!-- lnb -->
+			<div id="lnb">
+				<div class="lnb-tit lnb-bg2">
+					<h2>훈련 신청</h2>
+				</div>
+				<ul class="lnb-menu">
+					<li><a href="#" title="자율선택이란">훈련일정 자율선택이란?</a></li>
+					<li><a href="#" title="훈련일정자율선택">훈련일정 자율선택</a></li>
+					<li><a href="#" title="전국단위훈련이란">휴일 및 전국단위 훈련이란?</a></li>
+					<li><a th:href="@{/receipt/receiptView}" title="전국단위훈련신청">전국단위 훈련신청</a></li>
+					<li><a href="#" title="휴일훈련신청">휴일예비군 훈련신청</a></li>
+					<li><a th:href="@{/receipt/receiptResult}" title="훈련신청결과">훈련신청 결과</a></li>
+				</ul>
+			</div>
+
+
+			<!-- content -->
+
+			<!-- 사이드바 -->
+			<div id="content-wrap">
+				<div class="location">Home &gt; 훈련 신청 &gt; <span>전국단위 훈련신청</span></div>
+
+				<section>
+					<div class="content-tit">
+						<h3>전국단위 훈련신청</h3>
+						<p class="sub-txt"></p>
+					</div>
+				</section>
+
+				<section>
+					<table class="tbl">
+						<tbody>
+							<tr>
+								<th scope="row">검색기간</th>
+								<td>
+									<input type="text" class="datepicker" name="t_startdate" readonly placeholder="날짜선택"
+										required pattern="\d{4}-\d{2}-\d{2}">
+									~ <input type="text" class="datepicker" name="t_enddate" readonly placeholder="날짜선택"
+										required pattern="\d{4}-\d{2}-\d{2}">
+								</td>
+							</tr>
+							<tr>								
+								<th>지역검색</th>
+								<td>
+									<select style="width:50ps">
+										<option>서울특별시</option>
+										<option>인천광역시</option>
+										<option>대전광역시</option>
+										<option>대구광역시</option>
+										<option>부산광역시</option>
+										<option>울산광역시</option>
+										<option>광주광역시</option>
+										<option>경기도</option>
+										<option>강원도</option>
+										<option>충청북도</option>
+										<option>충청남도</option>
+										<option>경상북도</option>
+										<option>경상남도</option>
+										<option>전라북도</option>
+										<option>전라남도</option>
+									</select>
+								</td>
+								<td>									
+									<input type="button" class="btn-gradient normal blue" value="검색">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+
+
+				<section>
+					<table class="tbl" align="center">
+						<caption>질의응답 목록</caption>
+						<colgroup>
+							<col style="width:20%">
+							<col style="width:30%">
+							<col style="width:15%">
+							<col style="width:35%">
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">번호</th>
+								<th scope="row">훈련장</th>
+								<th scope="row">시작일자</th>
+								<th scope="row">종료일자</th>
+								<th scope="row">구분</th>
+								<th scope="row">계획</th>
+								<th scope="row">신청</th>								
+							</tr>
+							<!--반복 돌린다 -->
+							<tr th:each="vo, status : ${list}">
+								<td align="center">[[${vo.t_no}]]</td>
+								<td align="center">[[${vo.g_name}]]</td>
+								<td align="center">[[${vo.t_startdate}]]</td>
+								<td align="center">[[${vo.t_startdate}]]</td>
+								<td align="center">[[${vo.t_name}]]</td>
+								<td align="center">[[${vo.t_time}]]</td>
+								<td align="center"><a href="../training/trainInfo" id="recBtn">신청</a></td>								
+							</tr>
+
+						</tbody>
+					</table>
+				</section>
+			</div>
+			<!-- //content -->
+		</div>
+
+	</div>
+</th:block>
+
+<script th:inline="javascript">
+	
+	var recBtn = document.getElementById("recBtn");
+	recBtn.onclick = () => {
+		alert("신청이 완료되었습니다");
+	}
+	
+</script>

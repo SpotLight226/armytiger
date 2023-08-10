@@ -1,0 +1,96 @@
+$(function(){
+	$.extend( $.fn.dataTable.defaults, {
+		"dom"			: 'R<"top"ilf>rt<"dtable_pagenate"p><"clear">',
+		"pagingType": "full_numbers_no_ellipses", // 페이징 처음, 마지막 버튼 추가		
+		"autoWidth" 	: false,
+		"processing"	: false,
+		"searching"     : false,
+		"serverSide"	: true,
+		"scrollX"		: false,
+		"scrollX"		: "100%",
+		"destroy"		: true,
+		"preDrawCallback" : function(settings){
+			// columns 에서 정렬 class를 추가 할 경우 th, td, 모두 적용이 되어 th에 class를 가운데 정렬 빼고 삭제함
+			$("th").removeClass("tal");
+			$("th").removeClass("tar");
+		},
+		"fnInitComplete" : function(settings){
+			
+		},			
+		"language": {      
+			"info"			: "",
+			"infoEmpty"		: "",
+			"emptyTable"	: "검색된 데이터가 없습니다.",
+			"lengthMenu"	: '', 
+			"search"		: "검색 :",
+			"zeroRecords"	: "조회된 데이타가 없습니다.",            
+			"paginate"		: {
+								"first": "<span>&lt;&lt;</span>",
+								"last": "<span>&gt;&gt;</span>",
+								"previous": "<span>&lt;</span>",
+								"next": "<span>&gt;</span>"
+							  }
+		}		
+	});
+	
+	$(document).on('draw.dt', function(e, settings){
+		var api = new $.fn.dataTable.Api(settings);
+		var tableId = $(api.table().node()).attr("id");
+				
+		$("#" + tableId +" tbody tr td, #" + tableId +" tbody tr td a").on("mouseover", function(){
+			var sTitle;
+			sTitle = $(this).text();
+			this.setAttribute('title', sTitle);
+			this.setAttribute('alt', sTitle);
+		});
+		
+		if(tableId != "RfTraCenterGuidList"){
+			$("#" + tableId +" tbody tr").hover(
+					function() {
+						$(this).css("background","rgb(230, 230, 230)");
+						$(this).css("cursor","pointer");
+					},
+					function() {
+						$(this).css("background","");
+					}
+				);			
+		}
+	});
+	
+	$.fn.DataTable.ext.pager.full_numbers_no_ellipses = function(page, pages){
+		var numbers = [];
+		var buttons = $.fn.DataTable.ext.pager.numbers_length;
+		var half = Math.floor(buttons / 2);
+		var _range = function(len,start){
+			var end;
+			if(typeof start === "undefined"){
+				start = 0;
+				end = len;
+			}else{
+				end = start;
+				start = len;
+			}
+			
+			var out = [];
+			for(var i=start;i<end;i++){
+				out.push(i);
+			}
+			return out;
+		};
+		
+		if(pages <= buttons){
+			numbers = _range(0,pages);
+		}else if(page<=half){
+			numbers = _range(0,buttons);
+		}else if(page >= pages - 1 - half){
+			numbers = _range(pages - buttons, pages)
+		}else{
+			numbers = _range(page - half, page + half + 1);
+		}
+		
+		numbers.DT_el = 'span';
+		
+		return ['first', 'previous', numbers, 'next', 'last'];
+	};	
+	
+});

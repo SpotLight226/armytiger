@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.army.armytiger.qna.service.QMapper">
+
+	<!-- 질문등록 -->
+	<insert id="qnaRegist" parameterType="QnaVO"> 
+
+		<!-- insert구문 --> 
+		insert into qna(q_writer,
+						q_phone_num,
+						q_email,
+						q_open_yn, 
+						q_title,
+						q_content)
+			   values(#{q_writer},
+			   		  #{q_phone_num},
+			   		  #{q_email}, 
+					  #{q_open_yn},
+					  #{q_title},
+					  #{q_content})
+	</insert>
+
+	<!-- 목록처리 -->
+	<select id="abc" resultType="QnaVO">
+		SELECT * FROM QNA
+	</select>
+	
+	<!-- 상세화면 -->
+	<select id="getQnaDetail" resultType="QnaVO">
+		select * from qna where q_no = #{q_no}
+	</select>
+	
+	
+</mapper>

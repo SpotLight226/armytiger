@@ -1,0 +1,222 @@
+@charset "utf-8";
+
+/* Card News */
+#box_wrap_cardnews {
+	display: inline-block;
+	width: 100%;
+	background: #eaeaea;
+}
+#box_cardnews {
+	position: relative;
+	width: auto;
+	max-width: 1200px;
+	height: 400px;
+	margin: 25px auto 0;
+}
+#box_cardnews .box_container {
+	text-align: center;
+}
+#box_cardnews .group_card01 > a {
+	display: block;
+	text-align: center;
+	color: #232323;
+	padding: 4px 13px 7px 13px;
+	font-weight: bold;
+	font-size: 1.15em;
+}
+#box_cardnews .group_card01 a.bg_blue {
+	background: url('../images/common/bg_card_tap.html') center center;
+	color: #fff;
+}
+#box_cardnews .group_card01 a.current {
+	color: #fff;
+}
+#box_cardnews h4 {
+	overflow: hidden;
+	width: 90%;
+	height: auto;
+	white-space:nowrap;
+	text-overflow:ellipsis; 
+	text-align: left;
+}
+#box_cardnews .group_card01 {
+	display: inline-block;
+}
+#box_cardnews .group_card01 > div {
+	position: absolute;
+	width: 100%;
+	left: 0;
+	top: 55px;
+	border-left: 1px solid #d2d2d2;
+}
+#box_cardnews .box_card {
+	float: left;
+	width: 24.8%;
+    height: 100%;
+	border-right: 1px solid #d2d2d2;
+	border-top: 1px solid #d2d2d2;
+	background: #fff;
+}
+#box_cardnews .box_card img {
+	width: 100%;
+	max-width: 100%;
+	height: 169px;
+	overflow: hidden;
+}
+#box_cardnews .box_card > div {
+	padding: 19px;
+}
+#box_cardnews figure {
+	text-align: center;
+	overflow: hidden;
+}
+#box_cardnews h4 {
+	font-weight: 600;
+	margin-top: 10px;
+	font-size: 1em;
+}
+#box_cardnews h4 a {
+	color: #434343;
+}
+#box_cardnews p.date {
+	padding-left: 15px;
+	margin-top: 5px;
+	background: url('../images/common/icon_time.html') left center no-repeat;
+	font-size: 0.9em;
+	color: #888;
+}
+#box_cardnews .btn_more {
+	position: absolute;
+	left: -1px;
+	bottom: -41px;
+	width: 99.45%;
+	height: 40px;
+	text-align: center;
+	line-height: 37px;
+	font-weight: 600;
+	color: #404040;
+	background: #fff;
+	border: 1px solid #d2d2d2;
+}
+#box_cardnews .btn_more span {
+	display: inline-block;
+	width: 7px;
+	height: 10px;
+	margin-left: 5px;
+	background: url('../images/common/bg_more.html') left center no-repeat;
+}
+#box_cardnews .box_more {
+	width: 99.95%;
+	height: 40px;
+	background: #fff;
+	line-height: 37px;
+	border: 1px solid #d2d2d2;
+	border-top: 0px;
+}
+
+/* Card News sty02 */
+#box_wrap_cardnews2 {
+	display: inline-block;
+	width: 980px;
+}
+.card_list {
+	max-width: 1200px;
+	margin: 20px auto;
+	overflow: hidden;
+}
+.card_list > li {
+	float: left;
+	position: relative;
+	border-width: 1px 1px 1px 0;
+	border-style: solid;
+	border-color: #d2d2d2;
+	background-color: #fff;
+	padding: 1.4%;
+	width: 33.3%;
+}
+.card_list > li.first {
+	border-left: 1px solid #d2d2d2;
+}
+.card_list > li > h4 {
+	display: inline-block;
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	background-color: #da5504;
+	height: 30px;
+	line-height: 30px;
+	padding: 0 10px;
+	font-weight: bold;
+	font-size: 0.85em
+}
+.card_list > li > h4:before {
+	content: " ";
+	display: block;
+	background: url('../../../images/dmobis/main/bg_card_title_top.png') right top;
+	width: 10px;
+	height: 10px;
+	position: absolute;
+	right: -10px;
+}
+.card_list > li > h4:after {
+	content: " ";
+	display: block;
+	background: url('../../../images/dmobis/main/bg_card_title_under.png') left bottom;
+	width: 10px;
+	height: 10px;
+	position: absolute;
+	left: 0;
+}
+.card_list > li > a {
+	display: block;
+}
+.box_card > figure {
+	text-align: center;
+	overflow: hidden;
+}
+.box_card > figure > img {
+	width: 295px;
+	height: 180px;
+	max-width: 100%;
+	overflow: hidden;
+}
+.m_card_cate {
+	display: none;
+	text-align: center;
+	margin-top: 20px;
+}
+.m_card_cate > li {
+	display: inline-block;
+	margin: 0 2px;
+}
+.m_card_cate > li > h4 {
+	background-color: #06798e;
+	height: 30px;
+	line-height: 30px;
+	padding: 0 10px;
+	font-weight: bold;
+	font-size: 0.85em
+}
+.m_card_cate > li > h4.on {
+	background: url('../images/common/bg_card_tap2.html') center center;
+}
+.card_list > li > h4 > a,
+.card_list > li > h4 > a:hover,
+.m_card_cate > li > h4 > a,
+.m_card_cate > li > h4 > a:hover,
+.m_card_cate > li > h4 > a:focus {
+	color: #fff;
+}
+.card_list .card_title {
+	color: #434343;
+	font-weight: bold;
+	height: 23px;
+	overflow: hidden;
+	padding-top: 5px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.card_list .box_card > figure > a > img{
+	width: 100%;
+	height: 100%;
+}

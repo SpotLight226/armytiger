@@ -1,0 +1,62 @@
+/* z-index: modal:50, sidenav:30 */
+@media (max-width:767px){
+  #basicModal{
+      display: none;
+  }
+}
+#basicModal.modal-overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: none;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.5);
+  /* backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px); */
+}
+
+#basicModal .modal-content{
+  position: relative;
+  top: 20%;
+  left: 0;
+  margin: 0 auto;
+  width: 700px;
+  min-height: 500px;
+  background-color: white;
+  box-shadow: 0px 8px 32px rgba(11,19,30,.37);
+  padding: 10px 20px;
+}
+#basicModal .title{
+  font-size: 16pt;
+  font-weight: 1000;
+  color: #333;
+  text-align: center;
+}
+
+#basicModal .content{
+  border-top: 1px solid #bebebe;
+  margin-top: 16px;
+}
+
+#basicModal .sub-form {
+  margin-top: 16px;
+  font-size: 1.0rem;
+  color: grey;
+}
+
+#basicModal .bottom {
+  margin-top: 10px;
+  font-weight: bold;
+  float: right;
+
+}
+#basicModal .modalOff {
+  display: inline;
+  float: right;
+  padding-right: 10px;
+  cursor: pointer;
+  text-shadow: 1px 1px 2px gray;
+  color: #000;
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.army.armytiger.admin.service.AdminMapper">
+
+    <insert id="registForm" parameterType="trainingVO">
+        INSERT INTO TRAINING(G_NO,
+                             T_NAME,
+                             T_STARTDATE,
+                             T_ENDDATE,
+                             T_TIME,
+                             T_OTHER)
+        VALUES(#{g_no},
+               #{t_name},
+               STR_TO_DATE(#{t_startdate}, '%Y-%m-%d'),
+               STR_TO_DATE(#{t_enddate}, '%Y-%m-%d'),
+               #{t_time},
+               #{t_other}
+              )
+    </insert>
+
+    <select id="getList" resultType="trainingVO">
+        SELECT T_NO, G_NO, T_NAME,
+               DATE_FORMAT(T_STARTDATE, '%Y-%m-%d') AS T_STARTDATE,
+               DATE_FORMAT(T_ENDDATE, '%Y-%m-%d') AS T_ENDDATE,
+               T_TIME, T_OTHER
+        FROM training
+        ORDER BY T_NO DESC
+        LIMIT #{pageStart}, #{amount};
+    </select>
+
+    <select id="getTotal" resultType="int">
+        SELECT COUNT(*) AS total FROM TRAINING
+    </select>
+
+    <select id="getDetail" resultType="trainingVO">
+        SELECT a.T_NO, a.G_NO, a.T_NAME,
+               DATE_FORMAT(T_STARTDATE, '%Y-%m-%d') AS T_STARTDATE,
+               DATE_FORMAT(T_ENDDATE, '%Y-%m-%d') AS T_ENDDATE,
+               a.T_TIME, a.T_OTHER,
+               b.g_img, b.g_name
+        FROM training a
+                 LEFT JOIN (SELECT g_no, g_img, g_name FROM ground) b
+                           ON a.g_no = b.g_no
+        WHERE a.t_no = #{t_no};
+    </select>
+
+    <update id="modifyForm" parameterType="trainingVO">
+        UPDATE training
+        SET G_NO = #{g_no},
+            T_NAME = #{t_name},
+            t_startdate = STR_TO_DATE(#{t_startdate}, '%Y-%m-%d'),
+            t_enddate = STR_TO_DATE(#{t_enddate}, '%Y-%m-%d'),
+            t_time = #{t_time},
+            t_other = #{t_other}
+        WHERE t_no = #{t_no}
+    </update>
+
+    <delete id="deleteForm" parameterType="trainingVO">
+        DELETE FROM training
+        WHERE t_no = #{t_no}
+    </delete>
+</mapper>

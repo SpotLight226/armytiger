@@ -1,0 +1,308 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>연습용</title>
+
+	<meta charset="UTF-8" />
+	<meta charset="EUC-KR" />
+
+    <!--공통 -->
+	<link rel="stylesheet" type="text/css" href="../css/index.css" />
+	<link rel="stylesheet" type="text/css" href="../css/footer.css" />
+	<link rel="stylesheet" type="text/css" href="../css/main.css" />
+	<link rel="stylesheet" type="text/css" href="../css/loading.css" />  
+	<link rel="stylesheet" type="text/css" href="../css/jquery-ui.min.css" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+		integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	<script src="../js/jquery-1.12.1.min.js"></script>
+	<script src="../js/jquery-ui.min.js"></script>
+	<script src="../js/style.js"></script>
+
+	<!--개인 -->
+	<link rel="stylesheet" type="text/css" href="../css/modal.css" />
+	<script src="../js/modal.js"></script>
+
+</head>
+
+<body>
+
+	<header class="wrap">
+		<div class="header">
+				<h3 style="color: #fff; position: absolute; left: 20px; top: 27px;">coding404 - 연습용 입니다. 이에 대한 무단 복제 및 배포를 원칙적으로 금합니다.
+						원본파일 및 핸드폰 촬영, 동영상강좌 녹화를 통한 무단 복제 · 배포하는 경우 저작권법 제136조에 의한 저작재산권 침해 죄에 해당될 수 있으니 각별한 주의 바랍니다.</h3>
+				<span class="admin_id"><b style="color:#7866c9;">관리자</b>홍길동 님</span>
+		</div>
+
+	</header>
+
+	<!-- 좌측 사이드바 -->
+    <aside>
+        <span class="menuBtn">버튼</span>
+        <ul class="sidenav">
+            <li class="sub_menu_toggle">
+                <a href="#">- 상품관리(예제)</a>
+                <ul class="sub_menu ">
+                    <li><a href="productReg">-상품등록</a></li>
+                    <li><a href="productList">-상품조회 / 수정</a></li>
+                    <li><a href="#">-하단메뉴</a></li>
+                </ul>
+            </li>
+            <li class="sub_menu_toggle">
+                <a href="#">- 게시글 연습(초급)</a>
+                <ul class="sub_menu">
+                    <li><a href="#">-전체 글목록</a></li>
+                    <li><a href="#">-글 등록</a></li>
+                    <li><a href="#">-내글 목록</a></li>
+                </ul>
+            </li>
+            <li class="sub_menu_toggle">
+                <a href="#">- 판매자 공지관리(중급)</a>
+                <ul class="sub_menu">
+                    <li><a href="#">-판매자공지목록</a></li>
+                    <li><a href="#">-판매자공지등록</a></li>
+                    <li><a href="#">-판매자공지보기</a></li>
+                </ul>
+            </li>
+            <li class="sub_menu_toggle">
+                <a href="#">- 예시메뉴</a>
+                <ul class="sub_menu">
+                    <li><a href="#">-예시메뉴</a></li>
+					<li><a href="#">-예시메뉴</a></li>
+					<li><a href="#">-예시메뉴</a></li>
+                </ul>
+            </li>
+        </ul>
+    </aside>
+
+	<div class="wrap">
+		<div class="warp_inner">
+
+			<!-- left_menu end -->
+			<div class="right_content">
+				
+				<div class="midiaq">
+					<div class="mainWrapper"> 
+						<div class="ipssGiudeBlock" style="color:red; font-size: large;">
+							-요구사항<br>
+							-판매자들이 소통하는 글에 대한 CRUD작업을 연습합니다.<br>
+                            -모든 판매자가 작성한 글이 보여집니다.<br>
+							-제목, 닉네임 으로 검색이 가능합니다.<br>
+							-내용 클릭시 상세보기로 넘어 갑니다.<br>
+						</div>
+					</div>
+					<div class="page_title">관리자검색</div>
+					
+					<form name="###########" action="############" method="get" >
+					<div class="search_block flfull">
+
+						<div class="fl">
+							<div>
+								<span class="search_th">제목 검색</span>
+								<input type="text" class="" placeholder="제목 검색">
+							</div>
+
+							<div>
+								<span class="search_th">닉네임 검색</span>
+								<input type="text" class="" placeholder="닉네임 검색">
+							</div>
+
+							<!-- 
+							<div>
+								<span class="search_th">처리자 ID</span>
+								<input type="text" class="" placeholder="처리자 ID">
+							</div>
+							 -->
+
+						</div>
+
+						<div class="fr">
+							<div class="search_btn_area">
+								<a href="#" class="normal_btn purplebtn">검색</a>
+								<a href="#" class="normal_btn purplebtn02">등록</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="full_collum collum">
+						<ul>
+							<li class="collum_tit">
+								<h2>판매자 소통공간</h2>
+
+								<select class="">
+									<option value="10">10개 보기</option>
+									<option value="20">20개 보기</option>
+									<option value="40">40개 보기</option>
+									<option value="80">80개 보기</option>
+								</select>
+								<span class="showtoggle minus"></span>
+								<ul>
+									<li>
+										<table cellpadding="0" cellspacing="0" class="row_tb_7" width="100%;">
+											<tr>
+												<th>순서</th>
+												<th>아이디</th>
+												<th>제목</th>
+												<th>내용</th>
+												<th>등록일</th>
+											</tr>
+												
+											<tr th:each="vo: ${list}">
+												<td>[[${vo.top_num}]]</td>
+												<td>[[${vo.top_id}]]</td>
+												<td>[[${vo.top_title}]]</td>
+												<td>
+													<a title="상세보기(클릭)" href="#">[[${vo.top_content}]]</a>
+												</td>
+												<td>[[${vo.top_regdate}]]</td>
+											</tr>
+
+                                           
+										</table>
+
+
+										<div class="page">
+											<ul>
+												<li><a href="#"><i class="fa fa-angle-double-left"
+															aria-hidden="true"></i></a></li>
+												<li style="margin-right:5px;"><a href="#"><i class="fa fa-angle-left"
+															aria-hidden="true"></i></a></li>
+												<li class="on"><a href="#">1</a></li>
+												<li><a href="#">2</a></li>
+												<li><a href="#">3</a></li>
+												<li><a href="#">4</a></li>
+												<li><a href="#">5</a></li>
+												<li style="margin-left:5px;"><a href="#"><i class="fa fa-angle-right"
+															aria-hidden="true"></i></a></li>
+												<li><a href="#"><i class="fa fa-angle-double-right"
+															aria-hidden="true"></i></a></li>
+											</ul>
+										</div>
+									</li>
+
+								</ul>
+							</li>
+						</ul>
+					</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- 모달창 -->
+		<div id="basicModal" class="modal-overlay">
+			<div class="modal-content">
+				<div class="modalOff">X</div>
+				<p class="title">이미지수정</p>
+	
+				<div class="content">
+					<div class="sub-form">
+						<!--미리보기 폼-->
+						<div class="filebox preview-image">
+							<!--1 -->
+							<div class="left">
+									<span>추가이미지</span>
+									<label class="upload-display" for="a_file">
+											<span class="upload-thumb-wrap">
+													<img class="upload-thumb" src="../img/item_main.jpg">
+											</span>
+									</label>
+									<input class="upload-name" value="파일선택" disabled="disabled">
+									<input type="file" name="file" id="a_file" class="upload-hidden">
+									<input type="hidden" value="">
+									<input type="hidden" value="">
+									<button type="button" class="normal_btn" style="display: block;">삭제</button>
+									
+							</div>
+							<div class="left">
+									<span>추가이미지</span>
+									<label class="upload-display" for="b_file">
+											<span class="upload-thumb-wrap">
+													<img class="upload-thumb" src="../img/plus_btn.png">
+											</span>
+									</label>
+									<input class="upload-name" value="파일선택" disabled="disabled">
+									<input type="file" name="file" id="b_file" class="upload-hidden">
+									<input type="hidden" value="">
+									<input type="hidden" value="">
+									<button type="button" class="normal_btn" style="display: block;">삭제</button>
+							</div>
+							<div class="left">
+									<span>추가이미지</span>
+									<label class="upload-display" for="c_file">
+											<span class="upload-thumb-wrap">
+													<img class="upload-thumb" src="../img/plus_btn.png">
+											</span>
+									</label>
+									<input class="upload-name" value="파일선택" disabled="disabled">
+									<input type="file" name="file" id="c_file" class="upload-hidden">
+									<input type="hidden" value="">
+									<input type="hidden" value="">
+									<button type="button" class="normal_btn" style="display: block;">삭제</button>
+							</div>
+
+					</div>
+					</div>
+				</div>
+	
+
+				<div class="btn_area">
+					<a href="수정!!" class="save" >수정</a>
+				</div>
+
+			</div>
+		</div>
+	</div><!-- end wrap -->
+	
+	<footer id="footer">
+		<div class="footer_wrap">
+				<div class="footer_top">
+						<!-- 상위 -->
+						<ul class="fl_right">
+								<li><a href="#"><span>Coding404 둘러보기</span></a></li>
+								<li><a href="#"><span>상품등록</span></a></li>
+								<li><a href="#"><span>상품관리</span></a></li>
+								<li><a href="#"><span>상품수정</span></a></li>
+								<li><a href="#"><span>회원</span></a></li>
+								<li><a href="#"><span>고객센터</span></a></li>
+						</ul>
+				</div>
+		</div>
+
+		<div class="footer_wrap2">
+				<div class="footer_bot">
+						<!-- 하위 -->
+		
+						<ul class="fl_left">
+								<li><a href="#">이용약관</a></li>
+								<li><a href="#">위치기반서비스 이용약관</a></li>
+								<li><a href="#">개인정보처리방침</a></li>
+								<li><a href="#">청소년보호정책</a></li>
+								<li><a href="#">제휴/프로모션문의</a></li>
+								<li><a href="#">이메일주소무단수집거부</a></li>
+								<li><a href="#">파트너센터</a></li>
+						</ul>
+						<p>
+								<strong>(주)Coding404</strong>
+								<span>(주소는 비밀)</span>
+								<span>대표이사 : Coding404(PARK)</span>
+								<span>사업자등록번호 : 비밀</span>
+								<span>통신판매업신고번호 : 2018-성남분당B-0004</span>
+								<span>사업자정보확인</span>
+								<br />
+								<span>문의전화 : 비밀 (평일 09:00-18:00, 유료)</span>
+								<span>이메일 : yopy0817@gmail.com</span>
+								<span>호스팅서비스사업자 : (주)AWS</span>
+								<span>© Coding404 Entertainment Corp.</span>
+						</p>
+		
+				</div>
+		</div>
+	</footer>
+
+
+
+</body>
+
+</html>

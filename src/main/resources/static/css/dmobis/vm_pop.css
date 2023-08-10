@@ -1,0 +1,123 @@
+@charset "utf-8";
+
+.win-pop-wrap {position: relative;padding: 12px;background-color: #5782cc;}
+.pop-inner {position: relative;}
+.pop-inner .pop-article {position: relative;padding: 20px;background-color: #fff;}
+.pop-inner .pop-article .pop-article-inner {position: relative;}
+.pop-inner .pop-tit-wrap {padding-bottom: 10px;}
+.pop-inner .pop-tit {padding-left: 20px;font-size: 16px;font-weight: 600;color: #fff;background: url(../../images/dmobis/icon/icon-pop-tit1.png) no-repeat 0 1px;}
+.win-pop-wrap .btn-pop-close {position: absolute;top: 5px;right: 12px;z-index: 1;}
+
+.pop-btn-box {margin: 20px 0;text-align: center;}
+.pop-btn-box-m10 {margin: 10px 0;text-align: center;}
+
+.pop-stit-wrap {position: relative;margin-bottom: 10px;}
+.pop-stit-wrap:after {display:block; clear:both; content:"."; visibility:hidden; height:0;}
+.pop-stit-wrap .pop-tit1 {font-size: 14px;font-weight: bold;}
+.pop-stit-wrap .txt1 {font-size: 13px;}
+
+/*탭 스타일1*/
+.tab-style1 .tab_btn {position: relative;}
+.tab-style1 .tab_btn:after{display:block; clear:both; content:"."; visibility:hidden; height:0;}
+.tab-style1 .tab_btn:before {content: "";display: block;position: absolute;bottom:0;left: 0;width: 100%;height: 1px;background-color: #e6e9eb;}
+.tab-style1 .tab_btn > li {position: relative;z-index: 2px;float: left;background:#fafafa;border:1px solid #e6e9eb;}
+.tab-style1 .tab_btn > li > a {display: block;padding: 10px 15px;color: #333;font-weight: 600;font-size: 14px;}
+.tab-style1 .tab_btn > li.on {background:#fff;border:1px solid #e6e9eb;border-bottom-color: #fff;}
+.tab-style1 .tab_btn > li.on a {color: #0059d1;}
+.tab-style1 .tab_cts {clear: both;position: relative;padding: 15px;border:1px solid #e6e9eb; border-top: none; display: none;}
+
+.tab-style1-small .tab_btn {position: relative;}
+.tab-style1-small .tab_btn:after{display:block; clear:both; content:"."; visibility:hidden; height:0;}
+.tab-style1-small .tab_btn:before {content: "";display: block;position: absolute;bottom:0;left: 0;width: 100%;height: 1px;background-color: #e6e9eb;}
+.tab-style1-small .tab_btn > li {position: relative;z-index: 2px;float: left;background:#fafafa;border:1px solid #e6e9eb;}
+.tab-style1-small .tab_btn > li > a {display: block;padding: 8px 10px;color: #333;font-weight: 600;font-size: 12px;}
+.tab-style1-small .tab_btn > li.on {background:#fff;border:1px solid #e6e9eb;border-bottom-color: #fff;}
+.tab-style1-small .tab_btn > li.on a {color: #0059d1;}
+.tab-style1-small .tab_cts {clear: both;position: relative;padding: 15px;border:1px solid #e6e9eb; border-top: none; display: none;}
+
+.ico-red-dot {position: relative;margin: 3px 0;padding-left: 10px;line-height: 1.4;}
+.ico-red-dot:after {content: "";display: block;position: absolute;top: 8px;left: 0;width: 3px;height: 3px;background-color:red;}
+
+/*통합주소검색*/
+#zipcode3-tab table.tbl {margin-bottom: 30px;}
+#zipcode3-tab .ex-list {line-height: 1.5;}
+
+/*예비군 훈련장 훈련계획 안내*/
+.tran-list-wrap {}
+.tran-list-wrap .tit1 {padding: 5px;text-align: center;background-color: #bdbdbd;}
+.tran-list-wrap .tran-list {}
+.tran-list-wrap .tran-list > li {padding: 5px;border-bottom:1px #ccc solid;font-size: 12px;}
+.tran-list-wrap .tran-list > li label {padding-left: 35px;}
+.tran-list-wrap .tran-list > li label > span {display: inline-block;position: relative;padding-left: 10px;margin-right: 10px;}
+.tran-list-wrap .tran-list > li label > span:after {content:"";display: block;position: absolute;top: 10px;left:0;width: 4px;height: 4px;background: #4C4C4C;border-radius: 50px;}
+
+.map-output {text-align: center;}
+.map-output img {width: auto;max-height: 100%;}
+
+/*예비역 간부 진급*/
+.promotion-tab > .tab_cts {height: 650px;overflow: auto;}
+
+.s-title { font-size: 15px;margin-top: 25px; margin-bottom: 10px; color: #454545;font-weight: bold;}
+.details {margin-top: 10px;color: #656565; border-bottom: 1px solid #e2e2e2; padding-bottom: 15px; letter-spacing: -0.047em; font-size: 12px }
+.details em {font-style: normal;}
+.details ul li {position: relative;padding: 0 10px 8px 7px; line-height: 19px;}
+.details ul li:after {content:"";display: block;position: absolute;top: 7px;left:0;width: 3px;height: 3px;background: #5b5b5b;}
+.details ul li ul li {position: relative; line-height:19px; padding-bottom: 2px }
+.details ul li ul li:after {content:"";display: block;position: absolute;top: 7px;left:0;width: 2px;height: 2px;background: #5b5b5b;}
+.details ul li em { font-weight: bold }
+.details ul li .str { color: #fc5640; font-weight: normal }
+.details.last {border-bottom: none;}
+
+.s_comm { clear: both; text-align: left; font-size: 12px; padding-top: 10px; letter-spacing: -1px; line-height: 18px }
+.s_comm ul li {position: relative;padding-left: 10px;margin: 5px 0;}
+.s_comm ul li:after {content:"";display: block;position: absolute;top: 7px;left:0;width: 3px;height: 3px;background: #5782cc;}
+
+
+/* 예비역간부진급 - 지원확인과정 */
+.steps { width: 740px; height: 330px; margin: 10px auto 0 auto;}
+.steps ul li.step { float: left; width: 138px; height: 138px }
+.steps ul li.arrow { float: left; padding: 62px 7px 0 7px }
+.steps ul li.arrow_down { clear: both; text-align: right; padding: 2px 68px 2px 0 }
+.steps ul li.step2 { float: right; width: 138px; height: 138px;}
+.steps ul li.arrow2 { float: right; padding: 62px 7px 0 7px }
+.steps ul li.arrow_down2 { clear: both; text-align: left; padding: 2px 0 2px 62px }
+.steps ul li.step_final { clear: both; text-align: left; padding: 2px 0 0 0 }
+
+
+/*지원서 작성*/
+.app-wrap {clear: both;position: relative;line-height: 1.3;}
+.app-wrap .down-wrap {padding: 5px;text-align: center;}
+.app-wrap .down-wrap a {font-size: 15px;color: #ee4747;}
+.app-wrap .logout-box {margin: 10px 0 5px 0;font-size: 14px;}
+.app-wrap table.type1 {}
+.app-wrap table.type1 tbody > tr > th {padding: 5px 0;text-align: center;}
+
+/*개인정보 제공 동의서*/
+.pop-priv-wrap {clear: both;position: relative;}
+.pop-priv-wrap .tit1 {font-size: 30px;font-weight: bold;text-align: center;padding-bottom: 10px;margin-bottom: 10px;border-bottom:2px #444 solid;}
+.pop-priv-wrap .priv-txtbox {font-size: 15px;text-align: center;line-height: 1.4;}
+.pop-priv-wrap .pop-priv-agrbox {margin-top: 30px;}
+.pop-priv-wrap .user-info {position: relative;text-align: center;margin: 29px 0;}
+.pop-priv-wrap .user-info > span {display: inline-block;margin: 0 10px;}
+
+/*접수증*/
+.app-proof {position: relative;display: table;width: 100%;padding: 25px 0;}
+.app-proof  div.box {display: table-cell;vertical-align: top;}
+.app-proof  div.box1 {width: 42%;}
+.app-proof  div.box2 {width: 6%;padding-top: 15px;text-align: center;}
+.app-proof  div.box2 > span  {display: block;line-height: 1.6;}
+.app-proof  div.box3 {width: 42%;}
+.app-proof .tit1 {font-size: 25px;font-weight: bold;text-align: center;}
+.app-proof table th {padding: 10px 10px;font-size: 18px;padding: 0 10px;text-align: center; height:47px;}
+.app-proof table td {padding: 10px 10px;font-size: 16px;text-align: left;height:47px;}
+.app-proof table td.pic {padding: 0;text-align: center;}
+.app-proof table td.pic img {width: auto;max-width: 100%;height: auto;}
+.app-proof table td.cts-con {height: 220px;padding: 20px;border-left: none;text-align: center;font-size: 18px;font-weight: bold;line-height: 1.6;vertical-align: top;}
+.app-proof table td.cts-con .input-txt {display: inline-block;width: 80px;}
+
+/*개인정보처리방침*/
+.personal {font-style: normal; font-size: 12px; line-height: 2.0em;}
+.personal .title {font-size: 15px; margin-top: 25px; margin-bottom: 10px; color: #454545;font-weight: bold;}
+.personal-details {padding-bottom: 15px; font-size: 12px;}
+.personal-details > ul li {padding-left: 5px; line-height: 1.8em;}
+.personal-details > ul li > ul li{padding-left: 15px; line-height: 1.5em;}

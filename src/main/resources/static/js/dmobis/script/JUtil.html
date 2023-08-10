@@ -1,0 +1,793 @@
+// Global Variable
+
+var IS_NAV = (navigator.appName == "Netscape");
+var IS_IE = (navigator.appName == "Microsoft Internet Explorer");
+
+var IS_WIN = (navigator.userAgent.indexOf("Win") != -1);
+var IS_MAC = (navigator.userAgent.indexOf("Mac") != -1);
+var IS_UNIX = (navigator.userAgent.indexOf("X11") != -1);
+
+/*
+ * 쿠키에 저장된 값을 반환한다.
+ * @param name 쿠키 이름
+ * @return 쿠키 이름에 대한 값을 반환. 없는 경우에는 ""를 반환.
+ */
+function getCookie(name) {
+    var arg = name + "=";
+    var alen = arg.length;
+    var clen = document.cookie.length;
+    var i = 0;
+    while (i < clen) {
+        var j = i + alen;
+        if (document.cookie.substring(i, j) == arg) {
+            return getCookieVal(j);
+        }
+        i = document.cookie.indexOf(" ", i) + 1;
+        if (i == 0) break;
+    }
+    return "";
+}
+
+
+/*
+ * 쿠키를 저장한다.
+ * @param name 쿠키 이름
+ * @param value 쿠키 값
+ * @param expires 쿠키의 유효 일
+ * @param path
+ * @param domain
+ * @param secure
+ */
+function setCookie(name, value, expires, path, domain, secure) {
+     if(! path) {
+        path = "/";
+    }
+
+    document.cookie = name + "=" + escape (value) +
+                    ((expires) ? "; expires=" + expires : "") +
+                    ((path) ? "; path=" + path : "") +
+                    ((domain) ? "; domain=" + domain : "") +
+                    ((secure) ? "; secure" : "");
+
+
+}
+
+
+/*
+ * 쿠키를 삭제한다.
+ * @param name 삭제할 쿠키 이름
+ * @param path
+ * @param domain
+ */
+function deleteCookie(name, path, domain) {
+    expireDate = new Date;
+    expireDate.setDate(expireDate.getDate()-1);
+
+    if (getCookie(name)) {
+        setCookie(name, "", expireDate.toGMTString(), "", "", "");
+    }
+/*
+    if (getCookie(name)) {
+        document.cookie = name + "=" +
+            ((path) ? "; path=" + path : "") +
+            ((domain) ? "; domain=" + domain : "") +
+            "; expires=Thu, 01-Jan-70 00:00:01 GMT";
+    }
+*/
+}
+
+
+/*
+ * 쿠키를 저장할 때 필요한 적합한 형식의 유효기간을 반환한다.
+ * @days 쿠키가 유효할 일 (예를 들어 3 일 동안 유효해야 하면 3을 입력)
+ * @hours 쿠키가 유효할 시간 (예를 들어 2 시간 동안 유효해야 하면 2를 입력)
+ * @minutes 쿠키가 유효할 분 (예를 들어 30 분 동안 유효해야 하면 30을 입력)
+ */
+function getExpDate(days, hours, minutes) {
+    var expDate = new Date( );
+    if (typeof days == "number" && typeof hours == "number" &&
+        typeof hours == "number") {
+        expDate.setDate(expDate.getDate( ) + parseInt(days));
+        expDate.setHours(expDate.getHours( ) + parseInt(hours));
+        expDate.setMinutes(expDate.getMinutes( ) +
+        parseInt(minutes));
+        return expDate.toGMTString( );
+    }
+}
+
+
+/*
+ * 쿠키 값을 읽을 때 사용하는 보조 함수
+ */
+function getCookieVal(offset) {
+    var endstr = document.cookie.indexOf (";", offset);
+    if (endstr == -1) {
+        endstr = document.cookie.length;
+    }
+    return unescape(document.cookie.substring(offset, endstr));
+}
+
+/*
+ * 입력받을 수 있는 값을 필터링한다.
+ * ex : <input type="text" ..... onkeypress="filterKey('[0-9]')"> ; 숫자만 키입력이 가능한 text filed
+ * ex : <input type="text" ..... onkeypress="filterKey('[0-9a-zA-Z]')"> ; 영문,숫자만 키입력이 가능한 text filed
+ * @param filter : 필터링할 정규표현식 ex) '[0-9]':0~9의 값만 허용, '[a-zA-Z]':알파벳만 허용
+ * @return
+ */
+function filterInputData(filter) {
+    if (filter) {
+        var sKey = String.fromCharCode(event.keyCode);
+        var re = new RegExp(filter);
+        if (!re.test(sKey)) {
+            event.returnValue = false;
+        }
+    }
+}
+
+
+/*
+ * 주어진 텍스트(source)에 특정 문자(query)가 나타나는 횟수를 반환한다.
+ * @param source 대상이 되는 텍스트
+ * @param query 검색하려는 텍스트
+ * @return 주어진 텍스트에 특정 문자가 나타나는 횟수
+ */
+function countInstances(source, query) {
+    var re = new RegExp(query, "g");
+    var result = source.match(re);
+    return (result) ? result.length : 0;
+}
+
+/*
+ * <div> 태그의 내용 중 특정 텍스트(before)를 특정 텍스트(after)로 변경한다.
+ * @param id <div> 태그의 id 속성 값
+ * @param before 변경 전 텍스트
+ * @param after 변경 후 텍스트
+ */
+function replaceTextInDiv(id, before, after) {
+    var element = document.getElementById(id).firstChild;
+    var re = new RegExp(before, "g");
+    element.nodeValue = element.nodeValue.replace(re, after);
+    return false;
+}
+
+function writeTextInElement(id, text) {
+    var element = document.getElementById(id);
+    if (element.firstChild) {
+        element.firstChild.nodeValue = text;
+    } else {
+        var child = document.createTextNode(text);
+        element.appendChild(child);
+    }
+    return false;
+}
+
+/**
+ * 입력 변수에 3 자리마다 콤마(,)를 붙여 반환한다.
+ * @param field 콤마를 붙일 값
+ */
+function formatCommas(numString) {
+    var re = /,|\s+/g;
+    numString = numString.replace(re, "");
+
+    re = /(-?\d+)(\d{3})/;
+    while (re.test(numString)) {
+        numString = numString.replace(re, "$1,$2");
+    }
+    return numString;
+}
+
+function stripCommas(numString) {
+    var re = /,/g;
+    return numString.replace(re, "");
+}
+
+/**
+ * 텍스트 필드에 입력한 값에 3자리마다 콤마(,)를 붙인다.
+ * 텍스트 필드에 아래를 기입한다. onkeyup="toMoney(this)"
+ * @param field 텍스트 필드
+ */
+function toMoney(field) {
+    var value = field.value;
+    var indexOfPoint = value.indexOf(".");
+    if (indexOfPoint == -1) {
+        field.value = formatCommas(value);
+    } else {
+        field.value = formatCommas(value.substring(0, indexOfPoint)) +
+                        value.substring(indexOfPoint, value.length);
+    }
+}
+
+
+/**
+ * 두 날짜 사이의 일수를 계산하여 반환한다.
+ * @param date1 문자열 데이터로 '20041012' 형식
+ * @param date2 문자열 데이터로 '20041012' 형식
+ */
+function daysBetween(date1, date2) {
+    date1 = new Date(date1.substring(0, 4), date1.substring(4, 6)-1, date1.substring(6,8));
+    date2 = new Date(date2.substring(0, 4), date2.substring(4, 6)-1, date2.substring(6,8));
+    var DSTAdjust = 0;
+    // constants used for our calculations below
+    oneMinute = 1000 * 60;
+    var oneDay = oneMinute * 60 * 24;
+    // equalize times in case date objects have them
+    date1.setHours(0);
+    date1.setMinutes(0);
+    date1.setSeconds(0);
+    date2.setHours(0);
+    date2.setMinutes(0);
+    date2.setSeconds(0);
+    // take care of spans across Daylight Saving Time changes
+    //if (date2 > date1) {
+        DSTAdjust = (date2.getTimezoneOffset( ) -
+                     date1.getTimezoneOffset( )) * oneMinute;
+    //} else {
+    //    DSTAdjust = (date1.getTimezoneOffset( ) - date2.getTimezoneOffset( )) * oneMinute;
+    //}
+    //var diff = Math.abs(date2.getTime( ) - date1.getTime( )) - DSTAdjust;
+    var diff = date2.getTime( ) - date1.getTime() - DSTAdjust;
+    return Math.ceil(diff/oneDay);
+}
+
+/**
+ * 2005.09.08 두개의 날짜 있을 때만 체크
+ *  validation체크를 미리하고 이 함수를 호출한다.
+ *  fromDate가 크면 안되므로 true 리턴
+ */
+
+function daysBetweenCheck( pFromDate, pToDate ) {
+
+   var from_date, to_date;
+   var fromDate, toDate;
+   fromDate = removeDots(pFromDate.value);
+   toDate = removeDots(pToDate.value);
+
+   if (fromDate != "" && toDate != "") {
+       from_date = new Date(fromDate.substring(0, 4), fromDate.substring(4, 6)-1, fromDate.substring(6,8));
+       to_date = new Date(toDate.substring(0, 4), toDate.substring(4, 6)-1, toDate.substring(6,8));
+           if ( from_date - to_date > 0 ) {
+               return true;
+          }
+   }
+
+   return false;
+}
+
+/**
+ * 특정 노드가 가지고 있는 모든 속성을 TEXTAREA에 출력한다. 개발 편의를 위해서
+ * 제공되는 함수이다.
+ * @param obj 속성 값을 알고자 하는 노드
+ */
+function listProperties(obj) {
+    var objName;
+
+    if (obj.nodeName) {
+        objName = obj.nodeName;
+    } else {
+        objName = "navigator";
+    }
+
+    var result = "";
+    for (var i in obj) {
+        result += objName + "." + i + "=" + obj[i] + "\n";
+    }
+
+    var area = document.createElement("textarea");
+    area.rows = 20;
+    area.cols = 50;
+    var body = document.getElementsByTagName("BODY");
+    if (body) {
+        body[0].appendChild(area);
+    } else {
+        alert("body 태그가 있어야 합니다.");
+        return false;
+    }
+    area.value = result;
+    return false;
+}
+
+
+
+function doAction() {
+    var kim = new coworker("Kim", 31);
+    var lee = new teamMember("Lee", 25, "EPM");
+    kim.show();
+    lee.show();
+    return false;
+}
+
+
+function coworker(name, age) {
+    this.name = name;
+    this.age = age || 0;
+    this.show = showAll;
+}
+
+function teamMember(name, age, project) {
+    this.member = coworker;
+    this.member(name, age);
+
+    this.project = project;
+    this.name = project;
+    this.show = showAll1;
+}
+
+function showAll() {
+    alert(this.name + "=" + this.age);
+}
+
+
+function showAll1() {
+    alert(this.name + "=" + this.age + "|" + this.project);
+}
+
+// 앞뒤공백제거
+function trim(str) {
+  return str.replace(/^\s+/g, '').replace(/\s+$/g, '');
+}
+
+/**
+ * 문자열 중간의 공백 제거 처리 함수
+ * @param param 제거할 문자열
+ */
+function mtrim(param) {
+    for ( i=0; i < param.length; i++) {
+        if (param.substring(i,i+1) == ' ' ) {
+            param = param.substring(0,i) + param.substring(i+1,param.length);
+            i=i-1;
+        }
+    }
+    return param;
+}
+
+/**
+ * 일자에 점(.)을 붙여 반환한다.
+ * @param field 콤마를 붙일 값
+ */
+function dateDots(dateString) {
+    var re = /\.|\s+/g;
+    dateString = dateString.replace(re, "");
+    re = /(-?\d+)(\d{2})/;
+    dateString = dateString.replace(re, "$1.$2");
+    re = /(-?\d+)(\d{2})/;
+    dateString = dateString.replace(re, "$1.$2");
+    return dateString;
+}
+
+/**
+ * 일자에 점(.)을 빼고 반환한다.
+ * @param field 콤마를 뺀 값
+ */
+function removeDots(dateString) {
+	if (dateString != null && dateString != undefined && dateString.length > 0) {
+		var re = /\.|\s+/g;
+	    dateString = dateString.replace(re, "");	
+	}
+    return dateString;
+}
+
+/**
+ * 일자에 퍼센트(%)을 빼고 반환한다.
+ * @param field 퍼센트를 뺀 값
+ */
+function removePer(dateString) {
+    //특수 문자 체크(갯수)
+    var re = "%";
+    var temp = "";
+    for(var n = 0 ; n < dateString.length ; n++) {
+        if (dateString.charAt(n) != re) {
+            temp = temp + dateString.charAt(n);
+        }
+    }
+    dateString = temp;
+    return dateString;
+}
+
+/**
+ * 날짜 텍스트 필드에 입력한 날짜값에 점을 붙인다.
+ * 날짜 텍스트 필드에 아래를 기입한다. onkeyup="toDate(this)"
+ * @param field 텍스트 필드
+ */
+function toDate(field) {
+    var value = field.value;
+    field.value = dateDots(value);
+}
+
+/**
+ * isValidDate(Object) 날짜 체크루틴
+ *   예) YYYYMMDD or YYYY/MM/DD
+ *       <input type="text" name="Tb_CntrYyyymm" size="8" maxlength=10
+ *              onBlur="javascript:isValidDate(form.Tb_CntrYyyymm);">
+ * @param       theDate
+ * @return      true, false
+ * @see         RemoveSlash(theDate)
+ * @see         isFieldBlank(theDate)
+ * @histroy      홍선기
+ */
+function isValidDate(theDate)
+{
+
+    try{
+            if (!isFieldBlank(theDate)) {
+
+
+                try{
+                    var currdate = curr_date();
+
+
+                    if (theDate.value.length <= 2) {
+                        if (theDate.value.length == 1 ) {
+                            theDate.value = currdate.substring(0,6)+"0"+theDate.value;
+                        } else {
+                            theDate.value = currdate.substring(0,6)+theDate.value;
+                        }
+
+                    } else if (theDate.value.length <= 4) {
+
+                        if(theDate.value.length == 3) {
+                            theDate.value = currdate.substring(0,4)+"0"+theDate.value;
+                        } else {
+                            theDate.value = currdate.substring(0,4)+theDate.value;
+                        }
+
+                    } else if (theDate.value.length <= 6) {
+                        if(theDate.value.length == 5) {
+                            theDate.value = currdate.substring(0,2)+"0"+theDate.value;
+                        } else {
+                            theDate.value = currdate.substring(0,2)+theDate.value;
+                        }
+                    }
+
+                    } catch(e) {
+                    	alert("exception is occurred.");
+                    }
+
+
+                    var checkStr = RemoveSlash(theDate.value);
+
+                        var numStr = "/0123456789";
+
+                        for ( var j = 0 ; j < theDate.value.length ; j++ )
+                        {
+                                if ( numStr.indexOf( theDate.value.charAt(j) ) == -1 ) {
+                                        alert("숫자만 [YYYYMMDD] 형태로 입력하세요.");
+                                        theDate.value = "";
+                                        theDate.focus();
+//        		        		theDate.select();
+                                        return false;
+                                }
+                        }
+
+                        if (checkStr.length != 8) {
+                                alert("[YYYYMMDD] 형태로 입력하세요.");
+                                theDate.value = "";
+//        		                theDate.focus();
+                             theDate.select();
+                                return false;
+                        } else if (!isValid(checkStr)) {
+                                theDate.value = "";
+                                theDate.focus();
+//    		        		theDate.select();
+                                return false;
+                        } else{
+                                theDate.value = checkStr.substring(0,4) + "." + checkStr.substring(4,6) + "." + checkStr.substring(6,8)
+                                return true;
+                        }
+                }
+                return true;
+
+    } catch(e) {
+
+            if (!isFieldBlank(theDate)) {
+                try{
+                var currdate = curr_date();
+
+                if (theDate.value.length <= 2) {
+                    if (theDate.value.length == 1 ) {
+                        theDate.value = currdate.substring(0,6)+"0"+theDate.value;
+                    } else {
+                        theDate.value = currdate.substring(0,6)+theDate.value;
+                    }
+
+                } else if (theDate.value.length <= 4) {
+
+                    if(theDate.value.length == 3) {
+                        theDate.value = currdate.substring(0,4)+"0"+theDate.value;
+                    } else {
+                        theDate.value = currdate.substring(0,4)+theDate.value;
+                    }
+
+                } else if (theDate.value.length <= 6) {
+                    if(theDate.value.length == 5) {
+                        theDate.value = currdate.substring(0,2)+"0"+theDate.value;
+                    } else {
+                        theDate.value = currdate.substring(0,2)+theDate.value;
+                    }
+                }
+                }catch(e) {}
+
+                var checkStr = RemoveSlash(theDate.value);
+
+                    var numStr = "/0123456789";
+
+                    for ( var j = 0 ; j < theDate.value.length ; j++ )
+                    {
+                            if ( numStr.indexOf( theDate.value.charAt(j) ) == -1 ) {
+                                    alert("숫자만 [YYYYMMDD] 형태로 입력하세요.");
+                                    theDate.value = "";
+                                    theDate.focus();
+//    		        		theDate.select();
+                                    return false;
+                            }
+                    }
+
+                    if (checkStr.length != 8) {
+                            alert("[YYYYMMDD] 형태로 입력하세요.");
+                            theDate.value = "";
+                            theDate.focus();
+//	        		theDate.select();
+                            return false;
+                    } else if (!isValid(checkStr)) {
+                            theDate.value = "";
+                            theDate.focus();
+//	        		theDate.select();
+                            return false;
+                    } else{
+                            theDate.value = checkStr.substring(0,4) + "." + checkStr.substring(4,6) + "." + checkStr.substring(6,8)
+                            return true;
+                    }
+            }
+            return true;
+          }
+}
+
+/**
+ * isValid(Object) 날짜가 유효한 날짜인지 체크하는 함수
+ * 예) 20020328
+ * @param       theDate        날짜 (예 20020328)
+ * @return      true, false
+ * @histroy      홍선기
+ */
+function isValid(theDate)
+{
+
+    try{
+
+            yy = parseInt(theDate.substring(0,4),10);
+            mm = parseInt(theDate.substring(4,6),10);
+            dd = parseInt(theDate.substring(6,8),10);
+            if (mm == 1)
+                    max_days = 31
+            else if (mm == 2) {
+            if ((( yy % 4 == 0) && (yy % 100 != 0)) || (yy % 400 == 0))
+                            max_days = 29;
+                    else
+                            max_days = 28;
+            }
+            else if (mm == 3)
+                    max_days = 31;
+            else if (mm == 4)
+                    max_days = 30;
+            else if (mm == 5)
+                    max_days = 31;
+            else if (mm == 6)
+                    max_days = 30;
+            else if (mm == 7)
+                    max_days = 31;
+            else if (mm == 8)
+                    max_days = 31;
+            else if (mm == 9)
+                    max_days = 30;
+            else if (mm == 10)
+                    max_days = 31;
+            else if (mm == 11)
+                    max_days = 30;
+            else if (mm == 12)
+                    max_days = 31;
+            else {
+                    alert("입력한 월(1-12)이 틀립니다..");
+                    return false;
+            } if (dd < 1 || dd > max_days) {
+                    alert(mm + "월에는 " + max_days + "일까지만 선택해야 합니다.");
+                    return false;
+            } else
+                    return true;
+
+    } catch(e) {
+        yy = parseInt(theDate.substring(0,4),10);
+        mm = parseInt(theDate.substring(4,6),10);
+        dd = parseInt(theDate.substring(6,8),10);
+        if (mm == 1)
+                max_days = 31
+        else if (mm == 2) {
+        if ((( yy % 4 == 0) && (yy % 100 != 0)) || (yy % 400 == 0))
+                        max_days = 29;
+                else
+                        max_days = 28;
+        }
+        else if (mm == 3)
+                max_days = 31;
+        else if (mm == 4)
+                max_days = 30;
+        else if (mm == 5)
+                max_days = 31;
+        else if (mm == 6)
+                max_days = 30;
+        else if (mm == 7)
+                max_days = 31;
+        else if (mm == 8)
+                max_days = 31;
+        else if (mm == 9)
+                max_days = 30;
+        else if (mm == 10)
+                max_days = 31;
+        else if (mm == 11)
+                max_days = 30;
+        else if (mm == 12)
+                max_days = 31;
+        else {
+                alert("입력한 월(1-12)이 틀립니다..");
+                return false;
+        } if (dd < 1 || dd > max_days) {
+                alert(mm + "월에는 " + max_days + "일까지만 선택해야 합니다.");
+                return false;
+        } else
+                return true;
+          }
+}
+
+
+
+/**
+ * RemoveSlashEdit(Object) 날짜 input 박스 선택시 RemoveSlash
+ *   예) YYYY/MM/DD -> YYYYMMDD
+ * @param       obj
+ * @return      Object.value
+ * @see         RemoveSlash(Object.value)
+ * @exam        onFocus="RemoveSlashEdit(this);
+ * @histroy     2002.5.10 홍선기
+ */
+function RemoveSlashEdit( obj){
+        if (!isFieldBlank(obj)) obj.value = RemoveSlash(obj.value);
+//        obj.focus();
+        obj.select();
+}
+
+/**
+ * isFieldBlank(Object) 필드가 블랭크인지를 체크하는 함수
+ * @param       theField               필드객체
+ * @return      true, false
+ * @histroy      홍선기
+ */
+function isFieldBlank(theField)
+{
+
+    try{
+                var str = theField.value;
+                return (str == "" || str.charAt(0) == " ") ? true : false;
+
+    } catch(e) {
+            var str = theField.value;
+            return (str == "" || str.charAt(0) == " ") ? true : false;
+          }
+
+}
+
+/**
+ * RemoveSlash(Object)문자열의 Slash 를 제거하는 함수
+ * @param       theDate         입력문자열
+ * @return      SlashString     Slash가 제거된 문자열
+ * @histroy      홍선기
+ */
+function RemoveSlash(theDate)
+{
+        var SlashString="";
+
+        for( j=0; j<=theDate.length-1; j++)
+                if( theDate.charAt(j) != "." )
+                        SlashString = SlashString + theDate.charAt(j);
+
+        return SlashString;
+}
+
+/**
+ * getQueryString 검색 조건을 유지시켜주는 함수
+ * @return      검색 조건 문자열
+ * @histroy     김승환
+ */
+function getQueryString() {
+    var result = "";
+    var queryTags = document.getElementsByTagName("input");
+    for (var i = 0; i < queryTags.length; i++) {
+        var name = queryTags[i].name;
+        if (name && name.substring(0, 2) == "q_" || name == "pageNo") {
+            result += "&" + name + "=" + queryTags[i].value;
+        }
+    }
+
+    queryTags = document.getElementsByTagName("select");
+    for (var i = 0; i < queryTags.length; i++) {
+        var name = queryTags[i].name;
+        if (name && name.substring(0, 2) == "q_" || name == "pageNo") {
+            result += "&" + name + "=" + queryTags[i].value;
+        }
+    }
+    return result;
+}
+
+function setDateParam(fromDate, toDate) {
+    if(fromDate.value != "" && removeDots(fromDate.value) - removeDots(toDate.value) >= 0 ){
+        toDate.value = fromDate.value;
+    }
+}
+
+function setDateParams(fromDate, startDate, endDate) {
+    var index = 0;
+    var Form = document.Form;
+    for (; index <  startDate.length; index++) {
+        if (fromDate == startDate[index]) {
+            break;
+        }
+    }
+    if(fromDate.value != "" && removeDots(fromDate.value) - removeDots(endDate[index].value) >= 0 ){
+    endDate[index].value = fromDate.value;
+    }
+}
+
+
+ function setButtonFlag(el) {
+    switch (el.substr(el.length-1,1)) {
+    case "0": return "Y"; break;
+    case "1": return "N"; break;
+    default:  return "N"; break;
+    }
+}
+/**
+ * 복수 객체의 총합을 구하는 함수
+ * @param       arrayItems         입력문자열
+ * @return
+ * @histroy     2007.10.22 신재규
+ */
+function getItemAmount(arrayItems){
+    var Form = document.Form;
+    var sum = 0;
+    var value = 0;
+
+    for (var i = 0 ;i < arrayItems.length;i++){
+//        var Obj = eval("document.Form."+arrayItems[i])
+//        sum = 0;
+//        if(Obj.length) {
+//            for(var j = 1 ; j < Obj.length; j++) {
+//                value = stripCommas(Obj[j].value);
+//                if (!isNaN(value)) {
+//                    sum += Number(value);
+//                }
+//            }
+//            Obj[0].value = formatCommas(String(sum));
+//        }
+    }
+}
+
+/*
+특정단어 검색을 못하도록 확인하는 함수
+*/
+function checkWord(text, extensionArray) {
+    var checkValue = true;
+    var extensionArray = new Array("동대","읍대","면대","대학","시청","도청","군청","은행","(주)","주)","(주","병원","공사","철도","공단");
+    for(var n = 0 ; n < extensionArray.length ; n++) {
+        if (text == extensionArray[n]) {
+            checkValue = false;
+        }
+    }
+    return checkValue;
+}
+
+/* 부대찾기 이미지 중앙 정렬 */
+function changeAlignFindTroopImg() {
+	var obj = document.images;
+	for (var i = 0; i < obj.length; i++) {
+	   	if (obj[i].src != "undefined" && obj[i].src.indexOf("FindTroop.html") > 0) {
+	   		obj[i].align = "absmiddle";
+	   	}
+	}
+}

@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{./include/layout :: setContent( ~{:: #contents})}">
+
+<div id="contents" tabindex="0">
+		<div class="container">
+			<!-- lnb -->
+			<div id="lnb">
+				
+					<div class="lnb-tit lnb-bg">
+						<h2>알림마당</h2>
+				
+			</div>
+				<ul class="lnb-menu">
+					
+						<li class="active"><a th:href="@{noticeList}">공지사항</a></li>
+						<li><a href="/dmobis/cop/bbs/selectBoardList.do?bbsId=BBSMSTR_000000000002">카드뉴스</a></li>
+						<li><a href="/dmobis/cop/bbs/selectBoardList.do?bbsId=BBSMSTR_000000000003">국방영상</a></li>
+						<li><a href="/dmobis/rfh/rgt/library/02_question.jsp">자주 묻는 질문</a></li>
+						<li><a href="/dmobis/uss/olp/qnn/EgovQustnrRespondInfoManageListUser.do">사이버 설문 조사</a></li>
+						<li>
+							<a href="/dmobis/rfh/rgt/info/selectionGuide.jsp">선발 안내 및 신청</a>
+							<ul>
+								<li><a href="#NONE" onclick="openPopupWindow('/dmobis/rfm/rrm/officerpromotion/OfficerMainHPopup.do','op','width=900,height=950');">예비역간부 진급신청</a></li>
+								<li><a href="/dmobis/rfh/rgt/info/PtsApplGuide.jsp">비상근 예비군 지원접수</a></li>
+								<li><a href="/dmobis/rfh/rgt/info/03_05_selection.jsp">예비전력관리 담당자 선발 안내</a></li>
+								<li><a href="http://www.q-net.or.kr/crf006.do?id=crf00641&amp;gSite=Q&amp;gId=" target="_blank">군병과 경력인증 범위안내</a></li>
+							</ul>
+						</li>
+					
+				</ul>
+        	</div>
+			<!-- //lnb -->
+			<form name="updateForm" action="#" method="post" enctype="multipart/form-data">
+			<!-- content -->
+			<div id="content-wrap">
+				<input type="hidden" id="no" th:value="${vo.notice_no}">
+					<div class="location">Home &gt; 알림마당 &gt; 
+				
+					<span>공지사항</span></div>
+				
+				<section>
+					
+						<div class="content-tit">
+						<h3>공지사항 수정</h3>
+						<p class="sub-txt">작성한 공지사항을 수정하실 수 있습니다.</p>
+						</div>
+					
+				</section>
+				<section>	
+						<div class="pos-rel mt45">
+							<h4 class="cont-tit-h4">내용</h4>
+						</div>
+						<table class="tbl fixed th-c">
+							<caption>공지사항 상세내용</caption>
+								<colgroup>
+									<col width="15%">
+									<col width="20%">
+									<col width="15%">
+									<col width="20%">
+									<col width="15%">
+									<col width="15%">
+								</colgroup>
+								<tbody>
+									<tr>
+										<th scope="col">제목</th>
+										<td colspan="6"><input type="text" name="notice_title" required style="border: 1px solid #888; width: 600px; height: 25px;" th:value="${vo.notice_title}"></td>
+									</tr>
+									<tr>
+										<th scope="col">내용</th>
+										<td colspan="6">
+											 <textarea  class="inputw99p" name="notice_content" style="height: 200px; width: 600px; resize: none;">[[${vo.notice_content}]]</textarea>
+										</td>
+									</tr>
+									<tr>
+										<th scope="col">첨부파일</th>
+										<td colspan="5">
+
+<script type="text/javascript">
+
+	
+</script>
+
+
+<!--<title>파일목록</title> -->
+	<table>
+		
+		<tbody><tr>
+			<td style="border-left: 0px; border-bottom: 0px;">			
+				<input class="upload-name" th:value="${vo.filename}" style="width: 300px;" disabled="disabled">
+                <input type="file" name="file" id="main_file" class="upload-hidden" >
+			</td>
+		</tr>
+		
+		
+	</tbody></table>
+
+										  	
+								 </td>
+							</tr>
+						</tbody>
+				</table>					
+			
+		</section>
+		
+		<div class="btn-box">
+			<button type="button" class="btn-gradient normal blue" style="height: 34px; width: 90px; font-size: 14px;"><a th:href="@{noticeList}" style="color: azure;">목록으로</a></button>&nbsp;&nbsp;				
+			<input type="button" id="modifyBtn" class="btn-gradient normal blue" style="height: 34px; width: 90px; font-size: 13px;" value="수정완료">
+		</div>	
+        </div>
+		<!-- 본문 끝 -->
+		</form>
+	</div>
+</div>
+</th:block>
+
+<script>
+	$("#modifyBtn").click(()=> {
+		document.updateForm.action = "modifyForm?notice_no=" + $("#no").val();
+		document.updateForm.submit();
+	})
+	
+</script>
+
+
+</html>

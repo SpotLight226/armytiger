@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+C:\Users\USER\Desktop\work\springboot\amrytiger\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+1896040059.index
+394427294.index
+3907583538.index
+3622270670.index
+4155643802.index
+144471632.index

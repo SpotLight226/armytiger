@@ -1,0 +1,5 @@
+package com.army.armytiger.trainInfo.service;
+
+public interface TrainInfoMapper {
+
+}

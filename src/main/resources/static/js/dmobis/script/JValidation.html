@@ -1,0 +1,863 @@
+/*
+
+  JForm       : 검증할 모든 객체를 담는데 사용.
+  JText       : 텍스트 데이터를 검증하는데 사용.
+  JNumber     : 숫자 데이터를 검증하는데 사용.
+  JMoney      : 화폐 데이터를 검증하는데 사용.
+  JSelect     : Drop/Down 데이터를 검증하는데 사용.
+  JChcek      : 체크박스와 라디오 버튼을 검증하는데 사용.
+  JSsn        : 주민등록번호를 검증하는데 사용.
+  JBirthdate  : 생년월일을 검증하는데 사용.
+  JMail       : 이메일 주소를 검증하는데 사용.
+  JDate       : 날짜 데이터를 검증하는데 사용.
+  JFile       : 파일 업로드 데이터를 검증하는데 사용.
+
+*/
+
+
+
+// 숫자체크
+
+
+var DAY_OF_WEEK = new Array("일","월","화","수","목","금","토");
+
+function JForm() {
+
+    // Member field
+    this.children = new Array;
+
+    // Member Method
+    this.add = jform_add;
+    this.validate = jform_validate;
+
+    return this;
+}
+
+function jform_add(child) {
+    this.children[this.children.length] = child;
+    return this;
+}
+
+function jform_validate() {
+    for (var i = 0; i < this.children.length; i++) {
+        if (!this.children[i].validate()) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function JText(name, object) {
+
+    // Member Field
+    this.name = name;
+    this.object = object;
+
+    this.min;
+    this.max;
+
+    this.filterCheck;
+    this.nullCheck = true;
+    this.rangeCheck;
+
+    // Member Method
+    this.validate = jtext_validate;
+    this.nullable = jtext_nullable;
+    this.range = jtext_range;
+    this.filter = jtext_filter;
+    this.focus = jtext_focus;
+
+    return this;
+}
+
+function jtext_validate() {
+
+    var value = this.object.value;
+
+    if (this.nullCheck && trimmed(value).length == 0) {
+        alert(ul(this.name) + " 입력하십시오.");
+        return this.focus();
+    }
+
+    if (this.rangeCheck && (trimmed(value).length != 0) && !checkCharacterSize(value, this.min, this.max)) {
+        if (this.min == this.max) {
+            alert(this.name + "의 크기는 " + this.min + "이여야 합니다");
+        } else {
+            alert(this.name + "의 크기는 " + this.min + "과 " + this.max + " 사이여야 합니다(한글로는 "+Math.round(this.max/2-0.5,0)+"까지 가능)" );
+        }
+        return this.focus();
+    }
+
+    if (this.filterCheck && isSpecial(value)) {
+        alert(this.name + "에는 다음(', ., \") 특수 문자는 입력할 수 없습니다.");
+        return this.focus();
+    }
+    return true;
+}
+
+function jtext_nullable() {
+    this.nullCheck = false;
+    return this;
+}
+
+function jtext_range(min, max) {
+    this.rangeCheck = true;
+    this.min = min;
+    this.max = max;
+    return this;
+}
+
+function jtext_filter() {
+    this.filterCheck = true;
+    return this;
+}
+
+function jtext_focus() {
+    this.object.focus();
+    this.object.select();
+    return false;
+}
+
+function JNumber(name, object) {
+
+    // Member Field
+    this.name = name;
+    this.object = object;
+    this.nullCheck = true;
+    this.rangeCheck;
+
+    this.min;
+    this.max;
+
+    // Member Method
+    this.validate = jnumber_validate;
+    this.nullable = jtext_nullable;
+    this.range = jtext_range;
+    this.focus = jtext_focus;
+
+    return this;
+}
+
+function jnumber_validate() {
+	
+    var value = this.object.value;
+
+    if (this.nullCheck && trimmed(value).length == 0) {
+        alert(ul(this.name) + " 입력해야 합니다.");
+        return this.focus();
+    }
+
+    if (isNaN(value)) {
+        alert(this.name + "에는 숫자만을 입력해야 합니다.");
+        return this.focus();
+    }
+
+    if (this.rangeCheck && (trimmed(value).length != 0) && !checkNumberSize(value, this.min, this.max)) {
+        if (this.min == this.max) {
+            alert(this.name + "의 숫자는 " + this.min + "이여야 합니다");
+        } else {
+            alert(this.name + "의 숫자는 " + wa(this.min) + " " + this.max + " 사이여야 합니다");
+        }
+        return this.focus();
+    }
+    return true;
+}
+
+function JSelect(name, object) {
+
+    // Member Field
+    this.name = name;
+    this.object = object;
+
+    this.min;
+    this.max;
+
+    this.nullCheck = true;
+    this.rangeCheck;
+
+    // Member Method
+    this.validate = jselect_validate;
+    this.nullable = jtext_nullable;
+    this.range = jtext_range;
+    this.focus = jselect_focus;
+
+    return this;
+}
+
+function jselect_validate() {
+
+    var value = this.object.value;
+
+    if (this.nullCheck && trimmed(value).length == 0) {
+        alert(ul(this.name) + " 선택해야 합니다.");
+        return this.focus();
+    }
+
+    var number = isSelected(this.object);
+
+    if (this.rangeCheck && number != 0 && (number < this.min || number > this.max)) {
+        if (this.min == this.max) {
+            alert("선택할 수 있는 " + this.name + "의 수는 " + this.min + "입니다.");
+        } else {
+            alert("선택할 수 있는 " + this.name + "의 수는 " + wa(this.min) + " " + this.max + " 사이입니다.");
+        }
+        return this.focus();
+    }
+
+    return true;
+}
+
+function jselect_focus() {
+    this.object.focus();
+    return false;
+}
+
+function isSelected(item) {
+    if (item == null) return 0;
+    var result = 0;
+
+    for (var i = 0; i < item.length; i++) {
+        if (item[i].selected) {
+            result++;
+        }
+    }
+    return result;
+}
+
+function JCheck(name, object) {
+
+    // Member Field
+    this.name = name;
+    this.object = object;
+
+    this.min;
+    this.max;
+
+    this.nullCheck = true;
+    this.rangeCheck;
+
+    // Member Method
+    this.validate = jcheck_validate;
+    this.nullable = jtext_nullable;
+    this.range = jtext_range;
+    this.focus = jcheck_focus;
+
+    return this;
+}
+
+function jcheck_validate() {
+
+    var number = isChecked(this.object);
+    if (this.nullCheck && number == 0) {
+        alert(this.name + "을(를) 선택해야 합니다.");
+        return this.focus();
+    }
+
+    if (this.rangeCheck && number != 0 && (number < this.min || number > this.max)) {
+        if (this.min == this.max) {
+            alert("선택할 수 있는 " + this.name + "의 수는 " + this.min + "입니다.");
+        } else {
+            alert("선택할 수 있는 " + this.name + "의 수는 " + wa(this.min) + " " + this.max + " 사이입니다.");
+        }
+        return this.focus();
+    }
+    return true;
+}
+
+function jcheck_focus() {
+    return false;
+}
+
+function isSpecial(s) {
+    for (i = 0; i < s.length; i++) {
+        // Check that current character letter.
+        var c = s.charAt(i);
+        if (c == "'" || c == "." || c == "\"") {
+            return true;
+        }
+    }
+    return false;
+}
+
+function isChecked(list) {
+    if (list == null) return 0;
+    var result = 0;
+
+    // list array의 데이터가 1인 경우
+    if (list.checked) {
+        return 1;
+    }
+    for (var i = 0; i < list.length; i++) {
+        if (list[i].checked) {
+            result++;
+        }
+    }
+    return result;
+}
+
+function trimmed(value) {
+    value = value.replace(/^\s+/, "");  // remove leading white spaces
+    value = value.replace(/\s+$/g, ""); // remove trailing while spaces
+    return value;
+}
+
+function checkCharacterSize(data, min, max) {
+    var total = 0;
+
+    for (var i = 0; i < data.length; i++) {
+        var a = data.charAt(i);
+        // 한글인 경우 길이가 6 이다.
+        if (escape(a).length >= 6) {
+            total = total + 2;
+        } else {
+            total = total + 1;
+        }
+    }
+    return total >= min && total <= max;
+}
+
+function checkNumberSize(data, min, max) {
+	if(max <= 0) {
+		return data >= min;
+	} else {
+		return data >= min && data <= max;
+	}
+}
+
+function JMoney(name, object) {
+
+    // Member Field
+    this.name = name;
+    this.object = object;
+    this.nullCheck = true;
+    this.rangeCheck;
+
+    this.min;
+    this.max;
+
+    // Member Method
+    this.validate = jmoney_validate;
+    this.nullable = jtext_nullable;
+    this.range = jtext_range;
+    this.focus = jtext_focus;
+
+    return this;
+}
+
+function jmoney_validate() {
+
+    var value = this.object.value;
+
+    if (this.nullCheck && trimmed(value).length == 0) {
+    	alert(ul(this.name) + " 입력해야 합니다.");
+        return this.focus();
+    }
+
+    value = value.replace(/,|\s+/g, "");
+
+    if (isNaN(value)) {
+        alert(this.name + "에는 숫자만을 입력해야 합니다.");
+        return this.focus();
+    }
+
+    if (this.rangeCheck && (trimmed(value).length != 0) && !checkNumberSize(value, this.min, this.max)) {
+        if (this.min == this.max) {
+            alert(this.name + "의 금액은 " + this.min + "이여야 합니다");
+        } else {
+            alert(this.name + "의 금액은 " + wa(this.min) + " " + this.max + " 사이여야 합니다");
+        }
+        return this.focus();
+    }
+    return true;
+}
+
+function JSsn(name, object) {
+
+    // Member Field
+    this.name = name;
+    this.object = object;
+    this.nullCheck = true;
+
+    // Member Method
+    this.validate = jssn_validate;
+    this.nullable = jtext_nullable;
+    this.focus = jtext_focus;
+
+    return this;
+}
+
+function jssn_validate() {
+
+    var value = this.object;
+
+    if (isNaN(value.replace(/-|\s+/g, ""))) {
+        alert(this.name + "에는 숫자만을 입력해야 합니다.");
+        return false;
+    }
+
+    if (!this.nullCheck && trimmed(value).length == 0) {
+        return false;
+    }
+
+    var year = value.substring(0, 2);
+    var month = value.substring(2, 4);
+    var day = value.substring(4, 6);
+    var sex = value.substring(6, 7);
+
+    if ((value.length != 13 ) || (month < 1 || month >12 || day < 1)) {
+        alert(ul(this.name) + " 올바르게 입력하여 주십시오.");
+        return false;
+    }
+
+    if (sex < 1 || sex > 9) {
+        alert(ul(this.name) + " 올바르게 입력하여 주십시오.");
+        return false;
+    }
+
+    return true;
+}
+
+function JBirthdate(name, object) {
+
+    // Member Field
+    this.name = name;
+    this.object = object;
+    this.nullCheck = true;
+    this.rangeCheck;
+
+    this.min;
+    this.max;
+
+    // Member Method
+    this.validate = jbirthdate_validate;
+    this.nullable = jtext_nullable;
+    this.range = jtext_range;
+    this.focus = jtext_focus;
+
+    return this;
+}
+
+function jbirthdate_validate() {
+
+    var value = this.object.value;
+
+    if (this.nullCheck && trimmed(value).length == 0) {
+        alert(ul(this.name) + " 입력해야 합니다.");
+        return this.focus();
+    }
+
+    if (isNaN(value)) {
+        alert(this.name + "에는 숫자만을 입력해야 합니다.");
+        return this.focus();
+    }
+
+    var year = value.substring(0, 2);
+    var month = value.substring(2, 4);
+    var day = value.substring(4, 6);
+
+    if ((value.length != 6 ) || (year < 25 || month < 1 || month >12 || day < 1)) {
+        alert(ul(this.name) + " 올바르게 입력하여 주십시오.");
+        return false;
+    }
+
+    return true;
+}
+
+function JMail(name, object) {
+
+    // Member Field
+    this.name = name;
+    this.object = object;
+
+    this.nullCheck = true;
+
+    // Member Method
+    this.validate = jmail_validate;
+    this.nullable = jtext_nullable;
+    this.focus = jtext_focus;
+
+    return this;
+}
+
+function jmail_validate() {
+
+    var value = this.object.value;
+
+    if (this.nullCheck && trimmed(value).length == 0) {
+        alert(ul(this.name) + " 입력해야 합니다.");
+        return this.focus();
+    }
+
+    if (!this.nullCheck && trimmed(value).length == 0) {
+        return true;
+    }
+
+    // 이메일 주소의 허용되는 최대 크기 체크
+
+    var re = new RegExp("(^[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+)*@[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*$)");
+    if (!re.test(value)) {
+        alert("입력하신 " + un(this.name) + " 전자우편주소로 유효하지 않습니다. 다시 입력하여 주십시오!");
+        return this.focus();
+    }
+    return true;
+}
+
+/**
+ *	Date 타입 검증에 사용된다.
+ */
+function JDate(name, object) {
+
+    // Member Field
+    this.name = name;
+    this.object = object;
+
+    this.nullCheck = true;
+    this.rangeCheck = false;
+
+    this.date = null;
+
+    this.min = null; //YYYYMMDD Format
+    this.max = null; //YYYYMMDD Format
+
+    this.format = "YYYY년MM월DD일(DAY)";
+
+    // Member Method
+    this.validate = jdate_validate;
+    this.nullable = jtext_nullable;
+    this.focus = jtext_focus;
+    this.range = jtext_range;
+
+    this.toDate = jdate_toDate;
+    this.parse = jdate_parse;
+    this.toString = jdate_toString;
+
+    this.getYear  = jdate_getYear;
+    this.getMonth = jdate_getMonth;
+    this.getDate  = jdate_getDate;
+    this.getDay = jdate_getDay;
+
+	this.parse();
+
+    return this;
+}
+
+// 데이터 타입 유효성 테스트
+function jdate_validate() {
+
+    var value = this.object.value;
+
+    if (this.nullCheck && trimmed(value).length == 0) {
+		alert(this.name + "을(를) 입력해야 합니다.");
+        return this.focus();
+    }
+
+    if (!this.nullCheck && trimmed(value).length == 0) {
+        return true;
+    }
+
+    if (this.date == null) {
+		alert("입력하신 " + this.name + "은(는) 날짜로 유효하지 않습니다. 다시 입력하여 주십시오!");
+        return this.focus();
+    }
+
+    if (this.rangeCheck) {
+    	var aDate = this.toDate();
+    	var minDate, maxDate;
+
+    	if (this.min != null) {
+    		minDate = new JDate().parse(this.min);
+    	} else {
+    		minDate = new JDate().parse("10000101");
+    	}
+    	if (this.max != null) {
+    		maxDate = new JDate().parse(this.max);
+    	} else {
+    		maxDate = new JDate().parse("99991231");
+    	}
+    	if (this.min == null && aDate > maxDate.toDate()) {
+    		alert(this.name + "의 날짜는 " + maxDate + " 이전 이어야 합니다.");
+    		return this.focus();
+
+    	} else if (this.max == null && aDate < minDate.toDate()) {
+    		alert(this.name + "의 날짜는 " + minDate + " 이후 이어야 합니다.");
+    		return this.focus();
+    	} else if (aDate > maxDate.toDate() || aDate < minDate.toDate()) {
+    		alert(this.name + "의 날짜는 " + minDate + "과 " + maxDate + " 사이여야 합니다");
+    		return this.focus();
+    	}
+    }
+
+    return true;
+}
+
+// Date 파싱
+// 날짜 데이터 인지 검증한다. 일차적으로는 정규식을 이용한다.
+// 년,월,일 사이의 Delimiter는 ".-/" 중 하나이거나 빈문자을 사용한다.
+// Date Object를 초기화하여 데이터가 적합한지 체크한다.
+function jdate_parse() {
+	var value = this.object;
+	if (jdate_parse.arguments.length > 0) {
+		value = jdate_parse.arguments[0];
+	} else if (this.object && typeof this.object=="object") {
+		value = this.object.value;
+	} else {
+		this.date = new Date();
+		return this;
+	}
+    var re = /^\d{4}[-.\/]?\d{2}[-.\/]?\d{2}$/;
+
+    this.date = null;
+    if (value.search(re) >= 0) {
+        value = value.replace(/[-.\/]/g,"");
+    	var aDate = new Date(value.substring(0,4),value.substring(4,6)-1,value.substring(6,8));
+    	if (   aDate.getFullYear()  == Math.abs(value.substring(0,4))
+    		&& aDate.getMonth() == Math.abs(value.substring(4,6))-1
+    		&& aDate.getDate()  == Math.abs(value.substring(6,8)) ) {
+    		this.date = aDate;
+    	}
+    }
+    return this;
+}
+
+// Date 타입으로 변환
+function jdate_toDate() {
+	return this.date;
+}
+
+function jdate_getYear() {
+	return this.date == null ? 1000 : this.date.getFullYear();
+}
+
+function jdate_getMonth() {
+	var num = (this.date == null ? 0 : this.date.getMonth()+1);
+	return (num < 10 ? '0' + new String(num) : num);
+}
+
+function jdate_getDate() {
+	var num = (this.date == null ? 0 : this.date.getDate());
+	return (num < 10 ? '0' + new String(num) : num);
+}
+
+function jdate_getDay() {
+	return (this.date == null ? DAY_OF_WEEK[0] : DAY_OF_WEEK[this.date.getDay()]);
+}
+
+
+// 스트링으로 변환
+function jdate_toString() {
+	var formatString = this.format;
+	if (jdate_toString.arguments.length > 0) {
+		formatString = jdate_toString.arguments[0];
+	}
+	var str = formatString.replace(/YYYY/g , this.getYear());
+	str = str.replace(/MM/g , this.getMonth());
+	str = str.replace(/DD/g , this.getDate());
+	str = str.replace(/DAY/g , this.getDay());
+	str = str.replace(/yy/g , new String(this.getYear()).substring(2,4));
+	return str;
+}
+
+function JFile() {
+
+    // Member Field
+    this.min;
+    this.max;
+    this.rangeCheck;
+    this.range = jfile_range;
+
+    this.typeCheck;
+    this.typeArray;
+    this.type = jfile_type;
+
+    this.extensionCheck;
+    this.extensionArray;
+    this.fileName;
+    this.extension = jfile_extension;
+
+    this.validate = jfile_validate;
+
+    return this;
+}
+
+function jfile_range(min, max) {
+    this.rangeCheck = true;
+    this.min = min;
+    this.max = max;
+    return this;
+}
+
+function jfile_type(typeArray) {
+	this.typeArray = typeArray;
+	this.typeCheck = true;
+    return this;
+}
+
+function jfile_extension(fileName, extensionArray) {
+	this.fileName = fileName;
+	this.extensionArray = extensionArray;
+	this.extensionCheck = true;
+    return this;
+}
+
+function jfile_validate() {
+
+    if (this.typeCheck) {
+    	var size = 0;
+    	for(var j = 0 ; j < this.typeArray.length ; j++) {
+    		var result = false;
+			for (var i = 0; i < fileInfos.length ; i++) {
+				if(fileInfos[i] == this.typeArray[j]) {
+					 result = true;
+					 break;
+				}
+			}
+			if (result == false) {
+				alert(this.typeArray[j] + "를 첨부하십시오.");
+				return false;
+			}
+		}
+    }
+    if (this.rangeCheck) {
+	   	var size = 0;
+		for (var i = 0; i < fileInfos.length ; i++) {
+			if(fileInfos[i]!='-') {
+			 size = size + 1;
+			}
+		}
+		if (!checkNumberSize(size, this.min, this.max) ) {
+			if (this.min == this.max) {
+				alert("첨부 파일의 수는 " + this.min + "개 여야 합니다");
+			} else if (this.min > this.max) {
+				alert("첨부 파일의 갯수는 " + this.min + "개 이상이어야 합니다");
+			} else {
+				alert("첨부 파일의 갯수는 " + wa(this.min) + this.max + " 사이여야 합니다");
+			}
+			return false;
+       }
+    }
+    if (this.extensionCheck) {
+    	var extension = this.fileName.substring(this.fileName.lastIndexOf(".") + 1);
+		extension = extension.toLowerCase();
+		var result = false;
+    	for(var j = 0 ; j < this.extensionArray.length ; j++) {
+    		if (this.extensionArray[j].toLowerCase() == extension) {
+	    	     result = true;
+	     		 break;
+    		}
+		}
+		if (result == false) {
+			alert(extension + " 파일은 첨부할 수 없습니다.");
+			return false;
+		}
+    }
+    return true;
+}
+
+//내부함수 (한글 종성체크)
+function isJongsong(wd) {
+
+    var INDETERMINATE = 0;
+    var NOJONGSONG = 1;
+    var JONGSONG = 2;
+
+	word = new String(wd);                    // 숫자가 들어오는 등에 대비해 무조건 문자열로 바꿈
+	numStr1 = "013678lmnLMN";                 // '조' 전까지는 0이 받침이 있는걸로 나옴 --;
+	numStr2 = "2459aefhijkoqrsuvwxyzAEFHIJKOQRSUVWXYZ";
+	// bdgpt들은 읽기에 따라 받침이 있기도 하고 없기도 한다고 판단.
+	// 대문자는 단독으로 읽을 때를 감안하면 받침 있다고 확정되는 것이 더 적음.
+
+    if (word == null || word.length < 1) {
+        return INDETERMINATE;
+    }
+
+    lastChar = word.charAt(word.length - 1);
+    lastCharCode = word.charCodeAt(word.length - 1);
+
+    if (numStr1.indexOf(lastChar) > -1) {
+    	return JONGSONG;
+    }else if (numStr2.indexOf(lastChar) > -1) {
+        return NOJONGSONG;
+    }
+
+    if (lastCharCode<0xac00 || lastCharCode>0xda0c) {
+        return INDETERMINATE;
+    }
+    else{
+        lastjongseong = (lastCharCode - 0xAC00) % (21*28) % 28  ;
+
+        if (lastjongseong == 0){
+            return NOJONGSONG;
+        }else{
+            return JONGSONG;
+        }
+    }
+}
+
+//내부함수 (을/를)
+function ul(s) {
+    var ul0 = new Array("(을)를", "를", "을");
+    return s + ul0[isJongsong(s)];
+}
+
+//내부함수 (이/가)
+function ka(s){
+    var ka0 = new Array("(이)가", "가", "이");
+    return s + ka0[isJongsong(s)];
+}
+
+//내부함수 (은/는)
+function un(s){
+    var un0 = new Array("(은)는", "는", "은");
+    return s + un0[isJongsong(s)];
+}
+
+//내부함수 (와/과)
+function wa(s){
+    var arr = new Array("(와)과", "와", "과");
+    return s + arr[isJongsong(s)];
+}
+
+//영문자, 숫자의 6~8자리 조합된 형식이면 true반환
+function checkPassword(j_password) {
+	var strPwd = j_password.value;
+	strPwd = trimmed(strPwd);
+    var reNum = new RegExp('[0-9]');
+    var reEng = new RegExp('[a-zA-Z]');
+    var nNum = 0;
+    var nEng = 0;
+
+    if (strPwd.length < 8 || strPwd.length > 12) {
+    	alert("비밀번호는 8~12자리 사이어야 합니다.");
+    	j_password.focus();
+    	return false;
+    } else if(!(strPwd.match(reEng) && strPwd.match(reNum))){
+        alert("비밀번호는 숫자/문자/특수문자가 조합되어야 합니다.\n 비밀번호를 다시 입력하시기 바랍니다.");
+        j_password.focus();
+        j_password.select();
+    	return false;
+    }
+
+/*
+    var sKey = strPwd.charAt(0);
+    result = true;
+
+    for (var i=0; i<strPwd.length; i++) {
+       	sKey = strPwd.charAt(i);
+       	if (reNum.test(sKey))
+       		nNum++;
+    	else if (reEng.test(sKey))
+        	nEng++;
+       	else
+           	result = false;
+    }
+
+    if (result == true && nNum > 0 && nEng > 0)
+    	return true;
+    else {
+		alert("비밀번호는 영문자, 숫자의 조합된 형식이어야 합니다.");
+    	j_password.focus();
+    	return false;
+    }
+*/
+    return true;
+}

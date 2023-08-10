@@ -1,0 +1,33 @@
+package com.army.armytiger.trainInfo.service;
+
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.army.armytiger.command.MemberVO;
+import com.army.armytiger.command.TrainVO;
+
+@Service("traininfoService")
+public class TrainInfoServiceImple implements TrainInfoService {
+
+	@Autowired
+	private TrainInfoMapper traininfoMapper;
+	
+	//나의 정보 조회
+	@Override
+	public ArrayList<MemberVO> getmyInfo(String military_sn) {
+		
+		return null;
+	}
+
+	//나의 훈련 정보 조회
+	@Override
+	public ArrayList<TrainVO> gettrainInfo(String military_sn) {
+
+		return null;
+	}
+	
+	
+	
+}

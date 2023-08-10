@@ -1,0 +1,66 @@
+function ajaxindicatorstart()
+{
+	
+	$("input:button").keydown(function(evt){//Enter키, space키 막기
+		if(evt.keyCode == 13 || evt.keyCode == 32){
+			return false;
+		}
+	});
+	
+	if($("#resultLoading").length == 0){
+		$('<div/>', {
+			'id': 'resultLoading'
+		} )
+		.html( "<div align=\"center\" title=\"검색 중...\"><img align=\"center\" style=\"width:70px; height:70px;\" src=../../_/css/dmobis/loader.gif/_.html alt=\검색 중\"></div>" )
+		.appendTo("body");
+	}	
+	
+	$('#resultLoading').css({
+		'width':'100%',
+		'height':'100%',
+		'position':'fixed',
+		'z-index':'10000000',
+		'top':'0',
+		'left':'0',
+		'right':'0',
+		'bottom':'0',
+		'margin':'auto'
+	});	
+	
+	$('#resultLoading .bg').css({
+		'opacity':'0.7',
+		'width':'100%',
+		'height':'100%',
+		'position':'absolute',
+		'top':'0'
+	});
+	
+	$('#resultLoading>div:first').css({
+		'border-radius':'20px',
+		'opacity':'0.7',
+		'width': '150px',
+		'height':'120px',
+		'text-align': 'center',
+		'position': 'fixed',
+		'top':'0',
+		'left':'0',
+		'right':'0',
+		'bottom':'0',
+		'margin':'auto',
+		'font-size':'16px',
+		'z-index':'10',
+		'color':'#ffffff'
+		
+	});
+
+    $('#resultLoading .bg').height('100%');
+    $('#resultLoading').fadeIn(100);
+    $('body').css('cursor', 'wait');		
+}
+
+function ajaxindicatorstop()
+{
+	$('#resultLoading .bg').height('100%');
+    $('#resultLoading').fadeOut(200);
+    $('body').css('cursor', 'default');   
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coding404.myweb.service.TopicMapper">
+	<insert id="topicReg" parameterType="TopicVO">
+		
+		insert into topic (top_regdate,
+                  		  top_id,
+                    	  top_title,
+                  		  top_content)
+		values (#{top_regdate},
+			   #{top_id},
+               #{top_title},
+               #{top_content})
+	
+	</insert>
+	
+	<select id="getList" resultType="TopicVO">
+	
+		select * 
+		from topic 
+		order by
+		top_id desc;
+		
+	
+	</select>
+
+</mapper>

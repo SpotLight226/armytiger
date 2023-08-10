@@ -1,0 +1,11 @@
+package com.army.armytiger.trainInfo.service;
+
+import java.util.ArrayList;
+
+import com.army.armytiger.command.MemberVO;
+
+public interface TrainInfoService {
+	
+	public ArrayList<MemberVO> getmyInfo();
+
+}

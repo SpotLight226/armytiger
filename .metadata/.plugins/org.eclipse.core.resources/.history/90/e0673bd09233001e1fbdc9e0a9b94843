@@ -1,0 +1,13 @@
+package com.coding404.myweb.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@RequestMapping("/notice")
+public class NoticeController {
+
+	@RequestMapping("/noticeList")
+	public String noticeList() {
+		
+		return "notice/noticeList";
+	}
+}

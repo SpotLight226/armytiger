@@ -1,0 +1,135 @@
+.mainWrapper {overflow: hidden;}
+/* 상단 */
+.mainWrapper .ipssGiudeBlock {
+    padding: 0 7px 17px 7px;
+}
+.currentStatusBlock {
+    position: relative;
+    border: 1px solid #696d7e;
+    box-sizing: border-box;
+    background-color: #fff;
+    margin: 7px 7px 7px;
+    
+}
+.currentStatusBlock .statusBoard {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+.currentStatusBlock .statusBoard .section {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    padding: 17px 0;
+    text-align: center;
+}
+.currentStatusBlock .statusBoard .section a {
+    display: block;
+}
+.currentStatusBlock .statusBoard .section h3 {
+    font-weight: 300;
+    font-size: 14px;
+    color: #000;
+}
+.currentStatusBlock .statusBoard .section span {
+    font-weight: 500;
+    font-size: 20px;
+    color: #000;
+}
+/* 하단 */
+.mainWrapper .col1 { width: 68%;}
+.mainWrapper .col2 { width: 32%;}
+.mainWrapper .col3 { width: 50%;}
+.mainWrapper .mBlockWrap {
+    float: left;
+    box-sizing: border-box;
+    padding: 7px;
+}
+
+.mainWrapper .sales {
+    height: 293px;
+}
+.mainWrapper .mBlockWrap .mainBlock{
+    height: 100%;
+    padding: 20px;
+    border: 1px solid #d7d8de;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+.mainWrapper .mBlockWrap .mainBlock .mTitle {
+    position: relative;
+    padding-bottom: 12px;
+}
+.mainWrapper .sales .mainBlock .mContent {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+.mainWrapper .sales .mainBlock .mContent .statusBox {
+    display: table-cell;
+    vertical-align: top;
+    padding-right: 24px;
+}
+.mainWrapper .sales .mainBlock .mContent .statusBox dl {
+    padding: 10px 0;
+}
+.mainWrapper .sales .mainBlock .mContent .statusBox dl dt{
+    width: 50%;
+}
+.mainWrapper .mBlockWrap .mainBlock .mContent .statusBox dl dt {
+    float: left;
+    padding: 0 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #000;
+}
+.mainWrapper .mBlockWrap .mainBlock .mContent .statusBox dl dd {
+    padding-right: 5px;
+    text-align: right;
+    font-size: 14px;
+    color: #000;
+}
+.mainWrapper .mBlockWrap .mainBlock .mContent ul li {
+    position: relative;
+    margin-top: 18px;
+}
+.mainWrapper .mBlockWrap .mainBlock .mContent ul li a {
+    position: relative;
+    display: block;
+    padding-right: 60px;
+    padding-left: 80px;
+    box-sizing: border-box;
+}
+
+.mainWrapper .mBlockWrap .mainBlock .mContent ul li a .tag_point {
+    border: 1px solid #edc98d;
+    color: #dc941b;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 69px;
+    height: 20px;
+    border-radius: 2px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 12px;
+    color: #333;
+}
+.mainWrapper .mBlockWrap .mainBlock .mContent ul li a .txt {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    color: #000;
+
+}
+.mainWrapper .mBlockWrap .mainBlock .mContent ul li .date {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 13px;
+    color: #666;
+}

@@ -1,0 +1,14 @@
+package com.army.armytiger.trainInfo.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service("traininfoService")
+public class TrainInfoServiceImple implements TrainInfoService {
+
+	@Autowired
+	private TrainInfoMapper traininfoMapper;
+	
+	
+	
+}

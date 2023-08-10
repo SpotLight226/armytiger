@@ -1,0 +1,5 @@
+package com.army.armytiger.command;
+
+public class trainVO {
+
+}

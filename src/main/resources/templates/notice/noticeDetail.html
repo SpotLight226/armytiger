@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{./include/layout :: setContent( ~{:: #contents})}">
+
+	<div id="contents" tabindex="0">
+		<div class="container">
+			<!-- lnb -->
+			<div id="lnb">
+
+				<div class="lnb-tit lnb-bg">
+					<h2>알림마당</h2>
+
+				</div>
+				<ul class="lnb-menu">
+
+					<li class="active"><a th:href="@{noticeList}">공지사항</a>
+					</li>
+					<li><a href="/dmobis/cop/bbs/selectBoardList.do?bbsId=BBSMSTR_000000000002">카드뉴스</a></li>
+					<li><a href="/dmobis/cop/bbs/selectBoardList.do?bbsId=BBSMSTR_000000000003">국방영상</a></li>
+					<li><a href="/dmobis/rfh/rgt/library/02_question.jsp">자주 묻는 질문</a></li>
+					<li><a href="/dmobis/uss/olp/qnn/EgovQustnrRespondInfoManageListUser.do">사이버 설문 조사</a></li>
+					<li>
+						<a href="/dmobis/rfh/rgt/info/selectionGuide.jsp">선발 안내 및 신청</a>
+						<ul>
+							<li><a href="#NONE"
+									onclick="openPopupWindow('/dmobis/rfm/rrm/officerpromotion/OfficerMainHPopup.do','op','width=900,height=950');">예비역간부
+									진급신청</a></li>
+							<li><a href="/dmobis/rfh/rgt/info/PtsApplGuide.jsp">비상근 예비군 지원접수</a></li>
+							<li><a href="/dmobis/rfh/rgt/info/03_05_selection.jsp">예비전력관리 담당자 선발 안내</a></li>
+							<li><a href="http://www.q-net.or.kr/crf006.do?id=crf00641&amp;gSite=Q&amp;gId="
+									target="_blank">군병과 경력인증 범위안내</a></li>
+						</ul>
+					</li>
+
+				</ul>
+			</div>
+			<!-- //lnb -->
+			<form name="actionForm" action="#" method="post" enctype="multipart/form-data">
+				
+				<input type="hidden" name="notice_no" th:value="${vo.notice_no}">	
+			<!-- content -->
+			<div id="content-wrap">
+				<div class="location">Home &gt; 알림마당 &gt;
+					<span>공지사항</span>
+				</div>
+				<section>
+					<div class="content-tit">
+						<h3>공지사항</h3>
+						<p class="sub-txt">예비군과 관련된 전체 공지사항을 접하실 수 있습니다.</p>
+					</div>
+				</section>
+				<section>
+					<div class="pos-rel mt45">
+						<h4 class="cont-tit-h4">내용</h4>
+					</div>
+					<table class="tbl fixed th-c">
+						<caption>공지사항 상세내용</caption>
+						<colgroup>
+							<col width="15%">
+							<col width="20%">
+							<col width="15%">
+							<col width="20%">
+							<col width="15%">
+							<col width="15%">
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="col">제목</th>
+								<td colspan="6">[[${vo.notice_title}]]</td>
+							</tr>
+							<tr>
+								<th scope="col">작성일</th>
+								<td colspan="2">[[${#temporals.format(vo.notice_regdate,'yyyy-MM-dd')}]]</td>
+								<th class="bl" scope="col">조회수</th>
+								<td colspan="2">0</td>
+							</tr>
+							<tr>
+								<th scope="col">첨부파일</th>
+								<td colspan="5">
+
+									<!-- link href="/css/egovframework/com/cmm/com.css" rel="stylesheet" type="text/css"-->
+
+									<script type="text/javascript">
+
+										function fn_egov_downFile(atchFileId, fileSn, extsn) {
+											window.open("/cmm/fms/FileDown.do?atchFileId=" + atchFileId + "&fileSn=" + fileSn + "&fileType=" + extsn + " ");
+										}
+
+										function fn_egov_deleteFile(atchFileId, fileSn) {
+											forms = document.getElementsByTagName("form");
+
+											if (confirm("정말 삭제하시겠습니까?")) {// 파일 삭제 시 다시 한번 확인 기능 추가 20171124 yjh 
+												for (var i = 0; i < forms.length; i++) {
+													if (typeof (forms[i].atchFileId) != "undefined" &&
+														typeof (forms[i].fileSn) != "undefined" &&
+														typeof (forms[i].fileListCnt) != "undefined") {
+														form = forms[i];
+													}
+												}
+
+												//form = document.forms[0];
+												form.atchFileId.value = atchFileId;
+												form.fileSn.value = fileSn;
+												form.action = "/cmm/fms/deleteFileInfs.do";
+												form.submit();
+
+											}
+
+										}
+
+										function fn_egov_check_file(flag) {
+											if (flag == "Y") {
+												document.getElementById('file_upload_posbl').style.display = "block";
+												document.getElementById('file_upload_imposbl').style.display = "none";
+											} else {
+												document.getElementById('file_upload_posbl').style.display = "none";
+												document.getElementById('file_upload_imposbl').style.display = "block";
+											}
+										}
+									</script>
+
+									<input type="hidden" name="atchFileId" value="DW_de6004002d1d11eeb">
+									<input type="hidden" name="fileSn" value="">
+									<input type="hidden" name="fileListCnt" id="fileListCnt" value="1">
+									<input type="hidden" name="fileType" value="">
+									<input type="hidden" id="filename" th:value="${vo.filename}">
+									<input type="hidden" id="filesize" th:value="${vo.filesize}">
+
+									<!--<title>파일목록</title> -->
+									<table>
+										<tbody>
+											<tr>
+												<td style="border-left: 0px; border-bottom: 0px;">
+													<a href="#LINK" id="file"
+														onclick="javascript:fn_egov_downFile('DW_de6004002d1d11eeb','0','pdf')"
+														class="file-down">
+													</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+
+
+								</td>
+							</tr>
+							<tr>
+								<th scope="col">내용</th>
+								<td colspan="6">
+									[[${vo.notice_content}]]<br><br><br><br>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</section>
+				
+				<div class="btn-box">
+					<button type="button" class="btn-gradient normal blue" style="height: 34px; width: 90px; font-size: 14px;"><a th:href="@{noticeList}" style="color: azure;">목록으로</a></button>&nbsp;&nbsp;
+					<button type="button" class="btn-gradient normal blue" style="height: 34px; width: 90px; font-size: 14px; "><a th:href="@{noticeModify(notice_no=${vo.notice_no})}" style="color: azure;">수정하기</a></button>
+					<button type="button" class="btn-gradient normal blue" id="deleteBtn" style="height: 34px; width: 90px; font-size: 14px; margin-left: 8px;"><a href="#" style="color: azure;">삭제</a></button>
+
+					<!--<input type="button" class="btn-gradient normal blue" style="height: 34px; width: 90px; font-size: 13px;" value="수정">-->
+				</div>
+			</div>
+			<!-- 본문 끝 -->
+		</div>
+	</div>
+</th:block>
+
+<script>
+	$("#deleteBtn").click(() => {
+		let result = confirm('정말로 삭제하시겠습니까?');
+		if(result) {
+			document.actionForm.action = "deleteForm";
+			document.actionForm.submit();
+		}
+		
+	})
+	
+	var importfile = "";
+	importfile += $("#filename").val();
+	importfile += ' [';
+	importfile += $("#filesize").val();
+	importfile += ' byte]';
+	
+	if($("#filename").val()==''){
+		$("#file").html("첨부파일없음");
+		$("#file").removeClass("file-down");
+		$("#file").removeAttr("onclick")
+	} else{
+		$("#file").html(importfile);
+	}
+</script>
+
+
+<body>
+
+
+
+
+
+
+
+
+
+</body>
+</th:block>
+
+</html>

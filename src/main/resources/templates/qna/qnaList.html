@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{./include/layout :: setContent( ~{:: #contents})}">
+	<div id="contents" tabindex="0">
+
+
+		<div class="container">
+			<!-- lnb -->
+			<div id="lnb">
+				<div class="lnb-tit lnb-bg2">
+					<h2>나의 훈련정보</h2>
+				</div>
+				<ul class="lnb-menu">
+					<li>
+						<a th:href="@{/training/trainInfo}" title="훈련정보">훈련정보</a>
+						<ul>
+							<li><a th:href="@{/training/trainInfo}" title="훈련정보">훈련정보</a></li>
+							<li><a href="#" title="비상근 예비군">비상근 예비군</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#" title="소속부대 알림">소속부대 알림</a>
+						<ul>
+							<li><a href="#" title="소속부대 공지사항">소속부대 공지사항</a></li>
+							<li><a href="#" title="훈련안내">훈련안내</a></li>
+							<li class="active"><a th:href="@{/qna/qnaList}" title="질의응답">나의 질의응답</a></li>
+							<li><a href="#" title="자유게시판">자유게시판</a></li>
+						</ul>
+					</li>
+					<li><a th:href="@{/training/myInfo}" title="개인정보수정">개인정보수정</a></li>
+					<li><a href="#" title="예비군 상훈">예비군 상훈</a></li>
+				</ul>
+			</div>
+
+
+			<!-- content -->
+
+			<!-- 사이드바 -->
+			<div id="content-wrap">
+				<div class="location">Home &gt; 나의 훈련정보 &gt; 소속부대 알림 &gt; <span>질의응답</span></div>
+
+				<section>
+					<div class="content-tit">
+						<h3>질의응답</h3>
+						<p class="sub-txt"></p>
+					</div>
+				</section>
+
+				<section>
+					<table class="tbl">
+						<tbody>
+							<tr>
+								<th scope="row">검색어</th>
+								<td>
+									<select class="sel-box wd100" style="padding: 0px 0px 0px 10px; height: 28px;">
+										<option value="" selected>선택하세요</option>
+										<option value="q_title">제목</option>
+										<option value="q_writer">작성자</option>
+									</select>
+									<input type="text" class="inp-box wd85" size="10" maxlength="50" value="">
+									<button type="button" class="btn-gradient normal blue" onclick="location.href='/qna/qnaList'">검색</input> <!--이벤트 추가할 것-->
+									<button type="button" class="btn-gradient normal gray" onclick="location.href='/qna/qnaList'">초기화</input>
+									<button type="button" class="btn-gradient normal blue" onclick="location.href='/qna/qnaReg'">등록</input>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+
+
+				<section>
+					<table class="tbl">
+						<caption>질의응답 목록</caption>
+						<colgroup>
+							<col style="width:20%">
+							<col style="width:30%">
+							<col style="width:15%">
+							<col style="width:35%">
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">번호</th>
+								<th scope="row">제목</th>
+								<th scope="row">작성자</th>
+								<th scope="row">작성일</th>
+								<th scope="row">공개여부</th>
+								<th scope="row">처리결과</th>
+							</tr>
+							
+							<tr th:each="vo, status : ${list}">
+								<td>[[${vo.q_no}]]</td>
+								<td><a th:href="@{qnaResult(q_no=${vo.q_no})}">[[${vo.q_title}]]</a></td>
+								<td>[[${vo.q_writer}]]</td>
+								<td>[[${vo.q_regdate}]]</td>
+								<td>[[${vo.q_open_yn}]]</td>
+								<td>[[${vo.q_result}]]</td>
+							</tr>	
+						</tbody>
+					</table>
+				</section>
+			</div>
+			<!-- //content -->
+		</div>
+
+
+
+
+	</div>
+</th:block>
+
+<script th:inline="javascript">
+	
+</script>

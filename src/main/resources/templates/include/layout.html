@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="setContent(contents)">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta charset="EUC-KR">
+		<title>예비군 홈페이지에 오신 것을 환영합니다!</title>
+
+		<link th:href="@{/css/dmobis/vm_common.css}" rel="stylesheet" type="text/css">
+		<link th:href="@{/css/dmobis/dataTables/jquery.dataTables.css}" rel="stylesheet" type="text/css">
+		<script th:src="@{/js/dmobis/jquery/js/jquery-3.7.0.min.js}"></script>
+		<script th:src="@{/js/dmobis/jquery/js/jquery-ui.min.js}"></script>
+		<script th:src="@{/js/dmobis/vmm-common.html}"></script>
+		<script th:src="@{/js/dmobis/slick.html}"></script>
+		<script th:src="@{/js/dmobis/script/JValidation.html}"></script>
+		<script th:src="@{/js/dmobis/script/JPopup.html}"></script>
+		<script th:src="@{/js/dmobis/script/JUtil.html}"></script>
+		<script th:src="@{/js/dmobis/script/JDom.html}"></script>
+		<script th:src="@{/js/dmobis/script/JForm.html}"></script>
+		<script th:src="@{/js/dmobis/script/JCommonUtil.html}"></script>
+		<link th:href="@{/js/dmobis/jquery/development-bundle/themes/base/jquery.ui.all.css}" rel="stylesheet"
+			type="text/css">
+			
+		<link th:href="@{/css/dmobis/vm_common.css}" rel="stylesheet" type="text/css">
+		<link th:href="@{css/dmobis/slick.css}" rel="stylesheet" type="text/css">
+		<link th:href="@{css/dmobis/mnd/layout_main.css}" rel="stylesheet" type="text/css"> <!-- 카드뉴스, 국방영상 -->
+		<script th:src="@{/js/dmobis/jquery/js/jquery-3.7.0.min.js}"></script>
+		<script th:src="@{/js/dmobis/jquery/js/jquery-ui.min.js}"></script>
+		<script th:src="@{/js/dmobis/vmm-common.html}"></script>
+		<script th:src="@{/js/dmobis/slick.html}"></script>
+		<script th:src="@{/js/dmobis/script/JValidation.html}"></script>
+		<script th:src="@{/js/dmobis/script/JPopup.html}"></script>
+		<script th:src="@{/js/dmobis/script/JUtil.html}"></script>
+		<script th:src="@{/js/dmobis/script/JDom.html}"></script>
+		<script th:src="@{/js/dmobis/script/JForm.html}"></script>
+		<script th:src="@{/js/dmobis/script/JCommonUtil.html}"></script>
+		<link th:href="@{/js/dmobis/jquery/development-bundle/themes/base/jquery.ui.all.css}" rel="stylesheet"
+			type="text/css">
+			
+
+		<style>
+			.hidden {
+				display: none;
+			}
+		</style>
+
+	</head>
+
+	<body>
+
+		<input type="hidden" name="bbsId" />
+		<input type="hidden" name="nttId" value="0" />
+		<input type="hidden" name="rfId" value="" />
+		<input type="hidden" name="login_name" value="" />
+		<input type="hidden" name="message" value="">
+		<input type="hidden" name="surveyYN" value="">
+
+		<div id="wrap">
+			<!-- header -->
+
+			<link th:href="@{/js/dmobis/jquery/development-bundle/themes/base/jquery.ui.all.css}" rel="stylesheet"
+				type="text/css">
+			<script th:src="@{/js/dmobis/script/JCommonUtil2e92.html?ver=220510}"></script>
+			<script>
+
+			</script>
+
+
+
+			<!-- header -->
+			<div id="header">
+
+
+
+				<div class="header-box">
+					<div class="container">
+
+						<div id="header-logo">
+							<img th:src="@{/img/dmobis/common/eg_logo.png}" alt="(전자정부)eg" />이 누리집은 대한민국 공식 전자정부 누리집입니다.
+						</div>
+
+						<ul id="header-menu">
+
+							<!--세션에 "grade"이라는 값이 ADMIN인 경우 -->
+							<li th:if="${#session.getAttribute('grade') == 'ADMIN'}">
+								<a th:href="@{/member/memberList}">관리자페이지</a>
+							</li>
+
+
+							
+							<!--세션에 "military_sn"이라는 값이 있는 경우 -->
+							<li th:if="${#session.getAttribute('military_sn')}">
+								<a href="training/logout" th:href="@{/training/logout}" id="logoutBtn">로그아웃</a>
+							</li>
+							<!--세션에 "military_sn"이라는 값이 없는 경우 -->
+							<li th:unless="${#session.getAttribute('military_sn')}">
+								<a href="training/login" th:href="@{/training/login}" id="loginBtn">로그인</a>
+							</li>
+
+
+
+							<li><a href="#">인증센터</a></li>
+							<li><a href="#">사이트맵</a></li>
+							<li><a href="#">개인정보수정</a></li>
+
+
+							<li><a href="javascript:;" title="새 창 열림" target="_blank" class="symbol2"
+									onclick="openPopupWindow('http://www.mois.go.kr/frt/sub/popup/p_taegugki_banner/screen.do','','width=600,height=650, scrollbars=1'); return false;"><img
+										th:src="@{/img/dmobis/common/symbol2.png}" alt="국가상징 바로알기" /></a></li>
+						</ul>
+
+					</div>
+				</div>
+
+
+
+
+				<!-- gnb -->
+
+				<div id="gnb">
+					<div class="container">
+
+						<a th:href="@{/}" class="logo"><img th:src="@{/img/dmobis/common/logo.png}" alt="예비군" /></a>
+
+						<ul class="gnb-menu">
+							<li>
+								<a href="#">나의 훈련정보</a>
+								<ul class="sub-gnb-menu">
+									<li><a href="/training/trainInfo">훈련정보</a></li>
+									<li><a href="#">소속부대알림</a></li>
+									<li><a href="/training/myInfo">개인정보수정</a></li>
+									<li><a href="#">예비군 상훈</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#">훈련 신청</a>
+								<ul class="sub-gnb-menu">
+									<li><a href="#">훈련일정 자율선택이란?</a></li>
+									<li><a href="#">훈련일정 자율선택</a></li>
+									<li><a href="#">휴일/전국단위 훈련이란?</a></li>
+									<li><a href="/receipt/receiptView">전국단위 훈련신청</a></li>
+									<li><a href="#">휴일예비군 훈련신청</a></li>
+									<li><a href="#">훈련신청 결과</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#">훈련 연기</a>
+								<ul class="sub-gnb-menu">
+									<li><a href="#">훈련 연기란?</a></li>
+									<li><a href="#">훈련 연기신청</a></li>
+									<li><a href="#">연기신청 결과</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#">보류·해소</a>
+								<ul class="sub-gnb-menu">
+									<li><a href="#">보류란?</a></li>
+									<li><a href="#">보류 신청</a></li>
+									<li><a href="#">보류해소란?</a></li>
+									<li><a href="#">해소 신청</a></li>
+									<li><a href="#">보류·해소 신청결과</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#">예비군 제도안내</a>
+								<ul class="sub-gnb-menu">
+									<li><a href="#">예비군 소개</a></li>
+
+									<li><a href="#">예비군 제도</a></li>
+									<li><a href="#">관련 법령</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#">알림마당</a>
+								<ul class="sub-gnb-menu">
+									<li><a href="/notice/noticeList">공지사항</a></li>
+									<li><a href="#">카드뉴스</a></li>
+									<li><a href="#">국방영상</a></li>
+									<li><a href="#">자주 묻는 질문</a></li>
+
+									<li><a href="#">사이버 설문 조사</a></li>
+									<li><a href="#">선발 안내 및 신청</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#">훈련장 및 부대 찾기</a>
+								<ul class="sub-gnb-menu">
+									<li><a href="#">예비군 훈련장 찾기</a></li>
+									<li><a href="#">예비군부대 찾기</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div class="sub-gnb-mask">
+
+					</div>
+
+				</div>
+				<!-- gnb -->
+
+
+
+			</div>
+			<!-- //header -->
+
+			<!-- 세션만료 알림 모달 팝업창 -->
+			<div id="sessionTimeoutModal" class="modal">
+				<div id="stm_message" style="line-height: 1.5;"></div>
+			</div>
+			<!-- //header -->
+
+			<div id="contents" th:replace="${contents}"></div>
+
+		</div>
+
+
+
+		<!-- footer -->
+		<div id="footer">
+			<div class="container footer-link-box">
+				<ul class="ft-link ft-link1">
+					<li><a href="rfh/mpt/mytroopfind/listAdminAddr.html">예비군 훈련 문의</a></li>
+					<li><a href="rfh/rgt/info/certificateGuide05.html"> 홈페이지 장애 문의</a></li>
+				</ul>
+
+				<ul class="ft-link ft-link2">
+					<li><a href="http://www.mnd.go.kr/" target="_blank"><img
+								th:src="@{/img/dmobis/common/ft-link-1bd01.png?ver=20220719}" alt="대한민국 국방부" /></a></li>
+					<li><a href="http://www.mma.go.kr/" target="_blank"><img
+								th:src="@{/img/dmobis/common/ft-link-2.png}" alt="병무청" /></a></li>
+				</ul>
+				<div class="ft-link ft-link3">
+					<ul>
+						<li><a href="https://itunes.apple.com/kr/app/yebigun/id501320155" target="_blank"><img
+									th:src="@{/img/dmobis/btn/btn-ios.png}" alt="ios" /></a></li>
+						<li><a href="https://play.google.com/store/apps/details?id=com.yebigun4.ex" target="_blank"><img
+									th:src="@{/img/dmobis/btn/btn-and.png}" alt="안드로이드" /></a></li>
+					</ul>
+				</div>
+
+				<span class="mobile-txt">모바일 앱 다운로드</span>
+
+				<div class="ft-link ft-link4">
+					<a href="http://www.narasarang.or.kr/" target="_blank"><img
+							th:src="@{/img/dmobis/btn/btn-emoeny-refund.png}" alt="e-머니 환불" /></a>
+				</div>
+			</div>
+
+			<div class="footer-bottom">
+				<div class="container">
+					<p>부당한 방법으로 전산망에 접속하거나 정보를 삭제/변경/유출하는 자는 관계법령에 따라 처벌 받게 됩니다. ㅣ <a href="#NONE"
+							onclick="MM_openBrWindow2('personal.html','','width=825,height=685,status=1, scrollbars=1');">개인정보처리방침</a>
+					</p>
+					<p>Copyright @ 국방부 동원기획관실 All rights Reserved</p>
+				</div>
+			</div>
+		</div>
+		<!-- //footer -->
+	</body>
+</th:block>
+
+<script>
+
+
+
+
+</script>
+
+
+</html>

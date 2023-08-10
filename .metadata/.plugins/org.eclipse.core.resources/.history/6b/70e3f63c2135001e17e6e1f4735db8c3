@@ -1,0 +1,18 @@
+package com.army.armytiger.command;
+
+public class MemberVO {
+	
+	 private String military_sn; // pk
+	    private String password; // 비밀번호
+	    private String name; // 이름
+	    private String bank; // 은행
+	    private String account_no; // 계좌번호
+	    private String phone_num;
+	    private String email;
+	    private String receipt_status; // 연락 종류 선택
+	    private String contact_yn;
+	    private String grade; // 등급
+	    private String unit; // 부대
+	    private String affiliation; // 소속
+
+}

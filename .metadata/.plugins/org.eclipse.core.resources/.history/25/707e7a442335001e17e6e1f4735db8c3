@@ -1,0 +1,10 @@
+package com.army.armytiger.trainInfo.service;
+
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface TrainInfoMapper {
+	
+	
+
+}

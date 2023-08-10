@@ -1,0 +1,40 @@
+package com.army.armytiger.controller;
+
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.army.armytiger.command.TrainVO;
+import com.army.armytiger.trainInfo.service.TrainInfoService;
+
+@Controller
+@RequestMapping("/train")
+public class TrainInfoController {
+	
+	@Autowired
+	@Qualifier("traininfoService")
+	private TrainInfoService trainInfoService;
+	
+	//훈련정보 화면
+	@GetMapping("/trainInfo")
+	public String trainInfo() {
+		
+		ArrayList<TrainVO> list = 
+		
+		return "train/trainInfo";
+	}
+	
+	//나의정보수정 화면
+	@GetMapping("/myInfo")
+	public String myInfo() {
+		
+		
+		return "train/myInfo";
+	}
+	
+
+}
