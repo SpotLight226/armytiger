@@ -152,7 +152,7 @@
 .card_list > li > h4:before {
 	content: " ";
 	display: block;
-	background: url('../../../images/dmobis/main/bg_card_title_top.png') right top;
+	background: url('../../../img/dmobis/main/bg_card_title_top.png') right top;
 	width: 10px;
 	height: 10px;
 	position: absolute;
@@ -161,7 +161,7 @@
 .card_list > li > h4:after {
 	content: " ";
 	display: block;
-	background: url('../../../images/dmobis/main/bg_card_title_under.png') left bottom;
+	background: url('../../../img/dmobis/main/bg_card_title_under.png') left bottom;
 	width: 10px;
 	height: 10px;
 	position: absolute;

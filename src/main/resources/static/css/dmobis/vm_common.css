@@ -561,16 +561,16 @@ button[class*="btn"] {border: 0;}
 .main-service .quick-menu > li {position:relative;float:left;width:98px;text-align:center;padding:15px 0;}
 .main-service .quick-menu > li > a {display:inline-block;font-size:12px;padding-top:55px;line-height:1.5em;letter-spacing:-0.5px;width:74px;height:85px;}
 .main-service .quick-menu > li > a:hover {color:#0059d1;text-decoration:underline;}
-.main-service .quick-menu > li > a.quick-menu-1 {background:url(../../images/dmobis/main/icon-m1.png) center top no-repeat;}
-.main-service .quick-menu > li > a.quick-menu-2 {background:url(../../images/dmobis/main/icon-m2.png) center top no-repeat;}
-.main-service .quick-menu > li > a.quick-menu-3 {background:url(../../images/dmobis/main/icon-m3.png) center top no-repeat;}
-.main-service .quick-menu > li > a.quick-menu-4 {background:url(../../images/dmobis/main/icon-m4.png) center top no-repeat;}
-.main-service .quick-menu > li > a.quick-menu-5 {background:url(../../images/dmobis/main/icon-m5.png) center top no-repeat;}
-.main-service .quick-menu > li > a.quick-menu-6 {background:url(../../images/dmobis/main/icon-m6.png) center top no-repeat;}
-.main-service .quick-menu > li > a.quick-menu-7 {background:url(../../images/dmobis/main/icon-m7.png) center top no-repeat;}
-.main-service .quick-menu > li > a.quick-menu-8 {background:url(../../images/dmobis/main/icon-m8.png) center top no-repeat;}
-.main-service .quick-menu > li > a.quick-menu-9 {background:url(../../images/dmobis/main/icon-m9.png) center top no-repeat;}
-.main-service .quick-menu > li > a.quick-menu-10 {background:url(../../images/dmobis/main/icon-m10.png) center top no-repeat;}
+.main-service .quick-menu > li > a.quick-menu-1 {background:url(../../img/dmobis/main/icon-m1.png) center top no-repeat;}
+.main-service .quick-menu > li > a.quick-menu-2 {background:url(../../img/dmobis/main/icon-m2.png) center top no-repeat;}
+.main-service .quick-menu > li > a.quick-menu-3 {background:url(../../img/dmobis/main/icon-m3.png) center top no-repeat;}
+.main-service .quick-menu > li > a.quick-menu-4 {background:url(../../img/dmobis/main/icon-m4.png) center top no-repeat;}
+.main-service .quick-menu > li > a.quick-menu-5 {background:url(../../img/dmobis/main/icon-m5.png) center top no-repeat;}
+.main-service .quick-menu > li > a.quick-menu-6 {background:url(../../img/dmobis/main/icon-m6.png) center top no-repeat;}
+.main-service .quick-menu > li > a.quick-menu-7 {background:url(../../img/dmobis/main/icon-m7.png) center top no-repeat;}
+.main-service .quick-menu > li > a.quick-menu-8 {background:url(../../img/dmobis/main/icon-m8.png) center top no-repeat;}
+.main-service .quick-menu > li > a.quick-menu-9 {background:url(../../img/dmobis/main/icon-m9.png) center top no-repeat;}
+.main-service .quick-menu > li > a.quick-menu-10 {background:url(../../img/dmobis/main/icon-m10.png) center top no-repeat;}
 .main-service .quick-menu li .quick-menu-mask {display:none;position:absolute;z-index:1300;width:100%;height:100%;top:0;left:0;background:#0f1b3a;}
 .main-service .quick-menu li.over .quick-menu-mask {display:block;}
 .main-service .quick-menu li.over .quick-menu-sub {display:block;}
@@ -583,7 +583,7 @@ button[class*="btn"] {border: 0;}
 .main-bottom .bmc-link {text-align:center;border:1px solid #ebebeb;padding:20px 0;background:#faf9f9;}
 .main-bottom .bmc-link a {font-size:18px;}
 .main-board {width:100%;margin-top:40px;}
-.main-board .btn-more {position:absolute;right:20px;top:0;display:inline-block;width:47px;height:13px;background:url(../../images/dmobis/common/btn-more.png) no-repeat;}
+.main-board .btn-more {position:absolute;right:20px;top:0;display:inline-block;width:47px;height:13px;background:url(../../img/dmobis/common/btn-more.png) no-repeat;}
 .main-board:after {display:block;content:'';clear:both;}
 .main-board > li {position:relative;float:left;width:33%;border-right:1px solid #e6e9eb;padding:0 20px;line-height:1.2em;}
 .main-board > li .tit {display:inline-block;padding-bottom:3px;border-bottom:3px solid #f58220;font-weight:bold;font-size:16px;}
@@ -597,11 +597,11 @@ button[class*="btn"] {border: 0;}
 .main-board > li.notice > ul > li:before {display:inline-block;content:'';position:absolute;top:5px;left:0;width:3px;height:3px;background:#f05815;}
 .main-board > li.notice > ul > li > a {display:block;width:200px;overflow:hidden;text-overflow: ellipsis;-webkit-line-clamp:1;word-wrap: break-word;white-space: nowrap;}
 .main-board > li.faq > ul > li {padding-left:30px;}
-.main-board > li.faq > ul > li:before {display:inline-block;content:'';position:absolute;top:-3px;left:0;width:19px;height:19px;background:url(../../images/dmobis/icon/icon-q.png) no-repeat;}
+.main-board > li.faq > ul > li:before {display:inline-block;content:'';position:absolute;top:-3px;left:0;width:19px;height:19px;background:url(../../img/dmobis/icon/icon-q.png) no-repeat;}
 .main-board > li.faq > ul > li > a {display:block;width:200px;overflow:hidden;text-overflow: ellipsis;-webkit-line-clamp:1;word-wrap: break-word;white-space: nowrap;}
 .main-board > li.selection > ul > li {padding-left:10px;}
 .main-board > li.selection > ul > li:before {display:inline-block;content:'';position:absolute;top:5px;left:0;width:3px;height:3px;background:#f05815;}
-.main-board > li.selection > ul > li:after {display:inline-block;content:'';position:absolute;top:-3px;right:0;width:19px;height:19px;background:url(../../images/dmobis/icon/icon-arrow-right.png) no-repeat;}
+.main-board > li.selection > ul > li:after {display:inline-block;content:'';position:absolute;top:-3px;right:0;width:19px;height:19px;background:url(../../img/dmobis/icon/icon-arrow-right.png) no-repeat;}
 .main-board > li.selection > ul > li > a {display:block;width:250px;overflow:hidden;text-overflow: ellipsis;-webkit-line-clamp:1;word-wrap: break-word;white-space: nowrap;}
 
 .main-banner {margin-top:45px;}

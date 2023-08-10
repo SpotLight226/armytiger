@@ -9,23 +9,9 @@
 		<title>예비군 홈페이지에 오신 것을 환영합니다!</title>
 
 		<link th:href="@{/css/dmobis/vm_common.css}" rel="stylesheet" type="text/css">
-		<link th:href="@{/css/dmobis/dataTables/jquery.dataTables.css}" rel="stylesheet" type="text/css">
-		<script th:src="@{/js/dmobis/jquery/js/jquery-3.7.0.min.js}"></script>
-		<script th:src="@{/js/dmobis/jquery/js/jquery-ui.min.js}"></script>
-		<script th:src="@{/js/dmobis/vmm-common.html}"></script>
-		<script th:src="@{/js/dmobis/slick.html}"></script>
-		<script th:src="@{/js/dmobis/script/JValidation.html}"></script>
-		<script th:src="@{/js/dmobis/script/JPopup.html}"></script>
-		<script th:src="@{/js/dmobis/script/JUtil.html}"></script>
-		<script th:src="@{/js/dmobis/script/JDom.html}"></script>
-		<script th:src="@{/js/dmobis/script/JForm.html}"></script>
-		<script th:src="@{/js/dmobis/script/JCommonUtil.html}"></script>
-		<link th:href="@{/js/dmobis/jquery/development-bundle/themes/base/jquery.ui.all.css}" rel="stylesheet"
-			type="text/css">
-			
-		<link th:href="@{/css/dmobis/vm_common.css}" rel="stylesheet" type="text/css">
-		<link th:href="@{css/dmobis/slick.css}" rel="stylesheet" type="text/css">
+		<link th:href="@{/css/dmobis/slick.css}" rel="stylesheet" type="text/css">
 		<link th:href="@{css/dmobis/mnd/layout_main.css}" rel="stylesheet" type="text/css"> <!-- 카드뉴스, 국방영상 -->
+		<link th:href="@{/css/dmobis/dataTables/jquery.dataTables.css}" rel="stylesheet" type="text/css">
 		<script th:src="@{/js/dmobis/jquery/js/jquery-3.7.0.min.js}"></script>
 		<script th:src="@{/js/dmobis/jquery/js/jquery-ui.min.js}"></script>
 		<script th:src="@{/js/dmobis/vmm-common.html}"></script>
@@ -84,18 +70,17 @@
 						<ul id="header-menu">
 
 							<!--세션에 "grade"이라는 값이 ADMIN인 경우 -->
-							<li th:if="${#session.getAttribute('grade') == 'ADMIN'}">
+							<li th:if="${session.grade == 'ADMIN'}">
 								<a th:href="@{/member/memberList}">관리자페이지</a>
 							</li>
 
-
 							
 							<!--세션에 "military_sn"이라는 값이 있는 경우 -->
-							<li th:if="${#session.getAttribute('military_sn')}">
+							<li th:if="${session.military_sn}">
 								<a href="training/logout" th:href="@{/training/logout}" id="logoutBtn">로그아웃</a>
 							</li>
 							<!--세션에 "military_sn"이라는 값이 없는 경우 -->
-							<li th:unless="${#session.getAttribute('military_sn')}">
+							<li th:unless="${session.military_sn}">
 								<a href="training/login" th:href="@{/training/login}" id="loginBtn">로그인</a>
 							</li>
 
